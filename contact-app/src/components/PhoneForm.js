@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 
 class PhoneForm extends Component {
 
+    input = null;
+    //16버전이상
+    /*
+    input = React.createRef();
+    */
     state = {
         name: '',
         phone: '',
@@ -24,7 +29,10 @@ class PhoneForm extends Component {
        this.setState({
            name: '',
            phone: '',
-       })
+       });
+       this.input.focus();
+       //16버전이상
+       /*this.input.current.focus();*/
     }
 
     render() {
@@ -35,6 +43,9 @@ class PhoneForm extends Component {
                     placeholder="이름" 
                     onChange={this.handleChange} 
                     value={this.state.name}
+                    ref={ref => this.input = ref}
+                    //16버전이상
+                    /*ref={this.input}*/
                 />
                 <input 
                     name="phone" 

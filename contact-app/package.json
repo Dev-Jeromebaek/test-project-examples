@@ -12,5 +12,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^5.0.1",
+    "prettier": "^1.13.7",
+    "prettier-eslint": "^8.8.2"
   }
 }
