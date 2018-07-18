@@ -7,10 +7,28 @@ class App extends Component {
   // 데이터를 추가할 때마다 각 값의 고유한 id 값을 주려함.
   // id값을 setState하지 않은 이유는 id값은 랜더링 되는 값이 아니기 때문에 궂이 setState를 통해 넣어줄 필요가 없다.
   // setState를 하는 이유는 어떤 값이 수정됐을 때 리랜더링을 하기 위함인데 id 값은 그럴 필요가 없기 때문에...;
-  id = 0;
+  id = 3;
 
   state = {
-    information: []
+    information: [
+      {
+        id: 0,
+        name: '백승엽',
+        phone: '010-0000-0001'
+      },
+      {
+        id: 1,
+        name: 'Jerome',
+        phone: '010-0000-0002'
+      },
+      {
+        id: 2,
+        name: 'Jerome.Baek',
+        phone: '010-0000-0003'
+      }
+    ],
+    // keyword는 이름으로 전화번호 찾기 기능을 만들기 위한 값.
+    keyword: ''
   };
 
   // 값 입력 Create
@@ -89,14 +107,37 @@ class App extends Component {
     });
   };
 
+  // 이름으로 전화번호 찾기 기능을 만들기 위한 handleChange() 함수 정의
+  // keyword 변경 기능 함수
+  handleChange = e => {
+    this.setState({
+      keyword: e.target.value
+    });
+  };
+
   render() {
     return (
       <div>
         <PhoneForm onCreate={this.handleCreate} />
-        {/*자식 컴포넌트의 handleCreate를 통해 setState된 information 값을 확인 하기위한 코드작성*/}
+
+        {/* 검색 기능을 위한 input 태그 */}
+        <input
+          value={this.state.keyword}
+          onChange={this.handleChange}
+          placeholder="이름을 검색하세요..."
+        />
+
+        {/* 자식 컴포넌트의 handleCreate를 통해 setState된 information 값을 확인 하기위한 코드작성 */}
         {JSON.stringify(this.state.information)}
+
         <PhoneInfoList
-          data={this.state.information}
+          // 주석처리한 부분은 기본 리스트 보여주는 data
+          // data={this.state.information}
+
+          // 검색 기능을 위해 검색 한 리스트만 렌더링
+          data={this.state.information.filter(
+            info => info.name.indexOf(this.state.keyword) > -1
+          )}
           onRemove={this.handleRemove}
           onUpdate={this.handleUpdate}
         />
