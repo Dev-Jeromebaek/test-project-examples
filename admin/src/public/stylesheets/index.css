@@ -1,0 +1,135 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.graph-preview-width {
+  width: calc(20% - 16px);
+}
+
+@media (max-width: 576px) {
+  .graph-preview-width {
+    width: calc(10% - 16px);
+  }
+}
+
+.buttonDropDown {
+  height: 30px;
+}
+
+.dropDownSelectBar {
+  background: white;
+  border: none;
+  border-radius: 0;
+  color: gray !important;
+  font-size: 13px;
+  outline: none !important;
+  background: white !important;
+  box-shadow: none !important;
+}
+
+.fontSize {
+  font-size: 12px;
+}
+
+.inputBorderColor {
+  border-color: #ffa600 !important;
+}
+.input-description {
+  font-size: 12px;
+  border: none;
+  border-bottom: 1px solid #b3b3b3;
+  outline: none;
+  background: transparent;
+}
+
+.input-description:focus {
+  border-color: #ffa600 !important;
+}
+
+.h-5 {
+  height: 5% !important;
+}
+.h-10 {
+  height: 10% !important;
+}
+.h-15 {
+  height: 15% !important;
+}
+.h-20 {
+  height: 20% !important;
+}
+.h-25 {
+  height: 25% !important;
+}
+.h-30 {
+  height: 30% !important;
+}
+.h-35 {
+  height: 35% !important;
+}
+.h-40 {
+  height: 40% !important;
+}
+.h-45 {
+  height: 45% !important;
+}
+.h-55 {
+  height: 55% !important;
+}
+.h-60 {
+  height: 60% !important;
+}
+.h-65 {
+  height: 65% !important;
+}
+.h-70 {
+  height: 70% !important;
+}
+.h-75 {
+  height: 75% !important;
+}
+.h-80 {
+  height: 80% !important;
+}
+.h-85 {
+  height: 85% !important;
+}
+.h-90 {
+  height: 90% !important;
+}
+.h-95 {
+  height: 95% !important;
+}
+
+.tmon-color {
+  color: #ffa600 !important;
+}
+
+.tmon-bg-color {
+  background-color: #ffa600 !important;
+}
+
+.btn-outline-tmon {
+  color: #222;
+  background-color: transparent;
+  background-image: none;
+  border-color: #f8f9fa;
+}
+
+.btn-outline-tmon:hover {
+  color: rgb(255, 255, 255);
+  background-color: #ffdc9a;
+  border-color: #ffdc9a;
+}
+
+.btn-outline-tmon:focus,
+.btn-outline-tmon.focus {
+  box-shadow: 0 0 0 0.2rem rgba(204, 179, 125, 0.5);
+}
+.btn-outline-tmon:not(:disabled):not(.disabled).active,
+.btn-outline-tmon:not(:disabled):not(.disabled):active,
+.show > .btn-outline-tmon.dropdown-toggle {
+  color: #fff;
+  background-color: #ffa600;
+  border-color: #ffa600;
+}

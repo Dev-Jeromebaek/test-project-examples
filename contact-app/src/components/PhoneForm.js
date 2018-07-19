@@ -56,6 +56,7 @@ class PhoneForm extends Component {
           placeholder="이름"
           onChange={this.handleChange}
           value={this.state.name}
+          // ref는 Dom에 직접적으로
           ref={ref => (this.input = ref)}
           //16버전이상
           /*ref={this.input}*/
