@@ -16,6 +16,7 @@ class ApiMyUseList extends Component {
     const { info } = this.props;
     return (
       <RouteLink to={this.state.path} className="nav-link btn btn-outline-tmon">
+        {/* <button onClick={this.handleRemoveApi}>X</button> */}
         <img
           src="http://img1.tmon.kr/static/common/gnb_slim_logo.png"
           alt="티몬로고"
@@ -23,7 +24,14 @@ class ApiMyUseList extends Component {
           height="20"
         />
         &nbsp; {info.apiName} &nbsp;
-        <button onClick={this.handleRemoveApi}>삭제</button>
+        <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={this.handleRemoveApi}
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
       </RouteLink>
     );
   }

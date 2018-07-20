@@ -1,25 +1,183 @@
 {
+  "api_detail": {
+    "apiId": "asdfsadfsadfsadf",
+    "apiName": "방문 이력",
+    "requestUrl": "/api/mock-api",
+    "httpMethod": "giveReload",
+    "returnType": "java.lang.Object",
+    "defaultDescription": "방문 이력에 대한 정보입니다.",
+    "additionalDescription":
+      "추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명추가 설명 추가 설명",
+    "isUsedApi": true
+  },
+  "graph_type_list": [
+    {
+      "code": "BAR_GRAPH"
+    },
+    {
+      "code": "LINEAR_GRPAH"
+    },
+    {
+      "code": "PIE_GRPAH"
+    }
+  ],
+  "create_graph": {},
+  "base_type": [
+    {
+      "code": "DATE",
+      "title": "날짜"
+    },
+    {
+      "code": "GENDER",
+      "title": "성별"
+    },
+    {
+      "code": "DATE",
+      "title": "시간"
+    }
+  ],
+  "data_type": [
+    {
+      "code": "VISIT_COUNT",
+      "title": "방문자수"
+    },
+    {
+      "code": "SAILS_COUNT",
+      "title": "판매량"
+    },
+    {
+      "code": "INQUIRY_COUNT",
+      "title": "문의수"
+    }
+  ],
   "api_list": [
     {
       "apiId": 1,
       "httpMethod": "GET",
       "apiName": "방문 이력",
       "requestUrl": "/api/mock-api",
-      "isUsedApi": true
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
     },
     {
       "apiId": 2,
       "httpMethod": "GET",
       "apiName": "판매 이력",
       "requestUrl": "/api/mock-api",
-      "isUsedApi": true
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
     },
     {
       "apiId": 3,
       "httpMethod": "GET",
       "apiName": "문의 이력",
       "requestUrl": "/api/mock-api",
-      "isUsedApi": false
+      "isUsedApi": false,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 4,
+      "httpMethod": "GET",
+      "apiName": "방문 이력",
+      "requestUrl": "/api/mock-api-4",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 5,
+      "httpMethod": "POST",
+      "apiName": "판매 이력",
+      "requestUrl": "/api/mock-api-5",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 6,
+      "httpMethod": "GET",
+      "apiName": "문의 이력",
+      "requestUrl": "/api/mock-api-6",
+      "isUsedApi": false,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 7,
+      "httpMethod": "GET",
+      "apiName": "방문 이력",
+      "requestUrl": "/api/mock-api-7",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 9,
+      "httpMethod": "POST",
+      "apiName": "판매 이력",
+      "requestUrl": "/api/mock-api-9",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 10,
+      "httpMethod": "GET",
+      "apiName": "방문 이력",
+      "requestUrl": "/api/mock-api-10",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 11,
+      "httpMethod": "POST",
+      "apiName": "판매 이력",
+      "requestUrl": "/api/mock-api-11",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 12,
+      "httpMethod": "GET",
+      "apiName": "방문 이력",
+      "requestUrl": "/api/mock-api-12",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 13,
+      "httpMethod": "POST",
+      "apiName": "판매 이력",
+      "requestUrl": "/api/mock-api-13",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 14,
+      "httpMethod": "GET",
+      "apiName": "방문 이력",
+      "requestUrl": "/api/mock-api-14",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 15,
+      "httpMethod": "POST",
+      "apiName": "판매 이력",
+      "requestUrl": "/api/mock-api-15",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 16,
+      "httpMethod": "GET",
+      "apiName": "방문 이력",
+      "requestUrl": "/api/mock-api-16",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
+    },
+    {
+      "apiId": 17,
+      "httpMethod": "POST",
+      "apiName": "판매 이력",
+      "requestUrl": "/api/mock-api-17",
+      "isUsedApi": true,
+      "description": "추가 설명 부분 작성 예정"
     }
   ],
   "dashboard_list": [

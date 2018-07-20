@@ -12,43 +12,36 @@ export default class ApiAddModal extends React.Component {
       inputValue: {},
       selectedApi: 'Api를 선택하세요.',
     };
-
-    this.toggle = this.toggle.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       inputValue: {},
       selectedApi: 'Api를 선택하세요.',
       modal: !this.state.modal,
     });
-  }
+  };
 
-  handleInputChange(event) {
-    const target = event.target;
-    const name = target.name;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+  handleInputChange = ({ target }) => {
+    const { name, type, checked, value } = target;
+    const inputData = type === 'checkbox' ? checked : value;
 
-    if (value.length > 40) {
+    if (inputData.length > 40) {
       alert('너무 길어.');
     } else {
       this.setState({
-        inputValue: { ...this.state.inputValue, [name]: value },
+        inputValue: { ...this.state.inputValue, [name]: inputData },
       });
     }
-  }
+  };
 
-  handleSelectChange(event) {
-    const target = event.target;
-    const value = target.innerText;
-
+  handleSelectChange = ({ target }) => {
+    const { innerText } = target;
     this.setState({
-      inputValue: { ...this.state.inputValue, selectApi: value },
-      selectedApi: value,
+      inputValue: { ...this.state.inputValue, selectApi: innerText },
+      selectedApi: innerText,
     });
-  }
+  };
 
   render() {
     return (
@@ -69,7 +62,7 @@ export default class ApiAddModal extends React.Component {
                   <GlobalSelectBar
                     title="Available API Lists"
                     listTitle="API Lists"
-                    apiList={value.state.adminApiList}
+                    dataList={value.state.adminApiList}
                     handleSelectChange={this.handleSelectChange}
                     selectedData={this.state.selectedApi}
                   />

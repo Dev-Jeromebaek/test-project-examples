@@ -1,8 +1,17 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
 import { WettyConsumer } from '../../Store';
-import DashboardModalFirstView from './DashboardModalFirstView';
-import DashboardModalSecondView from './DashboardModalSecondView';
+import createIcon from '../../public/icons/create.svg';
+import DashboardModalEditDashboard from './DashboardModalEditDashboard';
+import DashboardModalEditGraph from './DashboardModalEditGraph';
 
 export default class DashboardModal extends React.Component {
   constructor(props) {
@@ -10,45 +19,79 @@ export default class DashboardModal extends React.Component {
     this.state = {
       modal: false,
       title: 'Dashboard추가',
-      step: 1,
+      isEditDashboard: true,
+      isHover: false,
     };
-
-    this.toggle = this.toggle.bind(this);
-    this.nextStep = this.nextStep.bind(this);
-    this.previous = this.previous.bind(this);
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       title: 'Dashboard추가',
       primaryBtn: 'Next',
       secondaryBtn: 'Cancle',
-      step: 1,
+      isEditDashboard: true,
       modal: !this.state.modal,
     });
-  }
+  };
 
-  nextStep() {
+  nextStep = () => {
     this.setState({
-      step: 2,
+      isEditDashboard: false,
     });
-  }
+  };
 
-  previous() {
+  previous = () => {
     this.setState({
-      step: 1,
+      isEditDashboard: true,
     });
-  }
+  };
+
+  mouseEnter = () => {
+    this.setState({
+      isHover: true,
+    });
+  };
+
+  mouseLeave = () => {
+    this.setState({
+      isHover: false,
+    });
+  };
 
   render() {
+    const editPossibleToggling = (condition, a, b) => {
+      if (condition) {
+        return a;
+      }
+      return b;
+    };
+
+    const isEditDashboard = this.state.isEditDashboard;
+
     return (
       <WettyConsumer>
         {value => {
           return (
-            <div>
-              <Button color="danger" onClick={this.toggle}>
-                {this.props.buttonLabel}
-              </Button>
+            <div className="h-100">
+              <Card
+                className={
+                  this.state.isHover
+                    ? 'h-100 bg-light cursor-pointer shadow'
+                    : 'h-100 cursor-pointer shadow'
+                }
+                onClick={this.toggle}
+                onMouseLeave={this.mouseLeave}
+                onMouseEnter={this.mouseEnter}
+              >
+                <CardBody className="d-flex justify-content-center align-items-center">
+                  <img
+                    src={createIcon}
+                    width="50"
+                    height="50"
+                    alt="Create icon."
+                  />
+                </CardBody>
+              </Card>
               <Modal
                 isOpen={this.state.modal}
                 toggle={this.toggle}
@@ -58,23 +101,29 @@ export default class DashboardModal extends React.Component {
                   {this.state.title}
                 </ModalHeader>
                 <ModalBody>
-                  {this.state.step === 1 ? (
-                    <DashboardModalFirstView />
-                  ) : (
-                    <DashboardModalSecondView />
+                  {editPossibleToggling(
+                    isEditDashboard,
+                    <DashboardModalEditDashboard />,
+                    <DashboardModalEditGraph />,
                   )}
                 </ModalBody>
                 <ModalFooter>
                   <Button
                     color="secondary"
-                    onClick={
-                      this.state.step === 1 ? this.toggle : this.previous
-                    }
+                    onClick={editPossibleToggling(
+                      isEditDashboard,
+                      this.toggle,
+                      this.previous,
+                    )}
                   >
-                    {this.state.step === 1 ? 'Cancel' : 'Previous'}
+                    {editPossibleToggling(
+                      isEditDashboard,
+                      'Cancel',
+                      'Previous',
+                    )}
                   </Button>
                   <Button color="primary" onClick={this.nextStep}>
-                    {this.state.step === 1 ? 'Next' : 'Save'}
+                    {editPossibleToggling(isEditDashboard, 'Next', 'Save')}
                   </Button>
                 </ModalFooter>
               </Modal>

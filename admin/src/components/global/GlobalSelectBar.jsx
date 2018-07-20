@@ -40,11 +40,11 @@ export default class GlobalSelectBar extends React.Component {
           </DropdownToggle>
           <DropdownMenu className="fontSize w-100">
             <DropdownItem header>{this.props.listTitle}</DropdownItem>
-            {this.props.apiList.map((api, i) => {
+            {this.props.dataList.map((data, i) => {
               return (
                 <DropdownItem key={i} onClick={this.props.handleSelectChange}>
-                  {api.apiName}
-                  {api.requestUrl}
+                  {data.apiName}
+                  {data.requestUrl}
                 </DropdownItem>
               );
             })}

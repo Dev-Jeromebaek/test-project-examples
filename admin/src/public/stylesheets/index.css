@@ -12,6 +12,10 @@
   }
 }
 
+.api-detail.input-group-prepend {
+  width: 150px;
+}
+
 .buttonDropDown {
   height: 30px;
 }
