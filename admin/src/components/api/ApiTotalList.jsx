@@ -13,19 +13,30 @@ class ApiTotalList extends Component {
   state = {
     toggelr: 'toggler' + this.props.api.apiId,
     matchToggler: '#toggler' + this.props.api.apiId,
+    isActive: false,
   };
+
+  handleBtnActive = () => {
+    console.log('click');
+    this.setState({
+      isActive: !this.state.isActive,
+    });
+  };
+
   render() {
     const { api } = this.props;
     return (
       <div className="mb-3">
         <Button
           id={this.state.toggelr}
-          className="mb-1 w-100 text-left container shadow btn-light"
+          className={
+            this.state.isActive
+              ? 'mb-1 w-100 text-left container shadow btn btn-light active'
+              : 'mb-1 w-100 text-left container shadow btn btn-light'
+          }
+          onClick={this.handleBtnActive}
         >
           <Row className="m-0">
-            <Col xs="1" sm="1" md="1" lg="1">
-              {api.isUsedApi ? 'Use ' : 'Not '}
-            </Col>
             <Col>
               {api.httpMethod === 'GET' ? (
                 <Badge color="primary" pill xs="12" sm="4" md="4" lg="3">

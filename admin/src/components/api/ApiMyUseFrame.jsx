@@ -11,7 +11,7 @@ class ApiMyUseFrame extends Component {
   };
 
   render() {
-    const { apiList, onCreate, onRemove } = this.props;
+    const { apiList, onCreate, onRemove, setUseApi } = this.props;
     const list = apiList.map(info => (
       <ApiMyUseList
         key={info.apiId}

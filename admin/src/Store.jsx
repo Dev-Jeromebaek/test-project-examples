@@ -13,6 +13,7 @@ class WettyProvider extends Component {
     deleteCard: this.deleteCard,
     apiId: 18,
     adminApiList: [],
+    useApiList: [],
     ApiLists: [
       {
         apiId: 1,
@@ -181,10 +182,12 @@ class WettyProvider extends Component {
   handleCreateApi = data => {
     // console.log(data);
 
-    const { adminApiList } = this.state;
+    // const { adminApiList } = this.state;
+    const { ApiLists } = this.state;
 
     this.setState({
-      adminApiList: adminApiList.concat(
+      // adminApiList: adminApiList.concat(
+      ApiLists: ApiLists.concat(
         Object.assign({}, data, {
           apiId: this.apiId++,
         }),
@@ -193,19 +196,20 @@ class WettyProvider extends Component {
   };
 
   handleRemoveApi = id => {
-    // console.log(id);
-    // console.log(this);
-    const { adminApiList } = this.state;
-    // console.log(ApiLists);
+    // const { adminApiList } = this.state;
+    const { ApiLists } = this.state;
     this.setState({
-      adminApiList: adminApiList.filter(apiOne => apiOne.apiId !== id),
+      // adminApiList: adminApiList.filter(apiOne => apiOne.apiId !== id),
+      ApiLists: ApiLists.filter(apiOne => apiOne.apiId !== id),
     });
   };
 
   handleUpdateApi = (id, editData) => {
-    const { adminApiList } = this.state;
+    // const { adminApiList } = this.state;
+    const { ApiLists } = this.state;
     this.setState({
-      adminApiList: adminApiList.map(apiOne => {
+      // adminApiList: adminApiList.map(apiOne => {
+      ApiLists: ApiLists.map(apiOne => {
         if (apiOne.apiId === id) {
           return {
             id,
@@ -215,6 +219,13 @@ class WettyProvider extends Component {
         return apiOne;
       }),
     });
+  };
+
+  setUseApiList = () => {
+    console.log('A');
+    // this.setState({
+    //   useApiList: this.state.ApiLists.filter(list => list.isUsedApi === true),
+    // });
   };
 
   async componentDidMount() {
@@ -236,6 +247,7 @@ class WettyProvider extends Component {
   }
 
   render() {
+    this.useApiList;
     const {
       state,
       actions,

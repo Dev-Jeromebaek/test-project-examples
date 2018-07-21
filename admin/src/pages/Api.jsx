@@ -23,8 +23,8 @@ class Api extends Component {
             handleCreateApi,
             handleRemoveApi,
           } = value;
-          // const { ApiLists } = value.state;
-          const { adminApiList } = value.state;
+          const { ApiLists } = value.state;
+          // const { adminApiList } = value.state;
           return (
             <Container style={ContainerStyle}>
               <Row className="h-100 w-100">
@@ -40,8 +40,8 @@ class Api extends Component {
                   </div>
                   <div className="h-80 pt-3 pb-3" style={overScroll}>
                     <ApiMyUseFrame
-                      // apiList={ApiLists}
-                      apiList={adminApiList}
+                      apiList={ApiLists}
+                      // apiList={adminApiList}
                       onCreate={handleCreateApi}
                       onRemove={handleRemoveApi}
                     />
