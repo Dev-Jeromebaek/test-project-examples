@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
   UncontrolledCollapse,
-  Button,
   CardBody,
+  Button,
   Card,
   Badge,
   Row,
@@ -29,10 +29,11 @@ class ApiTotalList extends Component {
       <div className="mb-3">
         <Button
           id={this.state.toggelr}
+          color="light"
           className={
             this.state.isActive
-              ? 'mb-1 w-100 text-left container shadow btn btn-light active'
-              : 'mb-1 w-100 text-left container shadow btn btn-light'
+              ? 'mb-1 w-100 text-left container shadow active'
+              : 'mb-1 w-100 text-left container shadow '
           }
           onClick={this.handleBtnActive}
         >
@@ -48,7 +49,7 @@ class ApiTotalList extends Component {
                 </Badge>
               )}
             </Col>
-            <Col xs="9" sm="9" md="9" lg="9">
+            <Col xs="9" sm="9" md="9" lg="9" style={{ fontSize: '1.3rem' }}>
               {api.requestUrl}
             </Col>
           </Row>

@@ -51,6 +51,7 @@ class ApiMyUseList extends Component {
         onMouseEnter={this.onMouseEnterHandler}
         onMouseLeave={this.onMouseLeaveHandler}
         // onClick={this.handleClick}
+        style={{ fontSize: '1.3rem' }}
       >
         {/* <button onClick={this.handleRemoveApi}>X</button> */}
         <img

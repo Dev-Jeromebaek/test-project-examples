@@ -33,10 +33,10 @@ class Api extends Component {
                   sm="4"
                   md="4"
                   lg="3"
-                  className="border bg-secondary h-100 bg-light"
+                  className="border bg-secondary h-100 bg-light rounded"
                 >
                   <div className="h-10 d-flex justify-content-center align-items-center border-bottom">
-                    현재 사용중 API
+                    <h4>현재 사용중 API</h4>
                   </div>
                   <div className="h-80 pt-3 pb-3" style={overScroll}>
                     <ApiMyUseFrame
