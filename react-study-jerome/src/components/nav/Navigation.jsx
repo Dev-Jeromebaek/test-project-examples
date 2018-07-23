@@ -19,7 +19,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 1000,
+    // height: 430,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -81,7 +81,7 @@ const styles = theme => ({
   }
 });
 
-class MiniDrawer extends React.Component {
+class Navigation extends React.Component {
   state = {
     open: false
   };
@@ -119,7 +119,7 @@ class MiniDrawer extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              Jerome React Study & Meterial Design
+              React Study
             </Typography>
           </Toolbar>
         </AppBar>
@@ -158,9 +158,9 @@ class MiniDrawer extends React.Component {
   }
 }
 
-MiniDrawer.propTypes = {
+Navigation.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(MiniDrawer);
+export default withStyles(styles, { withTheme: true })(Navigation);
