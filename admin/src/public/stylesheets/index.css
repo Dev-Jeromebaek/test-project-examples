@@ -137,3 +137,10 @@
   background-color: #ffa600;
   border-color: #ffa600;
 }
+.container-size {
+  width: 100vw;
+  height: 83vh;
+}
+.over-scroll {
+  overflow-y: auto;
+}

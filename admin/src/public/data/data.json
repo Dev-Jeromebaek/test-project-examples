@@ -1,4 +1,12 @@
 {
+  "error": {
+    "httpStatus": "BAD_REQUEST",
+    "exceptionMessage":
+      "org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: \"awef\"",
+    "exception":
+      "org.springframework.web.method.annotation.MethodArgumentTypeMismatchException",
+    "httpCode": 400
+  },
   "api_detail": {
     "apiId": "asdfsadfsadfsadf",
     "apiName": "방문 이력",

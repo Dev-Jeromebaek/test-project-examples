@@ -49,7 +49,7 @@ class ApiTotalList extends Component {
                 </Badge>
               )}
             </Col>
-            <Col xs="9" sm="9" md="9" lg="9" style={{ fontSize: '1.3rem' }}>
+            <Col xs="9" sm="9" md="9" lg="9">
               {api.requestUrl}
             </Col>
           </Row>

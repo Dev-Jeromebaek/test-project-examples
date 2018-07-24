@@ -8,25 +8,13 @@ import ApiRightContainer from '../components/api/ApiRightContainer';
 
 class Api extends Component {
   render() {
-    const ContainerStyle = {
-      width: '100vw',
-      height: '83vh',
-    };
-    const overScroll = {
-      overflowY: 'auto',
-    };
     return (
       <WettyConsumer>
         {value => {
-          const {
-            handleApiModalOpen,
-            handleCreateApi,
-            handleRemoveApi,
-          } = value;
-          const { ApiLists } = value.state;
-          // const { adminApiList } = value.state;
+          const { actions } = value;
+          const { adminApiList } = value.state;
           return (
-            <Container style={ContainerStyle}>
+            <Container className="container-size">
               <Row className="h-100 w-100">
                 <Col
                   xs="12"
@@ -38,12 +26,11 @@ class Api extends Component {
                   <div className="h-10 d-flex justify-content-center align-items-center border-bottom">
                     <h4>현재 사용중 API</h4>
                   </div>
-                  <div className="h-80 pt-3 pb-3" style={overScroll}>
+                  <div className="h-80 pt-3 pb-3 over-scroll">
                     <ApiMyUseFrame
-                      apiList={ApiLists}
-                      // apiList={adminApiList}
-                      onCreate={handleCreateApi}
-                      onRemove={handleRemoveApi}
+                      apiList={adminApiList}
+                      onCreate={actions.handleCreateApi}
+                      onRemove={actions.handleRemoveApi}
                     />
                   </div>
                   <div className="h-10 d-flex justify-content-center align-items-center border-top">
@@ -53,12 +40,12 @@ class Api extends Component {
                       height="40"
                       alt=".."
                       className="shadow rounded-circle cursor-pointer"
-                      onClick={handleApiModalOpen}
-                      // onCreate={this.handleCreateApi}
+                      onClick={actions.handleApiModalOpen}
+                      // onCreate={actions.handleCreateApi}
                     />
                   </div>
                 </Col>
-                <Col xs="12" sm="8" md="8" lg="9" style={overScroll}>
+                <Col xs="12" sm="8" md="8" lg="9" className="over-scroll">
                   <ApiRightContainer />
                 </Col>
               </Row>

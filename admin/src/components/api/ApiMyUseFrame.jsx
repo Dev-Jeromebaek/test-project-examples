@@ -3,15 +3,8 @@ import React, { Component, Fragment } from 'react';
 import ApiMyUseList from './ApiMyUseList';
 
 class ApiMyUseFrame extends Component {
-  handleRemoveMyApi = id => {
-    const { info } = this.state;
-    this.setState({
-      info: info.filter(newInfo => newInfo.id !== id),
-    });
-  };
-
   render() {
-    const { apiList, onCreate, onRemove, setUseApi } = this.props;
+    const { apiList, onCreate, onRemove } = this.props;
     const list = apiList.map(info => (
       <ApiMyUseList
         key={info.apiId}
