@@ -4,7 +4,6 @@ import { WettyConsumer } from '../../Store';
 
 class ApiTotalFrame extends Component {
   static defaultProps = {
-    ApiLists: [],
     adminApiList: [],
   };
   render() {
@@ -13,7 +12,7 @@ class ApiTotalFrame extends Component {
         {value => {
           const { adminApiList } = value.state;
           if (!adminApiList) return null;
-          console.log('rendering apiList');
+          // console.log('rendering apiList');
 
           const list = adminApiList.map(api => (
             <ApiTotalList api={api} key={api.apiId} />

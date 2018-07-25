@@ -3,7 +3,6 @@ import { NavLink as RouteLink } from 'react-router-dom';
 
 class ApiMyUseList extends Component {
   state = {
-    path: '/api/' + this.props.info.apiId,
     listOn: false,
     removeOn: false,
   };
@@ -44,12 +43,13 @@ class ApiMyUseList extends Component {
     const { info } = this.props;
     return (
       <RouteLink
-        to={this.state.removeOn ? '/api' : this.state.path}
+        to={this.state.removeOn ? '/api' : '/api/' + info.apiId}
         className="nav-link btn btn-outline-tmon"
         onMouseEnter={this.onListEnterHandler}
         onMouseLeave={this.onListLeaveHandler}
       >
-        &nbsp; {info.apiName} &nbsp;
+        {' '}
+        {info.apiName}{' '}
         {this.state.listOn && (
           <button
             type="button"

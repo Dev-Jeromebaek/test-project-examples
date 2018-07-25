@@ -7,18 +7,21 @@ class ApiDetailFrame extends Component {
     return (
       <WettyConsumer>
         {value => {
-          const urlId = this.props.match.params.id;
-          const { adminApiList } = value.state;
-          const { actions } = value;
-          if (!adminApiList) return null;
+          const {
+            params: { id },
+          } = this.props.match;
+          const {
+            actions,
+            state: { adminApiList },
+          } = value;
           return (
-            <ApiDetailInfo
-              api={adminApiList.filter(
-                api => api.apiId === parseInt(urlId, 10),
-              )}
-              onRemove={actions.handleRemoveApi}
-              onUpdate={actions.handleUpdateApi}
-            />
+            adminApiList && (
+              <ApiDetailInfo
+                api={adminApiList.filter(api => api.apiId === parseInt(id, 10))}
+                onRemove={actions.handleRemoveApi}
+                onUpdate={actions.handleUpdateApi}
+              />
+            )
           );
         }}
       </WettyConsumer>

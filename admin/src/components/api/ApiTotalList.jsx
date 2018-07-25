@@ -11,13 +11,11 @@ import {
 
 class ApiTotalList extends Component {
   state = {
-    toggelr: 'toggler' + this.props.api.apiId,
-    matchToggler: '#toggler' + this.props.api.apiId,
     isActive: false,
   };
 
   handleBtnActive = () => {
-    console.log('click');
+    // console.log('click');
     this.setState({
       isActive: !this.state.isActive,
     });
@@ -28,12 +26,12 @@ class ApiTotalList extends Component {
     return (
       <div className="mb-3">
         <Button
-          id={this.state.toggelr}
+          id={'toggler' + this.props.api.apiId}
           color="light"
           className={
-            this.state.isActive
-              ? 'mb-1 w-100 text-left container shadow active'
-              : 'mb-1 w-100 text-left container shadow '
+            'mb-1 w-100 text-left container shadow ' + this.state.isActive
+              ? 'active'
+              : ''
           }
           onClick={this.handleBtnActive}
         >
@@ -56,7 +54,7 @@ class ApiTotalList extends Component {
         </Button>
 
         <UncontrolledCollapse
-          toggler={this.state.matchToggler}
+          toggler={'#toggler' + this.props.api.apiId}
           className="shadow"
         >
           <Card>

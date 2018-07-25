@@ -14,14 +14,10 @@ import { WettyConsumer } from '../../Store';
 import { NavLink } from 'react-router-dom';
 
 export default class ApiDetail extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isUpdate: false,
-      updatedApi: {},
-    };
-  }
+  state = {
+    isUpdate: false,
+    updatedApi: {},
+  };
 
   checkKeyName = key => {
     switch (key) {

@@ -3,16 +3,14 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import GlobalModalInput from '../global/GlobalModalInput';
 import GlobalSelectBar from '../global/GlobalSelectBar';
 import { WettyConsumer } from '../../Store';
+import createIcon from '../../public/icons/create.svg';
 
 export default class ApiAddModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false,
-      inputValue: {},
-      selectedApi: 'Api를 선택하세요.',
-    };
-  }
+  state = {
+    modal: false,
+    inputValue: {},
+    selectedApi: 'Api를 선택하세요.',
+  };
 
   toggle = () => {
     this.setState({
@@ -49,9 +47,15 @@ export default class ApiAddModal extends React.Component {
         {value => {
           return (
             <div>
-              <Button color="danger" onClick={this.toggle}>
-                {this.props.buttonLabel}
-              </Button>
+              <img
+                src={createIcon}
+                wdith="40"
+                height="40"
+                alt=".."
+                className="shadow rounded-circle cursor-pointer"
+                onClick={this.toggle}
+                // onCreate={actions.handleCreateApi}
+              />
               <Modal
                 isOpen={this.state.modal}
                 toggle={this.toggle}

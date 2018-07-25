@@ -3,16 +3,18 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import ApiMyUseFrame from '../components/api/ApiMyUseFrame';
 import { WettyConsumer } from '../Store';
-import createIcon from '../public/icons/create.svg';
 import ApiRightContainer from '../components/api/ApiRightContainer';
+import ApiAddModal from '../components/api/ApiAddModal';
 
 class Api extends Component {
   render() {
     return (
       <WettyConsumer>
         {value => {
-          const { actions } = value;
-          const { adminApiList } = value.state;
+          const {
+            actions,
+            state: { adminApiList },
+          } = value;
           return (
             <Container className="container-size">
               <Row className="h-100 w-100">
@@ -34,15 +36,7 @@ class Api extends Component {
                     />
                   </div>
                   <div className="h-10 d-flex justify-content-center align-items-center border-top">
-                    <img
-                      src={createIcon}
-                      wdith="40"
-                      height="40"
-                      alt=".."
-                      className="shadow rounded-circle cursor-pointer"
-                      onClick={actions.handleApiModalOpen}
-                      // onCreate={actions.handleCreateApi}
-                    />
+                    <ApiAddModal />
                   </div>
                 </Col>
                 <Col xs="12" sm="8" md="8" lg="9" className="over-scroll">
