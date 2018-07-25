@@ -119,7 +119,7 @@ class Navigation extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              React Study
+              Study
             </Typography>
           </Toolbar>
         </AppBar>
