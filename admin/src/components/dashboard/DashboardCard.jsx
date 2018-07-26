@@ -14,23 +14,19 @@ import DashboardGraphPreviewList from './DashboardGraphPreviewList';
 import { WettyConsumer } from '../../Store';
 
 export default class DashboardCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isHover: false,
-    };
-  }
+  state = {
+    isHovered: false,
+  };
 
   mouseEnter = () => {
     this.setState({
-      isHover: true,
+      isHovered: true,
     });
   };
 
   mouseLeave = () => {
     this.setState({
-      isHover: false,
+      isHovered: false,
     });
   };
 
@@ -42,7 +38,7 @@ export default class DashboardCard extends Component {
             <Col xs="12" sm="6" md="4" lg="3" className="mt-4">
               <Card
                 className={
-                  this.state.isHover
+                  this.state.isHovered
                     ? 'cursor-pointer bg-light action h-100 shadow'
                     : 'cursor-pointer h-100 shadow'
                 }

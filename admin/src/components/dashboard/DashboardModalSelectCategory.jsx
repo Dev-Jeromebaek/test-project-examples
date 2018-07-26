@@ -1,11 +1,7 @@
 import React from 'react';
 
-export default class DashboardModalSelectCategory extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const DashboardModalSelectCategory = () => {
+  return <div />;
+};
 
-  render() {
-    return <div />;
-  }
-}
+export default DashboardModalSelectCategory;

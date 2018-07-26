@@ -8,21 +8,21 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
-import { WettyConsumer } from '../../Store';
-import createIcon from '../../public/icons/create.svg';
+
 import DashboardModalEditDashboard from './DashboardModalEditDashboard';
 import DashboardModalEditGraph from './DashboardModalEditGraph';
 
+import { WettyConsumer } from '../../Store';
+
+import createIcon from '../../public/icons/create.svg';
+
 export default class DashboardModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false,
-      title: 'Dashboard추가',
-      isEditDashboard: true,
-      isHover: false,
-    };
-  }
+  state = {
+    modal: false,
+    title: 'Dashboard추가',
+    isEditDashboard: true,
+    isHover: false,
+  };
 
   toggle = () => {
     this.setState({
@@ -66,7 +66,7 @@ export default class DashboardModal extends React.Component {
       return b;
     };
 
-    const isEditDashboard = this.state.isEditDashboard;
+    const { isEditDashboard, isHover, modal, title } = this.state;
 
     return (
       <WettyConsumer>
@@ -75,7 +75,7 @@ export default class DashboardModal extends React.Component {
             <div className="h-100">
               <Card
                 className={
-                  this.state.isHover
+                  isHover
                     ? 'h-100 bg-light cursor-pointer shadow'
                     : 'h-100 cursor-pointer shadow'
                 }
@@ -93,13 +93,11 @@ export default class DashboardModal extends React.Component {
                 </CardBody>
               </Card>
               <Modal
-                isOpen={this.state.modal}
+                isOpen={modal}
                 toggle={this.toggle}
                 className={this.props.className}
               >
-                <ModalHeader toggle={this.toggle}>
-                  {this.state.title}
-                </ModalHeader>
+                <ModalHeader toggle={this.toggle}>{title}</ModalHeader>
                 <ModalBody>
                   {editPossibleToggling(
                     isEditDashboard,

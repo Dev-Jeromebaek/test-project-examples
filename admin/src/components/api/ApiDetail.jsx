@@ -19,6 +19,14 @@ export default class ApiDetail extends Component {
     updatedApi: {},
   };
 
+  makeRemovedAdditionalDescription = apiDetail => {
+    const {
+      additionalDescription,
+      ...removedAdditionalDescription
+    } = apiDetail;
+    return removedAdditionalDescription;
+  };
+
   checkKeyName = key => {
     switch (key) {
       case 'apiId': {
@@ -70,56 +78,64 @@ export default class ApiDetail extends Component {
   };
 
   render() {
-    const { apiDetail } = this.props;
+    let { apiDetail } = this.props;
+
+    if (!this.props.isMyApiDetail) {
+      apiDetail = this.makeRemovedAdditionalDescription(apiDetail);
+    }
 
     return (
       <Card>
         <CardBody>
           <div className="d-flex align-items-center">
             <h3 className="mb-0">API Information</h3>
-            {this.state.isUpdate ? (
-              <WettyConsumer>
-                {value => {
-                  return (
-                    <div className="d-flex ml-auto">
-                      <NavLink
-                        to="/api"
-                        className="btn btn-secondary btn-sm mr-2"
-                      >
-                        목록
-                      </NavLink>
-                      <ButtonGroup size="sm">
-                        <Button color="danger" onClick={this.updateApi} outline>
-                          취소
-                        </Button>
-                        <Button
-                          color="primary"
-                          onClick={() => {
-                            value.actions.updateApi(this.state.updatedApi);
-                            this.updateApi();
-                          }}
-                        >
-                          확인
-                        </Button>
-                      </ButtonGroup>
-                    </div>
-                  );
-                }}
-              </WettyConsumer>
-            ) : (
+            {this.props.isMyApiDetail && (
               <div className="d-flex ml-auto">
-                <NavLink
-                  to="/api"
-                  className="btn-outline-secondary btn btn-sm mr-2"
-                >
-                  목록
-                </NavLink>
-                <ButtonGroup size="sm">
-                  <Button color="primary" onClick={this.updateApi} outline>
-                    수정
-                  </Button>
-                  <Button color="danger">삭제</Button>
-                </ButtonGroup>
+                {this.state.isUpdate ? (
+                  <WettyConsumer>
+                    {value => {
+                      return (
+                        <div>
+                          <NavLink
+                            to="/api"
+                            className="btn btn-secondary btn-sm mr-2"
+                          >
+                            목록
+                          </NavLink>
+                          <ButtonGroup size="sm">
+                            <Button color="danger" onClick={this.updateApi}>
+                              취소
+                            </Button>
+                            <Button
+                              color="primary"
+                              onClick={() => {
+                                value.actions.updateApi(this.state.updatedApi);
+                                this.updateApi();
+                              }}
+                            >
+                              확인
+                            </Button>
+                          </ButtonGroup>
+                        </div>
+                      );
+                    }}
+                  </WettyConsumer>
+                ) : (
+                  <div className="d-flex ml-auto">
+                    <NavLink
+                      to="/api"
+                      className="btn btn-secondary btn-sm mr-2"
+                    >
+                      목록
+                    </NavLink>
+                    <ButtonGroup size="sm">
+                      <Button color="primary" onClick={this.updateApi}>
+                        수정
+                      </Button>
+                      <Button color="danger">삭제</Button>
+                    </ButtonGroup>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -128,6 +144,7 @@ export default class ApiDetail extends Component {
             if (key === 'isUsedApi') {
               return false;
             }
+
             return (
               <div key={key}>
                 {key === 'additionalDescription' && (
@@ -136,7 +153,10 @@ export default class ApiDetail extends Component {
                   </Alert>
                 )}
                 <InputGroup className="mb-3">
-                  <InputGroupAddon className="api-detail" addonType="prepend">
+                  <InputGroupAddon
+                    style={{ width: '150px' }}
+                    addonType="prepend"
+                  >
                     <InputGroupText className="w-100 bg-white font-weight-bold">
                       {this.checkKeyName(key)}
                     </InputGroupText>

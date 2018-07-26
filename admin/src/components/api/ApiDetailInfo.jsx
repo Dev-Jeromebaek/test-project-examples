@@ -8,7 +8,9 @@ class ApiDetailInfo extends Component {
     return (
       <WettyConsumer>
         {value => {
-          return <ApiDetail apiDetail={value.state.apiDetail} />;
+          return (
+            <ApiDetail isMyApiDetail={true} apiDetail={value.state.apiDetail} />
+          );
         }}
       </WettyConsumer>
     );

@@ -5,40 +5,19 @@ import DashboardModalGraphLists from './DashboardModalGraphLists';
 import { WettyConsumer } from '../../Store';
 
 export default class DashboardModalEditGraph extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inputValue: {},
-      selectBaseType: 'Base Type을 선택하세요.',
-      selectDataType: 'Data Type을 선택하세요.',
-      selectGraphType: 'Graph Type을 선택하세요',
-    };
-  }
-
-  handleBaseTypeSelector = ({ target }) => {
-    const { innerText } = target;
-
-    this.setState({
-      inputValue: { ...this.state.inputValue, baseType: innerText },
-      selectBaseType: innerText,
-    });
+  state = {
+    inputValue: {},
+    baseType: 'Base Type을 선택하세요.',
+    dataType: 'Data Type을 선택하세요.',
+    graphType: 'Graph Type을 선택하세요',
   };
 
-  handleDataTypeSelector = ({ target }) => {
-    const { innerText } = target;
+  handleTypeSelector = ({ target }) => {
+    const { innerText, name } = target;
 
     this.setState({
-      inputValue: { ...this.state.inputValue, dataType: innerText },
-      selectDataType: innerText,
-    });
-  };
-
-  handleGraphTypeSelector = ({ target }) => {
-    const { innerText } = target;
-
-    this.setState({
-      inputValue: { ...this.state.inputValue, graphType: innerText },
-      selectGraphType: innerText,
+      inputValue: { ...this.state.inputValue, [name]: innerText },
+      [name]: innerText,
     });
   };
 
@@ -53,23 +32,26 @@ export default class DashboardModalEditGraph extends React.Component {
                 title="Select Data - base type"
                 listTitle="Base type"
                 dataList={value.state.adminApiList}
-                handleSelectChange={this.handleBaseTypeSelector}
-                selectedData={this.state.selectBaseType}
+                handleSelectChange={this.handleTypeSelector}
+                selectedData={this.state.baseType}
+                name="baseType"
               />
               <DashboardModalSelectCategory />
               <GlobalSelectBar
                 title="Select Data - data type"
                 listTitle="Data type"
                 dataList={value.state.adminApiList}
-                handleSelectChange={this.handleDataTypeSelector}
-                selectedData={this.state.selectDataType}
+                handleSelectChange={this.handleTypeSelector}
+                selectedData={this.state.dataType}
+                name="dataType"
               />
               <GlobalSelectBar
                 title="Graph Type"
                 listTitle="Available Graph types"
                 dataList={value.state.graphTypeList}
-                handleSelectChange={this.handleGraphTypeSelector}
-                selectedData={this.state.selectGraphType}
+                handleSelectChange={this.handleTypeSelector}
+                selectedData={this.state.graphType}
+                name="graphType"
               />
             </div>
           );

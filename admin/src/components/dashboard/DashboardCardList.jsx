@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import DashboardCard from '../dashboard/DashboardCard';
 import { Row, Col } from 'reactstrap';
 import { WettyConsumer } from '../../Store';

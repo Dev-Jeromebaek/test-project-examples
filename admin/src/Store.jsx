@@ -4,9 +4,17 @@ const Store = createContext();
 const { Provider, Consumer: WettyConsumer } = Store;
 
 class WettyProvider extends Component {
+  constructor(props) {
+    super(props);
+
+    this.actions.handleCreateApi = this.actions.handleCreateApi.bind(this);
+    this.actions.handleRemoveApi = this.actions.handleRemoveApi.bind(this);
+    this.actions.handleUpdateApi = this.actions.handleUpdateApi.bind(this);
+  }
   state = {
     adminDashboardList: [],
     adminDetail: {},
+    error: {},
     createCard: this.createCard,
     readCard: this.readCard,
     updateCard: this.updateCard,
@@ -51,10 +59,10 @@ class WettyProvider extends Component {
     },
 
     handleCreateApi(data) {
-      const { useApiList } = this.state;
+      const { adminApiList } = this.state;
 
       this.setState({
-        useApiList: useApiList.concat(
+        adminApiList: adminApiList.concat(
           Object.assign({}, data, {
             // apiId: this.apiId++,
           }),
@@ -62,15 +70,15 @@ class WettyProvider extends Component {
       });
     },
     handleRemoveApi(id) {
-      const { useApiList } = this.state;
+      const { adminApiList } = this.state;
       this.setState({
-        useApiList: useApiList.filter(apiOne => apiOne.apiId !== id),
+        adminApiList: adminApiList.filter(apiOne => apiOne.apiId !== id),
       });
     },
     handleUpdateApi(id, editData) {
-      const { useApiList } = this.state;
+      const { adminApiList } = this.state;
       this.setState({
-        useApiList: useApiList.map(apiOne => {
+        adminApiList: adminApiList.map(apiOne => {
           if (apiOne.apiId === id) {
             return {
               id,
@@ -84,15 +92,13 @@ class WettyProvider extends Component {
   };
 
   async componentDidMount() {
-    const dashboardList = await axios.get(
-      'http://10.5.220.246:8080/dashboard_list',
-    );
-    const apiList = await axios.get('http://10.5.220.246:8080/api_list');
-    const apiDetail = await axios.get('http://10.5.220.246:8080/api_detail');
-    const error = await axios.get('http://10.5.220.246:8080/error');
-    const graphTypeList = await axios.get(
-      'http://10.5.220.246:8080/graph_type_list',
-    );
+    const serverIp = 'http://10.5.220.246:9090';
+
+    const dashboardList = await axios.get(`${serverIp}/dashboard_list`);
+    const apiList = await axios.get(`${serverIp}/api_list`);
+    const apiDetail = await axios.get(`${serverIp}/api_detail`);
+    const error = await axios.get(`${serverIp}/error`);
+    const graphTypeList = await axios.get(`${serverIp}/graph_type_list`);
 
     this.setState({
       adminDashboardList: dashboardList.data,

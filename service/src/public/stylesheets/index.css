@@ -1,0 +1,55 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+    position: static !important;
+  }
+
+  .dropdown-menu {
+    position: inherit !important;
+    transform: none !important;
+    margin-bottom: 1rem !important;
+  }
+}
+.overflow-y {
+  overflow-y: auto;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  top: 56px;
+  z-index: 100;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.text-decoration-hover-none:hover {
+  text-decoration: none;
+}
+
+.hover-bg-light:hover {
+  background-color: #f8f9fa;
+}
+
+.hover-bg-dark:hover {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.white-space-normal {
+  white-space: normal;
+}

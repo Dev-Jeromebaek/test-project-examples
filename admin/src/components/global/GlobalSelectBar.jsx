@@ -7,42 +7,46 @@ import {
 } from 'reactstrap';
 
 export default class GlobalSelectBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false,
-    };
-  }
+  state = {
+    dropdownOpen: false,
+  };
 
-  toggle() {
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     });
-  }
+  };
 
   render() {
+    const { dropdownOpen } = this.state;
+    const {
+      title,
+      selectedData,
+      listTitle,
+      handleSelectChange,
+      dataList,
+      name,
+    } = this.props;
+
     return (
       <div className="p-2">
-        <div className="text-muted font-weight-bold fontSize">
-          {this.props.title}
-        </div>
+        <div className="text-muted font-weight-bold fontSize">{title}</div>
         <ButtonDropdown
           className="buttonDropDown w-100 input-description"
-          isOpen={this.state.dropdownOpen}
+          isOpen={dropdownOpen}
           toggle={this.toggle}
         >
           <DropdownToggle
             className="dropDownSelectBar w-100 text-left p-0 fontSize"
             caret
           >
-            {this.props.selectedData}
+            {selectedData}
           </DropdownToggle>
           <DropdownMenu className="fontSize w-100">
-            <DropdownItem header>{this.props.listTitle}</DropdownItem>
-            {this.props.dataList.map((data, i) => {
+            <DropdownItem header>{listTitle}</DropdownItem>
+            {dataList.map((data, i) => {
               return (
-                <DropdownItem key={i} onClick={this.props.handleSelectChange}>
+                <DropdownItem key={i} onClick={handleSelectChange} name={name}>
                   {data.apiName}
                   {data.requestUrl}
                 </DropdownItem>

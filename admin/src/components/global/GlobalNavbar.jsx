@@ -4,20 +4,16 @@ import logo from '../../public/icons/logo.svg';
 import GlobalNavbarSelectTab from './GlobalNavbarSelectTab';
 
 export default class GlobalNavbar extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    isOpen: false,
+  };
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false,
-    };
-  }
-
-  toggle() {
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen,
     });
-  }
+  };
+
   render() {
     return (
       <div>

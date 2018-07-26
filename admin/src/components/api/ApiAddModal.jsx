@@ -42,6 +42,7 @@ export default class ApiAddModal extends React.Component {
   };
 
   render() {
+    const { modal, selectedApi, inputValue } = this.state;
     return (
       <WettyConsumer>
         {value => {
@@ -57,7 +58,7 @@ export default class ApiAddModal extends React.Component {
                 // onCreate={actions.handleCreateApi}
               />
               <Modal
-                isOpen={this.state.modal}
+                isOpen={modal}
                 toggle={this.toggle}
                 className={this.props.className}
               >
@@ -68,7 +69,7 @@ export default class ApiAddModal extends React.Component {
                     listTitle="API Lists"
                     dataList={value.state.adminApiList}
                     handleSelectChange={this.handleSelectChange}
-                    selectedData={this.state.selectedApi}
+                    selectedData={selectedApi}
                   />
                   <GlobalModalInput
                     inputTitle="API Name"
@@ -86,9 +87,7 @@ export default class ApiAddModal extends React.Component {
                 <ModalFooter>
                   <Button
                     color="primary"
-                    onClick={() =>
-                      value.actions.saveAvailableApi(this.state.inputValue)
-                    }
+                    onClick={() => value.actions.saveAvailableApi(inputValue)}
                   >
                     추가하기
                   </Button>

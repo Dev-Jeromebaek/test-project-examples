@@ -4,13 +4,10 @@ import GlobalSelectBar from '../global/GlobalSelectBar';
 import { WettyConsumer } from '../../Store';
 
 export default class DashboardModalEditDashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedApi: 'Api를 선택하세요.',
-      inputValue: {},
-    };
-  }
+  state = {
+    selectedApi: 'Api를 선택하세요.',
+    inputValue: {},
+  };
 
   handleInputChange = ({ target }) => {
     const { name, type, checked, value } = target;

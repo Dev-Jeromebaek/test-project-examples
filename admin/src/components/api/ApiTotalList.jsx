@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import ApiDetail from './ApiDetail';
+import { WettyConsumer } from '../../Store';
+
 import {
   UncontrolledCollapse,
   CardBody,
@@ -29,9 +32,9 @@ class ApiTotalList extends Component {
           id={'toggler' + this.props.api.apiId}
           color="light"
           className={
-            'mb-1 w-100 text-left container shadow ' + this.state.isActive
-              ? 'active'
-              : ''
+            this.state.isActive
+              ? 'mb-1 w-100 text-left container shadow active'
+              : 'mb-1 w-100 text-left container shadow'
           }
           onClick={this.handleBtnActive}
         >
@@ -58,7 +61,13 @@ class ApiTotalList extends Component {
           className="shadow"
         >
           <Card>
-            <CardBody>{api.apiName}</CardBody>
+            <CardBody>
+              <WettyConsumer>
+                {value => {
+                  return <ApiDetail apiDetail={value.state.apiDetail} />;
+                }}
+              </WettyConsumer>
+            </CardBody>
           </Card>
         </UncontrolledCollapse>
       </div>
