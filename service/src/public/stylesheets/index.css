@@ -17,6 +17,7 @@ body,
     margin-bottom: 1rem !important;
   }
 }
+
 .overflow-y {
   overflow-y: auto;
 }
@@ -29,7 +30,7 @@ body,
   position: fixed;
   bottom: 0;
   left: 0;
-  top: 56px;
+  top: 0;
   z-index: 100;
 }
 

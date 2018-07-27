@@ -5,7 +5,7 @@ import { WettyConsumer } from '../Store';
 
 const DashboardCardList = () => {
   return (
-    <Container style={{ marginTop: '56px' }}>
+    <Container>
       <WettyConsumer>
         {value => {
           return (
@@ -21,9 +21,12 @@ const DashboardCardList = () => {
                   );
                 })
               ) : (
-                <Jumbotron>
-                  <h2>대시보드 리스트가 존재하지 않습니다.</h2>
-                  <h3>Admin으로 이동하여 대시보드를 생성해주세요.</h3>
+                <Jumbotron className="m-auto">
+                  <h1 className="display-3">대시보드가 존재하지 않습니다.</h1>
+                  <hr />
+                  <h1 className="display-5">
+                    <a href="#">Admin</a>으로 이동해서 대시보드를 만드세요!
+                  </h1>
                 </Jumbotron>
               )}
             </Row>

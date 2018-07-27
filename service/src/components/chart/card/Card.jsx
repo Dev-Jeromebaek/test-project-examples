@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 
 import DropDown from '../dropdown/Dropdown';
-import refreshIcon from '../../../public/icons/history-solid.svg';
+// import refreshIcon from '../../../public/icons/history-solid.svg';
 
 export class Card extends Component {
-  handleRefresh = () => {
+  handleRefresh = e => {
+    e.stopPropagation();
     alert('refresh');
+  };
+  handleSetCycle = e => {
+    e.stopPropagation();
+    console.log(e.target.value);
+    alert(e.targer.value);
   };
   render() {
     return (
@@ -15,11 +21,8 @@ export class Card extends Component {
             {this.props.title}
             <div className="d-flex">
               <DropDown />
-              <img
-                src={refreshIcon}
-                width="20"
-                height="30"
-                alt="refresh"
+              <i
+                className={this.props.statsIcon}
                 style={{ cursor: 'pointer' }}
                 onClick={this.handleRefresh}
               />
@@ -34,13 +37,11 @@ export class Card extends Component {
             {this.props.legend}
             {this.props.stats != null ? <hr /> : ''}
             <div className="stats">
-              <img
-                src={refreshIcon}
-                width="17"
-                height="17"
-                alt="refresh"
-                style={{ opacity: '0.3' }}
-              />{' '}
+              <i
+                className={this.props.statsIcon}
+                style={{ cursor: 'pointer' }}
+                onClick={this.handleRefresh}
+              />
               {this.props.stats}
             </div>
           </div>
