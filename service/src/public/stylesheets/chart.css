@@ -28,7 +28,8 @@
 .card .title {
   margin: 0;
   color: #333333;
-  font-weight: 300;
+  /* font-weight: 700; */
+  font-weight: 700;
 }
 .card .footer {
   padding: 0;
@@ -55,6 +56,8 @@
 .card .ct-chart {
   margin: -15px 0 0px;
   height: 245px;
+  /* margin: -5px 0 0px;
+  height: 240px; */
 }
 
 .ct-label {
@@ -283,6 +286,10 @@
   fill: #9368e9;
 }
 
+.text-grape {
+  color: #9368e9 !important;
+}
+
 .ct-series-e .ct-point,
 .ct-series-e .ct-line,
 .ct-series-e .ct-bar,
@@ -295,6 +302,10 @@
   fill: #87cb16;
 }
 
+.text-grass {
+  color: #87cb16 !important;
+}
+
 .ct-series-f .ct-point,
 .ct-series-f .ct-line,
 .ct-series-f .ct-bar,
@@ -305,6 +316,10 @@
 .ct-series-f .ct-slice-pie,
 .ct-series-f .ct-area {
   fill: #1b8dff;
+}
+
+.text-sea {
+  color: #1b8dff !important;
 }
 
 .ct-series-g .ct-point,

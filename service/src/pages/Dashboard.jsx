@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Sidebar from '../components/dashboard/Sidebar';
-import ResponsiveRGLTest from '../pages/ResponsiveRGLTest';
+import DashboardGraphSection from '../pages/DashboardGraphSection';
 
 const Dashboard = () => {
   return (
@@ -19,7 +19,7 @@ const Dashboard = () => {
             <Sidebar />
           </Col>
           <Col sm="7" md="8" lg="9" xl="10" className="ml-auto">
-            <ResponsiveRGLTest />
+            <DashboardGraphSection />
           </Col>
         </Row>
       </Container>

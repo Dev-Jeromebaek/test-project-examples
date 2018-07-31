@@ -1,19 +1,10 @@
 // Data for Pie Chart
-const dataPie = {
-  // labels: ['60%', '10%', '30%'],
-  series: [20, 10, 30],
-};
-const legendPie = {
-  names: ['2파랑', '2빨강', '2노랑'],
-  types: ['info', 'danger', 'warning'],
-};
-
 const optionSimplePie = {
   donut: true,
   donutWidth: 120,
   donutSolid: false,
   startAngle: 90,
-  showLabel: true,
+  showLabel: true
 };
 
 const optionDonutPie = {
@@ -21,7 +12,7 @@ const optionDonutPie = {
   donutWidth: 60,
   donutSolid: false,
   startAngle: 270,
-  showLabel: true,
+  showLabel: true
 };
 
 const drawListenerPie = {
@@ -32,7 +23,7 @@ const drawListenerPie = {
 
       // Set a dasharray that matches the path length as prerequisite to animate dashoffset
       data.element.attr({
-        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px',
+        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
       });
 
       // Create animation definition while also assigning an ID to the animation for later sync usage
@@ -43,8 +34,8 @@ const drawListenerPie = {
           from: -pathLength + 'px',
           to: '0px',
           // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
-          fill: 'freeze',
-        },
+          fill: 'freeze'
+        }
       };
 
       // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
@@ -55,7 +46,7 @@ const drawListenerPie = {
 
       // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
       data.element.attr({
-        'stroke-dashoffset': -pathLength + 'px',
+        'stroke-dashoffset': -pathLength + 'px'
       });
 
       // We can't use guided mode as the animations need to rely on setting begin manually
@@ -78,10 +69,10 @@ const drawListenerPie = {
                 from: from + 'px',
                 to: to + 'px',
                 fill: 'freeze',
-                begin: 'anim' + index + '.end',
-              },
+                begin: 'anim' + index + '.end'
+              }
             },
-            false,
+            false
           );
 
           index++;
@@ -93,7 +84,7 @@ const drawListenerPie = {
         }
       }
     }
-  },
+  }
 };
 
 const createListenerPie = {
@@ -104,7 +95,7 @@ const createListenerPie = {
 
       // Set a dasharray that matches the path length as prerequisite to animate dashoffset
       data.element.attr({
-        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px',
+        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
       });
 
       // Create animation definition while also assigning an ID to the animation for later sync usage
@@ -115,8 +106,8 @@ const createListenerPie = {
           from: -pathLength + 'px',
           to: '0px',
           // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
-          fill: 'freeze',
-        },
+          fill: 'freeze'
+        }
       };
 
       // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
@@ -127,7 +118,7 @@ const createListenerPie = {
 
       // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
       data.element.attr({
-        'stroke-dashoffset': -pathLength + 'px',
+        'stroke-dashoffset': -pathLength + 'px'
       });
 
       // We can't use guided mode as the animations need to rely on setting begin manually
@@ -150,10 +141,10 @@ const createListenerPie = {
                 from: from + 'px',
                 to: to + 'px',
                 fill: 'freeze',
-                begin: 'anim' + index + '.end',
-              },
+                begin: 'anim' + index + '.end'
+              }
             },
-            false,
+            false
           );
 
           index++;
@@ -165,15 +156,12 @@ const createListenerPie = {
         }
       }
     }
-  },
+  }
 };
 
 module.exports = {
-  dataPie,
-  legendPie,
   optionSimplePie,
   optionDonutPie,
-  // responsiveOptionsSimplePie,
   drawListenerPie,
-  createListenerPie,
+  createListenerPie
 };

@@ -8,11 +8,34 @@ class WettyProvider extends Component {
     dashboardList: [],
   };
 
-  actions = {};
+  actions = {
+    getFromLocalStorage(key) {
+      let localStorage = {};
+      if (global.localStorage) {
+        try {
+          localStorage = JSON.parse(global.localStorage.getItem(key)) || {};
+        } catch (e) {
+          /*Ignore*/
+        }
+      }
+      return localStorage[key];
+    },
+
+    saveToLocalStorage(key, value) {
+      if (global.localStorage) {
+        global.localStorage.setItem(
+          key,
+          JSON.stringify({
+            [key]: value,
+          }),
+        );
+      }
+    },
+  };
 
   async componentDidMount() {
     const dashboardList = await axios.get(
-      'http://10.5.220.246:8080/dashboard_list',
+      'http://10.5.220.112:8080/dashboard_list',
     );
 
     this.setState({
@@ -32,4 +55,16 @@ class WettyProvider extends Component {
   }
 }
 
-export { WettyProvider, WettyConsumer };
+const withContext = Component => {
+  return props => {
+    return (
+      <WettyConsumer>
+        {value => {
+          return <Component {...props} value={value} />;
+        }}
+      </WettyConsumer>
+    );
+  };
+};
+
+export { WettyProvider, WettyConsumer, withContext };
