@@ -15,7 +15,6 @@ class DashboardGraphSection extends React.PureComponent {
   state = {
     layouts: JSON.parse(JSON.stringify(this.originalLayouts)),
   };
-
   tempArea = [];
   nextFillGrid = {
     x: 0,
@@ -32,11 +31,26 @@ class DashboardGraphSection extends React.PureComponent {
     return graphData.graph_data.filter(info => info.graphId === id);
   };
 
+  initGrid = () => {
+    // console.log('initGrid');
+    this.tempArea = [];
+    this.nextFillGrid = {
+      x: 0,
+      y: 0,
+    };
+    this.returnGrid = {
+      w: 0,
+      h: 1,
+      x: 0,
+      y: 0,
+    };
+  };
+
   setGridLayout = info => {
-    const { graphDetailType } = info;
+    const { collectionId, graphDetailType } = info;
     // console.log(info);
-    // console.log(graphDetailType);
-    const { x, y } = this.nextFillGrid;
+    console.log(graphDetailType);
+    let { x, y } = this.nextFillGrid;
 
     if (graphDetailType === 'LINEAR_GRAPH') {
       // 2x1 크기일 경우
@@ -49,7 +63,10 @@ class DashboardGraphSection extends React.PureComponent {
         this.nextFillGrid.y = this.returnGrid.y;
       } else if (x === 2) {
         // 들어갈 공간 x, 채울 공간 o
-        this.tempArea.push({ x: this.nextFillGrid.x, y: this.nextFillGrid.y });
+        this.tempArea.concat({
+          x: this.nextFillGrid.x,
+          y: this.nextFillGrid.y,
+        });
         this.returnGrid.x = 0;
         this.returnGrid.y = y + 1;
         this.nextFillGrid.x = this.returnGrid.x + 2;
@@ -84,21 +101,22 @@ class DashboardGraphSection extends React.PureComponent {
       }
     }
     // console.log(this.returnGrid);
+    // this.gridSize.push(this.returnGrid);
     return this.returnGrid;
   };
 
   createChartList = id => {
     // 1개의 dashboard에 포함된 graphCollection 정보(배열)
     const { graphCollection } = graphData.dashboard_list[id - 1];
-    // console.log(graphCollection.length);
     let chartList = [];
 
     graphCollection.map(ct_info => {
+      // console.log(this.setGridLayout(ct_info));
       chartList.push(
         <div
           className="bg-white"
           key={ct_info.collectionId}
-          data-grid={this.setGridLayout(ct_info)}
+          // data-grid={this.setGridLayout(ct_info)}
         >
           <DrawChart
             graphInfo={this.passOnGraphData(ct_info.graphId)}
@@ -106,16 +124,18 @@ class DashboardGraphSection extends React.PureComponent {
           />
         </div>,
       );
-      console.log('layout', this.setGridLayout(ct_info));
     });
+    console.log(chartList);
     return chartList;
   };
 
   resetLayout = () => {
     this.setState({ layouts: {} });
+    this.initGrid();
   };
 
   onLayoutChange = (layout, layouts) => {
+    this.initGrid();
     console.log(layout);
     console.log(layouts);
     this.props.value.actions.saveToLocalStorage('userLayout', layouts);
