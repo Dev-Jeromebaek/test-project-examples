@@ -24,16 +24,16 @@ export const ChartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
 
   const series =
     graphSubType === 'BAR_GRAPH'
-      ? [tempArr]
-      : // ? tempArr.map((arr, index) => {
-        //     let newArr = [];
-        //     for (let j = 0; j < tempArr.length; j++) {
-        //       newArr.push(index === j ? arr : 0);
-        //     }
-        //     return newArr;
-        //   })
-        // : tempArr;
-        tempArr;
+      ? // ? [tempArr]:
+        tempArr.map((arr, index) => {
+          let newArr = [];
+          for (let j = 0; j < tempArr.length; j++) {
+            newArr.push(index === j ? arr : 0);
+          }
+          return newArr;
+        })
+      : tempArr;
+  // tempArr;
   return {
     cycleTime: setCycle,
     data: {

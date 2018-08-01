@@ -1,10 +1,5 @@
-export const ChartDataSet = (
-  graphDataList,
-  graphSubType,
-  baseType,
-  dataType,
-  setCycle
-) => {
+export const ChartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
+  const { graphDataList, graphSubType, baseType, dataType } = graphDataInfo;
   // console.log('funccc', graphDataList, graphSubType, baseType, dataType);
   const names =
     graphSubType === 'PIE_GRAPH'
@@ -27,10 +22,10 @@ export const ChartDataSet = (
           return '';
         });
 
-  // 1. 각각 x 값마다 색상 다르게 그래프 그리기.
   const series =
     graphSubType === 'BAR_GRAPH'
-      ? tempArr.map((arr, index) => {
+      ? // ? [tempArr]:
+        tempArr.map((arr, index) => {
           let newArr = [];
           for (let j = 0; j < tempArr.length; j++) {
             newArr.push(index === j ? arr : 0);
@@ -38,16 +33,18 @@ export const ChartDataSet = (
           return newArr;
         })
       : tempArr;
+  // tempArr;
   return {
     cycleTime: setCycle,
     data: {
       labels: labels,
-      series: series
+      series: series,
     },
     legend: {
       names: names,
-      types: types
+      types: types,
     },
-    minutes: 0
+    minutes: 0,
+    cycleTitle: cycleTitle,
   };
 };

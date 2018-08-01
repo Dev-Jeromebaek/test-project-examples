@@ -14,6 +14,8 @@ class DashboardGraphSection extends React.PureComponent {
 
   state = {
     layouts: JSON.parse(JSON.stringify(this.originalLayouts)),
+    dashboardList: [],
+    isReSized: false,
   };
   tempArea = [];
   nextFillGrid = {
@@ -26,6 +28,13 @@ class DashboardGraphSection extends React.PureComponent {
     x: 0,
     y: 0,
   };
+
+  async componentDidMount() {
+    const dashboardList = await this.props.value.getter.dashboardList();
+    this.setState({
+      dashboardList: dashboardList.data.data,
+    });
+  }
 
   initGrid = () => {
     this.tempArea = [];
@@ -139,7 +148,7 @@ class DashboardGraphSection extends React.PureComponent {
         <ResponsiveReactGridLayout
           className="layout"
           cols={{ lg: 3, md: 3, sm: 3, xs: 1, xxs: 1 }}
-          rowHeight={400}
+          rowHeight={420}
           layouts={this.state.layouts}
           onLayoutChange={(layout, layouts) =>
             this.onLayoutChange(layout, layouts)

@@ -5,7 +5,7 @@ import {
   optionsLine,
   // optionsArea,
   responsiveLine,
-  drawListenerLine
+  drawListenerLine,
   // createListenerLine
 } from '../variables/LineOptionSet';
 
@@ -21,7 +21,7 @@ class Line extends Component {
     const { data } = this.props;
     const lineData = {
       labels: data.labels,
-      series: [data.series]
+      series: [data.series],
     };
     return (
       <ChartistGraph

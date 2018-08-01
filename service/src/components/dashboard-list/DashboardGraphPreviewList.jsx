@@ -7,7 +7,7 @@ const DashboardGraphPreviewList = ({ dashboardGraphPreviewList }) => {
       {dashboardGraphPreviewList.map(dashboardGraphPreview => {
         return (
           <DashboardGraphPreview
-            dashboardGraphPreview={dashboardGraphPreview.graphDetailType}
+            dashboardGraphPreview={dashboardGraphPreview.graphSubType}
             key={dashboardGraphPreview.graphId}
           />
         );

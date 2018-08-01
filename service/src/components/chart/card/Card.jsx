@@ -4,7 +4,6 @@ import DropDown from '../dropdown/Dropdown';
 
 export class Card extends Component {
   handleRefresh = () => {
-    // console.log('refresh - Card');
     const { onRefresh } = this.props;
     onRefresh();
   };
@@ -17,7 +16,10 @@ export class Card extends Component {
           <h5 className="title state d-flex justify-content-between">
             {this.props.title}
             <div className="d-flex">
-              <DropDown setCycle={setCycle} />
+              <DropDown
+                setCycle={setCycle}
+                cycleTitle={this.props.cycleTitle}
+              />
               <i
                 className={this.props.statsIcon}
                 style={{ cursor: 'pointer' }}

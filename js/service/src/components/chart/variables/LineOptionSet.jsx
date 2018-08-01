@@ -5,15 +5,15 @@ const optionsLine = {
   showArea: false,
   height: '245px',
   axisX: {
-    showGrid: true
+    showGrid: false,
   },
   lineSmooth: true,
   showLine: true,
   showPoint: true,
   fullWidth: true,
   chartPadding: {
-    right: 30
-  }
+    right: 30,
+  },
 };
 const optionsArea = {
   low: 0,
@@ -21,15 +21,15 @@ const optionsArea = {
   showArea: true,
   height: '245px',
   axisX: {
-    showGrid: true
+    showGrid: true,
   },
   lineSmooth: true,
   showLine: true,
   showPoint: true,
   fullWidth: true,
   chartPadding: {
-    right: 50
-  }
+    right: 50,
+  },
 };
 const responsiveLine = [
   [
@@ -40,9 +40,9 @@ const responsiveLine = [
         labelInterpolationFnc: function(value) {
           const sliceValue = value.split(' ')[1];
           return sliceValue;
-        }
-      }
-    }
+        },
+      },
+    },
   ],
   [
     'screen and (max-width: 767px) and (min-width: 550px)',
@@ -51,9 +51,9 @@ const responsiveLine = [
       axisX: {
         labelInterpolationFnc: function(value) {
           return value;
-        }
-      }
-    }
+        },
+      },
+    },
   ],
   [
     'screen and (max-width: 550px)',
@@ -63,9 +63,9 @@ const responsiveLine = [
         labelInterpolationFnc: function(value) {
           const sliceValue = value.split(' ')[1];
           return sliceValue;
-        }
-      }
-    }
+        },
+      },
+    },
 
     // 'screen and (max-width: 640px)',
     // {
@@ -80,7 +80,7 @@ const responsiveLine = [
     //     }
     //   }
     // }
-  ]
+  ],
 ];
 
 const createListenerLine = {
@@ -96,12 +96,12 @@ const createListenerLine = {
             .scale(1, 0)
             .translate(0, data.chartRect.height())
             .stringify(),
-          to: data.path.clone().stringify()
+          to: data.path.clone().stringify(),
           // easing: Chartist.Svg.Easing.easeOutQuint
-        }
+        },
       });
     }
-  }
+  },
 };
 
 const drawListenerLine = {
@@ -116,12 +116,12 @@ const drawListenerLine = {
             .scale(1, 0)
             .translate(0, data.chartRect.height())
             .stringify(),
-          to: data.path.clone().stringify()
+          to: data.path.clone().stringify(),
           // easing: Chartist.Svg.Easing.easeOutQuint
-        }
+        },
       });
     }
-  }
+  },
 };
 
 module.exports = {
@@ -129,5 +129,5 @@ module.exports = {
   optionsArea,
   responsiveLine,
   drawListenerLine,
-  createListenerLine
+  createListenerLine,
 };

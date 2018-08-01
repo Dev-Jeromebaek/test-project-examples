@@ -8,6 +8,12 @@ class WettyProvider extends Component {
     dashboardList: [],
   };
 
+  getter = {
+    dashboardList: async () => {
+      return await axios.get('/api/dashboard');
+    },
+  };
+
   actions = {
     getFromLocalStorage(key) {
       let localStorage = {};
@@ -44,11 +50,12 @@ class WettyProvider extends Component {
   }
 
   render() {
-    const { state, actions } = this;
+    const { state, actions, getter } = this;
 
     const value = {
       state,
       actions,
+      getter,
     };
 
     return <Provider value={value}>{this.props.children}</Provider>;

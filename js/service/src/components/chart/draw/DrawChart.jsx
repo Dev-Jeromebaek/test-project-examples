@@ -9,6 +9,7 @@ import { withContext } from '../../../Store';
 
 class DrawChart extends Component {
   state = {
+    graphId: this.props.graphInfo[0].graphId,
     setCycle: Math.floor(this.props.graphInfo[0].graphUpdateCycle / 60),
     cycleTime: 1,
     data: {
@@ -53,13 +54,12 @@ class DrawChart extends Component {
   };
 
   onCycleChange = (cycleTime, newCycleTitle) => {
-    const { graphId } = this.props.graphInfo[0];
     this.props.value.actions.saveToLocalStorage(
-      `setCycleTime-${graphId}`,
+      `setCycleTime-${this.state.graphId}`,
       cycleTime,
     );
     this.props.value.actions.saveToLocalStorage(
-      `setCycleTitle-${graphId}`,
+      `setCycleTitle-${this.state.graphId}`,
       newCycleTitle,
     );
     this.setState({
@@ -77,15 +77,15 @@ class DrawChart extends Component {
   };
 
   updateGraphData = () => {
-    const { graphId, graphUpdateCycle } = this.props.graphInfo[0];
+    const { graphUpdateCycle } = this.props.graphInfo[0];
     this.setState(
       ChartDataSet(
         this.props.graphInfo[0],
         this.props.value.actions.getFromLocalStorage(
-          `setCycleTime-${graphId}`,
+          `setCycleTime-${this.state.graphId}`,
         ) || Math.floor(graphUpdateCycle / 60),
         this.props.value.actions.getFromLocalStorage(
-          `setCycleTitle-${graphId}`,
+          `setCycleTitle-${this.state.graphId}`,
         ) || '갱신 주기',
       ),
     );

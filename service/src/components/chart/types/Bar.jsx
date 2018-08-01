@@ -4,7 +4,7 @@ import ChartistGraph from 'react-chartist';
 import {
   optionsBar,
   responsiveBar,
-  drawListenerBar
+  drawListenerBar,
   // createListenerBar
 } from '../variables/BarOptionSet';
 
@@ -16,7 +16,7 @@ class Bar extends Component {
     return false;
   }
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     return (
       <ChartistGraph
         data={this.props.data}

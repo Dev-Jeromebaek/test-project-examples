@@ -2,9 +2,9 @@
 const optionsBar = {
   seriesBarDistance: 10,
   axisX: {
-    showGrid: false
+    showGrid: false,
   },
-  height: '245px'
+  height: '245px',
 };
 const responsiveBar = [
   [
@@ -15,9 +15,9 @@ const responsiveBar = [
         labelInterpolationFnc: function(value) {
           const sliceValue = value.split(' ')[1];
           return sliceValue;
-        }
-      }
-    }
+        },
+      },
+    },
   ],
   [
     'screen and (max-width: 767px) and (min-width: 550px)',
@@ -26,9 +26,9 @@ const responsiveBar = [
       axisX: {
         labelInterpolationFnc: function(value) {
           return value;
-        }
-      }
-    }
+        },
+      },
+    },
   ],
   [
     'screen and (max-width: 550px)',
@@ -38,9 +38,9 @@ const responsiveBar = [
         labelInterpolationFnc: function(value) {
           const sliceValue = value.split(' ')[1];
           return sliceValue;
-        }
-      }
-    }
+        },
+      },
+    },
 
     // 'screen and (max-width: 640px)',
     // {
@@ -55,7 +55,7 @@ const responsiveBar = [
     //     }
     //   }
     // }
-  ]
+  ],
 ];
 
 const drawListenerBar = {
@@ -66,11 +66,11 @@ const drawListenerBar = {
           begin: 0,
           dur: 500,
           from: data.y1,
-          to: data.y2
-        }
+          to: data.y2,
+        },
       });
     }
-  }
+  },
 };
 
 const createListenerBar = {
@@ -81,16 +81,16 @@ const createListenerBar = {
           begin: 0,
           dur: 500,
           from: data.y1,
-          to: data.y2
-        }
+          to: data.y2,
+        },
       });
     }
-  }
+  },
 };
 
 module.exports = {
   optionsBar,
   responsiveBar,
   drawListenerBar,
-  createListenerBar
+  createListenerBar,
 };

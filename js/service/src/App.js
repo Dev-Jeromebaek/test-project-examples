@@ -12,7 +12,7 @@ class App extends Component {
         <WettyProvider>
           <Switch>
             <Route exact path="/" component={DashboardList} />
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard/:dashboardId" component={Dashboard} />
           </Switch>
         </WettyProvider>
       </Fragment>

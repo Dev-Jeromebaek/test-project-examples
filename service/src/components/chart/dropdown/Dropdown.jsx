@@ -9,7 +9,6 @@ import {
 class Dropdown extends Component {
   state = {
     dropdownOpen: false,
-    cycleTitle: '갱신주기 설정',
   };
 
   toggle = () => {
@@ -18,18 +17,16 @@ class Dropdown extends Component {
     });
   };
 
-  hi = e => {
-    console.log('dd');
-  };
   handleSetCycle = e => {
     e.stopPropagation();
-    this.setState({
-      cycleTitle: e.target.value,
-    });
     let cycleTime = e.target.value.split(' ')[0];
-    if (cycleTime === '1' || cycleTime === '갱신주기') cycleTime = '60';
+    let cycleTitle = e.target.value;
+    if (cycleTime === '1' || cycleTime === '갱신주기') {
+      cycleTime = '60';
+      cycleTitle = '1 hours';
+    }
     const { setCycle } = this.props;
-    setCycle(parseInt(cycleTime, 10));
+    setCycle(parseInt(cycleTime, 10), cycleTitle);
   };
 
   render() {
@@ -37,7 +34,7 @@ class Dropdown extends Component {
       <Fragment>
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret size="sm" outline color="info">
-            {this.state.cycleTitle}
+            {this.props.cycleTitle}
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem
