@@ -16,7 +16,7 @@ class Bar extends Component {
     return false;
   }
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <ChartistGraph
         data={this.props.data}
