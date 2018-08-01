@@ -1,4 +1,4 @@
-export const ChartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
+const chartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
   const { graphDataList, graphSubType, baseType, dataType } = graphDataInfo;
   // console.log('funccc', graphDataList, graphSubType, baseType, dataType);
   const names =
@@ -47,4 +47,8 @@ export const ChartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
     minutes: 0,
     cycleTitle: cycleTitle,
   };
+};
+
+module.exports = {
+  chartDataSet,
 };

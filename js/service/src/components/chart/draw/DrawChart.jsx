@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Card } from '../card/Card';
-import { ChartDataSet } from '../variables/ChartDataSet';
+import { chartDataSet } from '../variables/ChartDataSet';
 import Line from '../types/Line';
 import Bar from '../types/Bar';
 import Pie from '../types/Pie';
@@ -79,7 +79,7 @@ class DrawChart extends Component {
   updateGraphData = () => {
     const { graphUpdateCycle } = this.props.graphInfo[0];
     this.setState(
-      ChartDataSet(
+      chartDataSet(
         this.props.graphInfo[0],
         this.props.value.actions.getFromLocalStorage(
           `setCycleTime-${this.state.graphId}`,
