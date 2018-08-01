@@ -6,7 +6,7 @@ import DrawChart from '../components/chart/draw/DrawChart';
 import {
   setGridLayout,
   initGrid,
-} from '../components/chart/variables/LayoutSet';
+} from '../components/chart/variables/ChartLayoutSet';
 import graphData from '../components/chart/data/getGraphData.json';
 import { withContext } from '../Store';
 
