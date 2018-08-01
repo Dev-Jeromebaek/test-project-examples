@@ -46,9 +46,7 @@ class DashboardGraphSection extends React.PureComponent {
   };
 
   setGridLayout = info => {
-    // console.log(this.tempArea.length);
-    // console.log(JSON.stringify(this.tempArea));
-    const { collectionId, graphDetailType } = info;
+    const { graphDetailType } = info;
     let { x, y } = this.nextFillGrid;
     if (graphDetailType === 'LINEAR_GRAPH') {
       // 2x1 크기일 경우
@@ -94,17 +92,15 @@ class DashboardGraphSection extends React.PureComponent {
       } else {
         // 채울 공간이 있는 경우
         const area = this.tempArea.shift();
-        // console.log(area);
         this.returnGrid.x = area.x;
         this.returnGrid.y = area.y;
       }
     }
     const returnValue = { ...this.returnGrid };
-    // console.log(JSON.stringify(returnValue));
     return returnValue;
   };
 
-  createChartList = (id, currentGrid) => {
+  createChartList = id => {
     this.initGrid();
     // 1개의 dashboard에 포함된 graphCollection 정보(배열)
     const { graphCollection } = graphData.dashboard_list[id - 1];
@@ -132,8 +128,6 @@ class DashboardGraphSection extends React.PureComponent {
 
   onLayoutChange = (layout, layouts) => {
     this.initGrid();
-    // console.log(layout);
-    // console.log(layouts);
     this.props.value.actions.saveToLocalStorage('userLayout', layouts);
     this.setState({ layouts });
   };
@@ -144,29 +138,14 @@ class DashboardGraphSection extends React.PureComponent {
         <Button onClick={() => this.resetLayout()}>Reset Layout</Button>
         <ResponsiveReactGridLayout
           className="layout"
-          cols={{ lg: 3, md: 3, sm: 3, xs: 3, xxs: 3 }}
+          cols={{ lg: 3, md: 3, sm: 3, xs: 1, xxs: 1 }}
           rowHeight={400}
           layouts={this.state.layouts}
           onLayoutChange={(layout, layouts) =>
             this.onLayoutChange(layout, layouts)
           }
         >
-          {this.createChartList(1)}
-
-          {/* <div
-            className="bg-white"
-            key="6"
-            data-grid={{ w: 2, h: 1, x: 0, y: 2 }}
-          >
-            <span className="text">6</span>
-          </div>
-          <div
-            className="bg-white"
-            key="7"
-            data-grid={{ w: 1, h: 1, x: 2, y: 2 }}
-          >
-            <span className="text">6</span>
-          </div> */}
+          {this.createChartList(this.props.dashboardId)}
         </ResponsiveReactGridLayout>
       </div>
     );
