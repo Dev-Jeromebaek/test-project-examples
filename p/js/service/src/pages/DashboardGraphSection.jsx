@@ -2,7 +2,8 @@ import React from 'react';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import { Button } from 'reactstrap';
 
-import CartManagement from '../components/chart/variables/ChartManagement';
+// import CartManagement from '../components/chart/variables/ChartManagement';
+import DrawChart from '../components/chart/draw/DrawChart';
 import {
   setGridLayout,
   initGrid,
@@ -22,6 +23,7 @@ class DashboardGraphSection extends React.PureComponent {
     layouts: JSON.parse(JSON.stringify(this.originalLayouts)),
     dashboardOne: [],
     isReSized: false,
+    isLoadData: false,
   };
 
   async componentDidMount() {
@@ -30,6 +32,7 @@ class DashboardGraphSection extends React.PureComponent {
     );
     this.setState({
       dashboardOne: dashboardOne.data,
+      isLoadData: true,
     });
   }
 
@@ -53,7 +56,7 @@ class DashboardGraphSection extends React.PureComponent {
             key={ct_info.collectionId}
             data-grid={setGridLayout(ct_info)}
           >
-            <CartManagement
+            <DrawChart
               dashboardId={this.props.dashboardId}
               graphId={ct_info.graphId}
               key={ct_info.collectionId}
@@ -107,22 +110,25 @@ class DashboardGraphSection extends React.PureComponent {
   };
 
   render() {
-    return (
-      <div className="bg-light">
-        <Button onClick={() => this.resetLayout()}>Reset Layout</Button>
-        <ResponsiveReactGridLayout
-          className="layout"
-          cols={{ lg: 3, md: 3, sm: 3, xs: 1, xxs: 1 }}
-          rowHeight={420}
-          layouts={this.state.layouts}
-          onLayoutChange={(layout, layouts) =>
-            this.onLayoutChange(layout, layouts)
-          }
-        >
-          {this.createChartList(this.props.dashboardId)}
-        </ResponsiveReactGridLayout>
-      </div>
-    );
+    return;
+    {
+      this.state.isLoadData && (
+        <div className="bg-light">
+          <Button onClick={() => this.resetLayout()}>Reset Layout</Button>
+          <ResponsiveReactGridLayout
+            className="layout"
+            cols={{ lg: 3, md: 3, sm: 3, xs: 1, xxs: 1 }}
+            rowHeight={420}
+            layouts={this.state.layouts}
+            onLayoutChange={(layout, layouts) =>
+              this.onLayoutChange(layout, layouts)
+            }
+          >
+            {this.createChartList(this.props.dashboardId)}
+          </ResponsiveReactGridLayout>
+        </div>
+      );
+    }
   }
 }
 

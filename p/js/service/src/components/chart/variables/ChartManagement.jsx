@@ -4,6 +4,10 @@ import DrawChart from '../draw/DrawChart';
 import { withContext } from '../../../Store';
 
 class ChartManagement extends Component {
+  constructor(props) {
+    super(props);
+    this.getGraphInfoOne();
+  }
   state = {
     graphId: this.props.graphId,
     graphInfo: {},
@@ -20,7 +24,6 @@ class ChartManagement extends Component {
 
   componentWillMount() {
     console.log('componentWill');
-    this.getGraphInfoOne();
   }
 
   shouldComponentUpdate(nextProps, nextState) {

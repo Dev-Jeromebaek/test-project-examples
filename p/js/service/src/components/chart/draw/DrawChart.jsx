@@ -25,19 +25,20 @@ class DrawChart extends Component {
     cycleTitle: '갱신 주기',
   };
 
-  // async componentWillMount() {
-  //   console.log(this.props.graphId);
-  //   console.log(this.props.dashboardId);
-  //   console.log(this.props.graphInfo);
-  // const graphInfo = await this.props.value.actions.getGraphOne(
-  //   this.props.dashboardId,
-  //   this.state.graphId,
-  // );
-  // this.setState({
-  //   graphInfo: graphInfo.data,
-  // });
-  // console.log(graphInfo);
-  // }
+  async componentDidMount() {
+    console.log(this.props.graphId);
+    console.log(this.props.dashboardId);
+    console.log(this.props.graphInfo);
+  const graphInfo = await this.props.value.actions.getGraphOne(
+    this.props.dashboardId,
+    this.state.graphId,
+  );
+  this.setState({
+    graphInfo: graphInfo.data,
+    isLoading: false,
+  });
+  console.log(graphInfo);
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     // console.log(nextProps);
@@ -150,19 +151,20 @@ class DrawChart extends Component {
     console.log(this.props);
     // const { graphName, graphDescription } = this.state.graphInfo;
     return (
-      // <Card
-      //   statsIcon="fa fa-history"
-      //   title={graphName}
-      //   category={graphDescription}
-      //   content={<div className="ct-chart">{this.chartTypeCheck()}</div>}
-      //   legend={this.createLegend(this.state.legend)}
-      //   minutes={this.state.minutes}
-      //   setCycle={this.onCycleChange}
-      //   cycleTitle={this.state.cycleTitle}
-      //   onRefresh={this.onRefreshClick}
-      //   refreshBtnRef={this.props.refreshBtnRef}
-      //   graphId={this.props.graphInfo.graphId}
-      // />
+      <Card
+        statsIcon="fa fa-history"
+        title={graphName}
+        category={graphDescription}
+        content={<div className="ct-chart">{this.chartTypeCheck()}</div>}
+        legend={this.createLegend(this.state.legend)}
+        minutes={this.state.minutes}
+        setCycle={this.onCycleChange}
+        cycleTitle={this.state.cycleTitle}
+        onRefresh={this.onRefreshClick}
+        refreshBtnRef={this.props.refreshBtnRef}
+        graphId={this.props.graphInfo.graphId}
+      />
+      {isLoading || <>}
       <div />
     );
   }
