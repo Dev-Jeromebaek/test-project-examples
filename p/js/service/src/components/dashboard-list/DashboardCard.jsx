@@ -15,12 +15,9 @@ const DashboardCard = ({ card }) => {
     <Col xs="12" sm="6" md="4" lg="3" className="mt-4">
       <NavLink
         className="text-decoration-hover-none text-dark"
-        to={'/dashboard/' + card.dashboardId}
+        to={`/dashboard/${card.dashboardId}`}
       >
-        <Card
-          className="hover-bg-light card cursor-pointer h-100 shadow"
-          to={'/dashboard/' + card.dashboardId}
-        >
+        <Card className="hover-bg-light card cursor-pointer h-100 shadow">
           <CardHeader className="font-weight-bold">
             {card.dashboardName}
           </CardHeader>

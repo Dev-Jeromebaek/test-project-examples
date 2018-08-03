@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 
-// import { Card } from '../card/Card';
-// import { chartDataSet } from '../variables/ChartDataSet';
+import { Card } from '../card/Card';
+import { chartDataSet } from '../variables/ChartDataSet';
 import Line from '../types/Line';
 import Bar from '../types/Bar';
 import Pie from '../types/Pie';
 import { withContext } from '../../../Store';
 
+import Spinner from '../../global/GlobalSpinner';
 class DrawChart extends Component {
   state = {
     graphId: this.props.graphId,
     graphInfo: {},
+    errer: '',
     setCycle: 3600,
     cycleTime: 1,
     minutes: 0,
@@ -23,36 +25,28 @@ class DrawChart extends Component {
       types: [],
     },
     cycleTitle: '갱신 주기',
+    isLoadData: false,
   };
 
-  async componentDidMount() {
-    console.log(this.props.graphId);
-    console.log(this.props.dashboardId);
-    console.log(this.props.graphInfo);
-  const graphInfo = await this.props.value.actions.getGraphOne(
-    this.props.dashboardId,
-    this.state.graphId,
-  );
-  this.setState({
-    graphInfo: graphInfo.data,
-    isLoading: false,
-  });
-  console.log(graphInfo);
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevProps);
+  //   console.log(prevState);
+  // }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // console.log(nextProps);
-    // console.log(nextState);
-    console.log(nextProps.graphInfo);
-    console.log(nextState.graphInfo);
-    // if (this.state.graphInfo === nextState.graphInfo) return false;
-    return false;
-  }
-  /*
-  componentDidMount() {
-    this.updateGraphData();
-    // this.updateTimer = setInterval(this.proceedCycleTimer, 60000);
-    this.updateTimer = setInterval(this.proceedCycleTimer, 1000);
+  async componentDidMount() {
+    const graphInfo = await this.props.value.actions.getGraphOne(
+      this.props.dashboardId,
+      this.state.graphId,
+    );
+    this.setState({
+      graphInfo: graphInfo.data.data,
+      isLoadData: true,
+    });
+    if (this.state.isLoadData) {
+      this.updateGraphData();
+      // this.updateTimer = setInterval(this.proceedCycleTimer, 60000);
+      this.updateTimer = setInterval(this.proceedCycleTimer, 1000);
+    }
   }
 
   componentWillUnmount() {
@@ -99,23 +93,36 @@ class DrawChart extends Component {
       cycleTime: 1,
       minutes: 0,
     });
+    this.updateGraphData();
   };
 
-  updateGraphData = () => {
-    const { graphInfo } = this.props;
-    console.log(this.props);
-    console.log(graphInfo);
-    this.setState(
-      chartDataSet(
-        graphInfo,
-        this.props.value.actions.getFromLocalStorage(
-          `setCycleTime-${this.state.graphId}`,
-        ) || 3600,
-        this.props.value.actions.getFromLocalStorage(
-          `setCycleTitle-${this.state.graphId}`,
-        ) || '갱신 주기',
-      ),
+  updateGraphData = async () => {
+    this.setState({
+      isLoadData: false,
+    });
+    const graphInfo = await this.props.value.actions.getGraphOne(
+      this.props.dashboardId,
+      this.state.graphId,
     );
+    this.setState({
+      graphInfo: graphInfo.data.data,
+      isLoadData: true,
+    });
+
+    if (this.state.isLoadData) {
+      const { graphInfo } = this.state;
+      this.setState(
+        chartDataSet(
+          graphInfo,
+          this.props.value.actions.getFromLocalStorage(
+            `setCycleTime-${this.state.graphId}`,
+          ) || 3600,
+          this.props.value.actions.getFromLocalStorage(
+            `setCycleTitle-${this.state.graphId}`,
+          ) || '갱신 주기',
+        ),
+      );
+    }
   };
 
   createLegend = json => {
@@ -132,25 +139,28 @@ class DrawChart extends Component {
   };
 
   chartTypeCheck = () => {
-    const { graphSubType } = this.props.graphInfo;
-    if (graphSubType === 'LINEAR_GRAPH')
+    // console.log(this.state.graphInfo.data);
+    const { graphSubType } = this.state.graphInfo.graphType;
+    if (graphSubType.code === 'LINEAR_GRAPH')
       return (
         <Line data={this.state.data} cycleTime={this.state.cycleTime === 1} />
       );
-    if (graphSubType === 'BAR_GRAPH')
+    if (graphSubType.code === 'BAR_GRAPH')
       return (
         <Bar data={this.state.data} cycleTime={this.state.cycleTime === 1} />
       );
-    if (graphSubType === 'PIE_GRAPH')
+    if (graphSubType.code === 'PIE_GRAPH')
       return (
         <Pie data={this.state.data} cycleTime={this.state.cycleTime === 1} />
       );
   };
-  */
+
   render() {
-    console.log(this.props);
-    // const { graphName, graphDescription } = this.state.graphInfo;
-    return (
+    console.log(this.state.graphId);
+    console.log(this.state.graphInfo);
+    const { graphName, graphDescription } = this.state.graphInfo;
+    const { isLoadData } = this.state;
+    return isLoadData ? (
       <Card
         statsIcon="fa fa-history"
         title={graphName}
@@ -161,11 +171,12 @@ class DrawChart extends Component {
         setCycle={this.onCycleChange}
         cycleTitle={this.state.cycleTitle}
         onRefresh={this.onRefreshClick}
-        refreshBtnRef={this.props.refreshBtnRef}
-        graphId={this.props.graphInfo.graphId}
+        // refreshBtnRef={this.props.refreshBtnRef}
+        graphId={this.state.graphId}
       />
-      {isLoading || <>}
-      <div />
+    ) : (
+      // <div />
+      <Spinner />
     );
   }
 }

@@ -9,7 +9,7 @@ import {
 } from '../variables/BarOptionSet';
 
 class Bar extends Component {
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.props.cycleTime) {
       return true;
     }

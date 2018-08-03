@@ -27,6 +27,8 @@ class DashboardGraphSection extends React.PureComponent {
     h: 1,
     x: 0,
     y: 0,
+    minH: 1,
+    maxH: 1,
   };
 
   async componentDidMount() {

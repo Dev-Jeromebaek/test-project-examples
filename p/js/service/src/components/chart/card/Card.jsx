@@ -13,19 +13,22 @@ export class Card extends Component {
     return (
       <div className={'card' + (this.props.plain ? ' card-plain' : '')}>
         <div className={'header' + (this.props.hCenter ? ' text-center' : '')}>
-          <h5 className="title state d-flex justify-content-between">
+          <h5
+            className="title state d-flex justify-content-between align-items-center"
+            style={{ fontSize: '0.9rem' }}
+          >
             {this.props.title}
-            <div className="d-flex">
+            <div className="d-flex align-items-center">
               <DropDown
                 setCycle={setCycle}
                 cycleTitle={this.props.cycleTitle}
               />
               <i
-                id={this.props.graphId}
+                // id={this.props.graphId}
                 className={this.props.statsIcon}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer', fontSize: '1.2rem' }}
                 onClick={this.handleRefresh}
-                ref={this.props.refreshBtnRef}
+                // ref={this.props.refreshBtnRef}
               />
             </div>
           </h5>
@@ -35,7 +38,9 @@ export class Card extends Component {
           {this.props.content}
 
           <div className="footer">
-            <div className="legend">{this.props.legend}</div>
+            <div className="legend" style={{ fontSize: '0.8rem' }}>
+              {this.props.legend}
+            </div>
             <hr />
             <div className="stats">
               <i className={this.props.statsIcon} />&nbsp; Updated{' '}

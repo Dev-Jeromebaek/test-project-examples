@@ -1,3 +1,4 @@
+const maxH = 1;
 let gridSet = {
   tempArea: [],
   nextFillGrid: {
@@ -9,6 +10,7 @@ let gridSet = {
     h: 1,
     x: 0,
     y: 0,
+    maxH,
   },
 };
 
@@ -78,6 +80,7 @@ const initGrid = () => {
       h: 1,
       x: 0,
       y: 0,
+      maxH,
     },
   };
 };

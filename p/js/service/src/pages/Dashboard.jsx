@@ -5,41 +5,57 @@ import DashboardGraphSection from '../pages/DashboardGraphSection';
 
 class Dashboard extends Component {
   state = {
-    dashboardId: 1010,
+    dashboardId: this.props.match.params.dashboardId,
+    isLoadPage: true,
   };
 
-  // componentDidMount() {
-  //   this.setState({
-  //     dashboardId: this.props.match.params.dashboardId,
-  //   });
-  // }
-  // selectDashBoard = id => {
-  //   this.setState({
-  //     dashboardId: id,
-  //   });
-  // };
+  changeDashBoard = id => {
+    this.setState({
+      isLoadPage: false,
+    });
+    this.setState({
+      dashboardId: id,
+      isLoadPage: true,
+    });
+  };
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.match.params.dashboardId !== nextProps.match.params.dashboardId
+    ) {
+      this.setState({
+        dashboardId: nextProps.match.params.dashboardId,
+      });
+    }
+  }
   render() {
-    // console.log(this.props.match.params.dashboardId);
+    console.log(this.props.match.params.dashboardId);
     return (
-      <Fragment>
-        <Container fluid>
-          <Row>
-            <Col
-              style={{ marginTop: '56px' }}
-              sm="5"
-              md="4"
-              lg="3"
-              xl="2"
-              className="overflow-y bg-light sidebar"
-            >
-              <Sidebar dashboardId={this.state.dashboardId} />
-            </Col>
-            <Col sm="7" md="8" lg="9" xl="10" className="ml-auto">
-              <DashboardGraphSection dashboardId={this.state.dashboardId} />
-            </Col>
-          </Row>
-        </Container>
-      </Fragment>
+      this.state.isLoadPage && (
+        <Fragment>
+          <Container fluid>
+            <Row>
+              <Col
+                style={{ marginTop: '56px' }}
+                sm="5"
+                md="4"
+                lg="3"
+                xl="2"
+                className="overflow-y bg-light sidebar"
+              >
+                <Sidebar
+                  dashboardId={this.state.dashboardId}
+                  changeDashBoard={this.changeDashBoard}
+                />
+              </Col>
+              <Col sm="7" md="8" lg="9" xl="10" className="ml-auto">
+                <DashboardGraphSection
+                  dashboardId={this.props.match.params.dashboardId}
+                />
+              </Col>
+            </Row>
+          </Container>
+        </Fragment>
+      )
     );
   }
 }

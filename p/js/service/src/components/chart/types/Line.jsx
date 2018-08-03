@@ -10,7 +10,7 @@ import {
 } from '../variables/LineOptionSet';
 
 class Line extends Component {
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.props.cycleTime) {
       return true;
     }

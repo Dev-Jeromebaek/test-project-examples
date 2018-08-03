@@ -1,5 +1,10 @@
 export const ChartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
-  const { graphDataList, graphSubType, baseType, dataType } = graphDataInfo;
+  const {
+    graphDataList,
+    graphSubType,
+    baseType,
+    dataType,
+  } = graphDataInfo.data;
   // console.log('funccc', graphDataList, graphSubType, baseType, dataType);
   const names =
     graphSubType === 'PIE_GRAPH'

@@ -6,7 +6,7 @@ import DashboardItem from './DashboardItem';
 
 class Sidebar extends Component {
   state = {
-    activeDashboard: 1,
+    activeDashboard: 1010,
     activeDashboardName: '',
     isDropdownOpened: false,
     dashboardList: [],
@@ -17,6 +17,7 @@ class Sidebar extends Component {
       activeDashboard: id,
       activeDashboardName: name,
     });
+    this.props.changeDashBoard(id);
   };
 
   async componentDidMount() {
@@ -63,6 +64,7 @@ class Sidebar extends Component {
               <DashboardItem
                 key={dashboard.dashboardId}
                 name={dashboard.dashboardName}
+                dashboardId={dashboard.dashboardId}
                 dashboardClick={this.dashboardClick(
                   dashboard.dashboardId,
                   dashboard.dashboardName,
@@ -80,6 +82,7 @@ class Sidebar extends Component {
           return (
             <DashboardItem
               key={dashboard.dashboardId}
+              dashboardId={dashboard.dashboardId}
               name={dashboard.dashboardName}
               dashboardClick={this.dashboardClick(
                 dashboard.dashboardId,
