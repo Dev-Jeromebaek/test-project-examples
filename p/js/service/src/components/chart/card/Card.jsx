@@ -8,7 +8,6 @@ export class Card extends Component {
     onRefresh();
   };
   render() {
-    // console.log(this.props);
     const { setCycle } = this.props;
     return (
       <div className={'card' + (this.props.plain ? ' card-plain' : '')}>

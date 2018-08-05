@@ -1,18 +1,5 @@
 const maxH = 1;
-let gridSet = {
-  tempArea: [],
-  nextFillGrid: {
-    x: 0,
-    y: 0,
-  },
-  returnGrid: {
-    w: 0,
-    h: 1,
-    x: 0,
-    y: 0,
-    maxH,
-  },
-};
+let gridSet = { initGrid };
 
 const newLine = widthSize => {
   gridSet.returnGrid.x = 0;
@@ -80,7 +67,7 @@ const initGrid = () => {
       h: 1,
       x: 0,
       y: 0,
-      maxH,
+      // maxH,
     },
   };
 };

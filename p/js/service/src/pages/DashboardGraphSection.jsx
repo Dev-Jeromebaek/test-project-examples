@@ -38,18 +38,12 @@ class DashboardGraphSection extends React.PureComponent {
 
   createChartList = id => {
     initGrid();
-    console.log(this.props.dashboardId);
     console.log(id);
-    // this.setState({ isLoadData: false });
-    // const dashboardOne = await this.props.value.actions.getDashboardOne(id);
-    // this.setState({
-    //   dashboardOne: dashboardOne.data,
-    //   isLoadData: true,
-    // });
     // 1개의 dashboard에 포함된 graphCollectionList 정보(배열)
     if (this.state.dashboardOne.length !== 0 && this.state.isLoadData) {
       // console.log(dashboardOne);
       const { graphCollectionList } = this.state.dashboardOne.data;
+      const { cycleTime, initialCycle, cycleTimmer, setCycleTime } = this.props;
       const chartList = graphCollectionList.map(ct_info => {
         return (
           <div
@@ -58,9 +52,13 @@ class DashboardGraphSection extends React.PureComponent {
             data-grid={setGridLayout(ct_info)}
           >
             <DrawChart
-              dashboardId={this.props.dashboardId}
+              dashboardId={id}
               graphId={ct_info.graphId}
               key={ct_info.collectionId}
+              initialCycle={initialCycle}
+              cycleTime={cycleTime}
+              cycleTimmer={cycleTimmer}
+              setCycleTime={setCycleTime}
               // refreshBtnRef={this.refreshBtnRef}
             />
           </div>
@@ -73,15 +71,17 @@ class DashboardGraphSection extends React.PureComponent {
   resetLayout = () => {
     initGrid();
     this.setState({ layouts: {} });
+    this.props.initialCycle();
   };
 
   onLayoutChange = (layout, layouts) => {
+    const { value, initialCycle } = this.props;
     console.log('layout 변경됨');
     initGrid();
-    this.props.value.actions.saveToLocalStorage('userLayout', layouts);
+    value.actions.saveToLocalStorage('userLayout', layouts);
     this.setState({ layouts: layouts });
+    initialCycle();
     // console.log(this.refreshBtnRef);
-    // console.log(this.refreshBtnRefArr);
     // this.refreshBtnRef.current.click();
   };
 

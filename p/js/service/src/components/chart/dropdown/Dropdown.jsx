@@ -23,7 +23,6 @@ class Dropdown extends Component {
     let cycleTitle = e.target.value;
     if (cycleTime === '1' || cycleTime === '갱신주기') {
       cycleTime = '60';
-      cycleTitle = '1 hours';
     }
     const { setCycle } = this.props;
     setCycle(parseInt(cycleTime, 10), cycleTitle);
@@ -67,7 +66,7 @@ class Dropdown extends Component {
             <DropdownItem divider />
             <DropdownItem
               onClick={this.handleSetCycle}
-              value="갱신주기 설정"
+              value="갱신주기"
               onMouseDown={e => {
                 e.stopPropagation();
               }}

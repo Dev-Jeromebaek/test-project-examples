@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Card } from '../card/Card';
-import { chartDataSet } from '../variables/ChartDataSet';
+import { ChartDataSet } from '../variables/ChartDataSet';
 import Line from '../types/Line';
 import Bar from '../types/Bar';
 import Pie from '../types/Pie';
@@ -14,7 +14,6 @@ class DrawChart extends Component {
     graphInfo: {},
     errer: '',
     setCycle: 3600,
-    cycleTime: 1,
     minutes: 0,
     data: {
       labels: [],
@@ -28,15 +27,10 @@ class DrawChart extends Component {
     isLoadData: false,
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log(prevProps);
-  //   console.log(prevState);
-  // }
-
   async componentDidMount() {
     const graphInfo = await this.props.value.actions.getGraphOne(
       this.props.dashboardId,
-      this.state.graphId,
+      this.props.graphId,
     );
     this.setState({
       graphInfo: graphInfo.data.data,
@@ -54,17 +48,17 @@ class DrawChart extends Component {
   }
 
   proceedCycleTimer = () => {
+    this.props.cycleTimmer();
     this.setState(
       {
-        cycleTime: this.state.cycleTime - 1,
         minutes: this.state.minutes + 1,
       },
       () => {
-        if (this.state.cycleTime < 1) {
+        if (this.props.cycleTime < 1) {
           this.updateGraphData();
           return true;
         }
-        if (this.state.setCycle < this.state.minutes) {
+        if (this.props.setCycle < this.state.minutes) {
           this.updateGraphData();
           return true;
         }
@@ -74,26 +68,26 @@ class DrawChart extends Component {
 
   onCycleChange = (cycleTime, newCycleTitle) => {
     this.props.value.actions.saveToLocalStorage(
-      `setCycleTime-${this.state.graphId}`,
+      `setCycleTime-${this.props.graphId}`,
       cycleTime,
     );
     this.props.value.actions.saveToLocalStorage(
-      `setCycleTitle-${this.state.graphId}`,
+      `setCycleTitle-${this.props.graphId}`,
       newCycleTitle,
     );
     this.setState({
       setCycle: cycleTime,
       cycleTitle: newCycleTitle,
-      cycleTime: 1,
     });
+    this.props.initialCycle();
   };
 
   onRefreshClick = () => {
     this.setState({
-      cycleTime: 1,
       minutes: 0,
     });
     this.updateGraphData();
+    this.props.initialCycle();
   };
 
   updateGraphData = async () => {
@@ -102,7 +96,7 @@ class DrawChart extends Component {
     });
     const graphInfo = await this.props.value.actions.getGraphOne(
       this.props.dashboardId,
-      this.state.graphId,
+      this.props.graphId,
     );
     this.setState({
       graphInfo: graphInfo.data.data,
@@ -112,15 +106,17 @@ class DrawChart extends Component {
     if (this.state.isLoadData) {
       const { graphInfo } = this.state;
       this.setState(
-        chartDataSet(
+        ChartDataSet(
           graphInfo,
           this.props.value.actions.getFromLocalStorage(
-            `setCycleTime-${this.state.graphId}`,
-          ) || 3600,
-          this.props.value.actions.getFromLocalStorage(
-            `setCycleTitle-${this.state.graphId}`,
+            `setCycleTitle-${this.props.graphId}`,
           ) || '갱신 주기',
         ),
+      );
+      this.props.setCycleTime(
+        this.props.value.actions.getFromLocalStorage(
+          `setCycleTime-${this.props.graphId}`,
+        ) || 3600,
       );
     }
   };
@@ -143,21 +139,19 @@ class DrawChart extends Component {
     const { graphSubType } = this.state.graphInfo.graphType;
     if (graphSubType.code === 'LINEAR_GRAPH')
       return (
-        <Line data={this.state.data} cycleTime={this.state.cycleTime === 1} />
+        <Line data={this.state.data} cycleTime={this.props.cycleTime === 1} />
       );
     if (graphSubType.code === 'BAR_GRAPH')
       return (
-        <Bar data={this.state.data} cycleTime={this.state.cycleTime === 1} />
+        <Bar data={this.state.data} cycleTime={this.props.cycleTime === 1} />
       );
     if (graphSubType.code === 'PIE_GRAPH')
       return (
-        <Pie data={this.state.data} cycleTime={this.state.cycleTime === 1} />
+        <Pie data={this.state.data} cycleTime={this.props.cycleTime === 1} />
       );
   };
 
   render() {
-    console.log(this.state.graphId);
-    console.log(this.state.graphInfo);
     const { graphName, graphDescription } = this.state.graphInfo;
     const { isLoadData } = this.state;
     return isLoadData ? (
@@ -171,8 +165,8 @@ class DrawChart extends Component {
         setCycle={this.onCycleChange}
         cycleTitle={this.state.cycleTitle}
         onRefresh={this.onRefreshClick}
+        graphId={this.props.graphId}
         // refreshBtnRef={this.props.refreshBtnRef}
-        graphId={this.state.graphId}
       />
     ) : (
       // <div />

@@ -1,4 +1,4 @@
-const chartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
+const chartDataSet = (graphDataInfo, cycleTitle) => {
   const { graphDataList, graphType, baseType, dataType } = graphDataInfo;
   const names =
     graphType.graphSubType.code === 'PIE_GRAPH'
@@ -12,8 +12,14 @@ const chartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
   let pieLabelArr = [].concat(graphDataList);
   let labelArr = [].concat(graphDataList);
   let newArr = [];
-  for (let i = 0; i < 5; i++) {
-    newArr.push(labelArr.pop());
+  if (labelArr < 5) {
+    for (let i = 0; i < labelArr.length; i++) {
+      newArr.push(labelArr.pop());
+    }
+  } else {
+    for (let i = 0; i < 5; i++) {
+      newArr.push(labelArr.pop());
+    }
   }
 
   const labels =
@@ -38,7 +44,6 @@ const chartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
         })
       : tempArr;
   return {
-    cycleTime: setCycle,
     minutes: 0,
     data: {
       labels: labels,
