@@ -9,12 +9,6 @@ class Dashboard extends Component {
     cycleTime: 1,
   };
 
-  changeDashBoard = id => {
-    this.setState({
-      dashboardId: id,
-      cycleTime: 1,
-    });
-  };
   componentWillReceiveProps(nextProps) {
     if (
       this.props.match.params.dashboardId !== nextProps.match.params.dashboardId
@@ -25,6 +19,14 @@ class Dashboard extends Component {
       });
     }
   }
+
+  changeDashBoard = id => {
+    this.setState({
+      dashboardId: id,
+      cycleTime: 1,
+    });
+  };
+
   initialCycle = () => {
     this.setState({
       cycleTime: 1,
