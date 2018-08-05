@@ -44,6 +44,12 @@ class Dashboard extends Component {
       cycleTime: time,
     });
   };
+  shouldComponentUpdate() {
+    if (this.state.cycleTime === 1) {
+      return true;
+    }
+    return false;
+  }
 
   render() {
     console.log('Dashboard.jsx');
