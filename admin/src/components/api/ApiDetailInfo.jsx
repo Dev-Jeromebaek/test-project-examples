@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
-import { WettyConsumer } from '../../Store';
+import React, { Component, Fragment } from 'react';
+import { apiContext } from '../../store/ApiStore';
 import ApiDetail from './ApiDetail';
 
 class ApiDetailInfo extends Component {
   render() {
-    // console.log(this.props.api[0]);
     return (
-      <WettyConsumer>
-        {value => {
-          return (
-            <ApiDetail isMyApiDetail={true} apiDetail={value.state.apiDetail} />
-          );
-        }}
-      </WettyConsumer>
+      <Fragment>
+        <ApiDetail
+          isResponsive={this.props.isResponsive}
+          isMyApiDetail={true}
+          apiDetail={this.props.apiDetail}
+        />
+      </Fragment>
     );
   }
 }
 
-export default ApiDetailInfo;
+export default apiContext(ApiDetailInfo);

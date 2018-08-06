@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
 import ApiDetailInfo from './ApiDetailInfo';
-import { WettyConsumer } from '../../Store';
+import { apiContext } from '../../store/ApiStore';
+import GlobalSpinner from '../global/GlobalSpinner';
 
 class ApiDetailFrame extends Component {
+  async componentDidMount() {
+    await this.props.value.actions.getApiDetail(this.props.match.params.id);
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      await this.props.value.actions.getApiDetail(nextProps.match.params.id);
+    }
+  }
+
   render() {
-    return (
-      <WettyConsumer>
-        {value => {
-          const {
-            params: { id },
-          } = this.props.match;
-          const {
-            actions,
-            state: { adminApiList },
-          } = value;
-          return (
-            adminApiList && (
-              <ApiDetailInfo
-                api={adminApiList.filter(api => api.apiId === parseInt(id, 10))}
-                onRemove={actions.handleRemoveApi}
-                onUpdate={actions.handleUpdateApi}
-              />
-            )
-          );
-        }}
-      </WettyConsumer>
+    const { actions } = this.props.value;
+
+    return this.props.value.state.isApiDetailLoading ? (
+      <GlobalSpinner />
+    ) : (
+      <ApiDetailInfo
+        apiDetail={this.props.value.state.apiDetail}
+        onRemove={actions.deleteApi}
+        onUpdate={actions.updateApi}
+        isResponsive={this.props.isResponsive}
+      />
     );
   }
 }
 
-export default ApiDetailFrame;
+export default apiContext(ApiDetailFrame);

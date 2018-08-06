@@ -2,20 +2,26 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import GlobalModalInput from '../global/GlobalModalInput';
 import GlobalSelectBar from '../global/GlobalSelectBar';
-import { WettyConsumer } from '../../Store';
+import { apiContext } from '../../store/ApiStore';
 import createIcon from '../../public/icons/create.svg';
 
-export default class ApiAddModal extends React.Component {
+class ApiAddModal extends React.Component {
   state = {
     modal: false,
     inputValue: {},
     selectedApi: 'Api를 선택하세요.',
+    selectApiId: '',
   };
+
+  async componentDidMount() {
+    await this.props.value.actions.getUnusedApiList();
+  }
 
   toggle = () => {
     this.setState({
       inputValue: {},
       selectedApi: 'Api를 선택하세요.',
+      selectApiId: '',
       modal: !this.state.modal,
     });
   };
@@ -24,7 +30,7 @@ export default class ApiAddModal extends React.Component {
     const { name, type, checked, value } = target;
     const inputData = type === 'checkbox' ? checked : value;
 
-    if (inputData.length > 40) {
+    if (inputData.length >= 20) {
       alert('너무 길어.');
     } else {
       this.setState({
@@ -34,72 +40,84 @@ export default class ApiAddModal extends React.Component {
   };
 
   handleSelectChange = ({ target }) => {
-    const { innerText } = target;
+    const { innerText, id } = target;
     this.setState({
-      inputValue: { ...this.state.inputValue, selectApi: innerText },
+      inputValue: { ...this.state.inputValue, apiId: id },
       selectedApi: innerText,
     });
   };
 
+  checkInputValue = () => {
+    const { apiName, additionalDescription, apiId } = this.state.inputValue;
+
+    if (
+      apiName === undefined ||
+      additionalDescription === undefined ||
+      apiId === undefined
+    ) {
+      alert('모든 정보를 입력하세요.');
+    } else {
+      this.props.value.actions.saveAvailableApi(this.state.inputValue);
+      this.toggle();
+    }
+  };
+
   render() {
     const { modal, selectedApi, inputValue } = this.state;
+
     return (
-      <WettyConsumer>
-        {value => {
-          return (
-            <div>
-              <img
-                src={createIcon}
-                wdith="40"
-                height="40"
-                alt=".."
-                className="shadow rounded-circle cursor-pointer"
-                onClick={this.toggle}
-                // onCreate={actions.handleCreateApi}
-              />
-              <Modal
-                isOpen={modal}
-                toggle={this.toggle}
-                className={this.props.className}
-              >
-                <ModalHeader toggle={this.toggle}>API 추가</ModalHeader>
-                <ModalBody>
-                  <GlobalSelectBar
-                    title="Available API Lists"
-                    listTitle="API Lists"
-                    dataList={value.state.adminApiList}
-                    handleSelectChange={this.handleSelectChange}
-                    selectedData={selectedApi}
-                  />
-                  <GlobalModalInput
-                    inputTitle="API Name"
-                    inputPlaceholder="사용할 API 이름을 입력하세요."
-                    name="apiName"
-                    handleInputChange={this.handleInputChange}
-                  />
-                  <GlobalModalInput
-                    inputTitle="API Description"
-                    inputPlaceholder="API의 간단한 설명을 작성해주세요."
-                    name="apiDesc"
-                    handleInputChange={this.handleInputChange}
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="primary"
-                    onClick={() => value.actions.saveAvailableApi(inputValue)}
-                  >
-                    추가하기
-                  </Button>
-                  <Button color="secondary" onClick={this.toggle}>
-                    취소
-                  </Button>
-                </ModalFooter>
-              </Modal>
-            </div>
-          );
-        }}
-      </WettyConsumer>
+      <div>
+        <div className="d-flex justify-content-center align-items-center">
+          <img
+            src={createIcon}
+            wdith="40"
+            height="40"
+            alt=".."
+            className="shadow rounded-circle cursor-pointer"
+            onClick={this.toggle}
+            // onCreate={actions.handleCreateApi}
+          />
+        </div>
+        <Modal
+          keyboard={false}
+          isOpen={modal}
+          toggle={this.toggle}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={this.toggle}>API 추가</ModalHeader>
+          <ModalBody>
+            <GlobalSelectBar
+              title="Available API Lists"
+              listTitle="API Lists"
+              dataList={this.props.value.state.unusedApiList}
+              handleSelectChange={this.handleSelectChange}
+              selectedData={selectedApi}
+            />
+            <GlobalModalInput
+              inputTitle="API Name"
+              inputPlaceholder="사용할 API 이름을 입력하세요."
+              name="apiName"
+              handleInputChange={this.handleInputChange}
+            />
+            <GlobalModalInput
+              inputTitle="API Description"
+              inputPlaceholder="API의 간단한 설명을 작성해주세요."
+              name="additionalDescription"
+              handleInputChange={this.handleInputChange}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.checkInputValue}>
+              추가하기
+            </Button>
+            <Button color="secondary" onClick={this.toggle}>
+              취소
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </div>
     );
   }
 }
+
+export default apiContext(ApiAddModal);

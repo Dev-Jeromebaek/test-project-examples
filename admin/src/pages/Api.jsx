@@ -1,54 +1,166 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Nav, NavItem, NavLink } from 'reactstrap';
 import ApiMyUseFrame from '../components/api/ApiMyUseFrame';
-import { WettyConsumer } from '../Store';
+import { apiContext } from '../store/ApiStore';
 import ApiRightContainer from '../components/api/ApiRightContainer';
 import ApiAddModal from '../components/api/ApiAddModal';
+import ApiDetailFrame from '../components/api/ApiDetailFrame';
+import ApiTotalFrame from '../components/api/ApiTotalFrame';
+import { Route } from 'react-router-dom';
 
 class Api extends Component {
+  state = {
+    isSidebarHidden: false,
+    isMyApi: true,
+    isApiList: false,
+  };
+
+  async componentDidMount() {
+    await window.addEventListener('resize', this.resize.bind(this));
+    this.resize();
+  }
+
+  resize() {
+    this.setState({ isSidebarHidden: window.innerWidth < 768 });
+  }
+
+  changeMyApiTab = () => {
+    this.setState({
+      isMyApi: true,
+      isApiList: false,
+    });
+  };
+
+  changeApiListTab = () => {
+    this.setState({
+      isMyApi: false,
+      isApiList: true,
+    });
+  };
+
+  makeRightViewWhenResponsive = () => {
+    let rightView = null;
+
+    if (this.state.isSidebarHidden && this.state.isMyApi) {
+      rightView = (
+        <Route
+          path="/api/:id"
+          render={props => (
+            <ApiDetailFrame
+              {...props}
+              isResponsive={true}
+              useApiId={this.state.myApiId}
+            />
+          )}
+        />
+      );
+    } else if (this.state.isSidebarHidden && this.state.isApiList) {
+      rightView = <div />;
+    } else {
+      rightView = <ApiRightContainer useApiId={this.state.myApiId} />;
+    }
+
+    return rightView;
+  };
+
+  makeLeftViewWhenResponsive = (myApiList, { createApi, deleteApi }) => {
+    let leftView = null;
+
+    if (this.state.isSidebarHidden && this.state.isMyApi) {
+      leftView = (
+        <Fragment>
+          <div className="mb-3 d-flex align-items-center">
+            <div className="mr-2 w-100">
+              {
+                <ApiMyUseFrame
+                  history={this.props.history}
+                  myApiList={myApiList}
+                  onCreate={createApi}
+                  onRemove={deleteApi}
+                  isResponsive={true}
+                  onChangeId={this.onMyApiClickFunction}
+                />
+              }
+            </div>
+            <ApiAddModal />
+          </div>
+        </Fragment>
+      );
+    } else if (this.state.isSidebarHidden && this.state.isApiList) {
+      leftView = (
+        <Fragment>
+          <ApiTotalFrame />
+        </Fragment>
+      );
+    } else {
+      leftView = (
+        <Fragment>
+          {
+            <ApiMyUseFrame
+              history={this.props.history}
+              myApiList={myApiList}
+              onCreate={createApi}
+              onRemove={deleteApi}
+              onChangeId={this.onMyApiClickFunction}
+            />
+          }
+        </Fragment>
+      );
+    }
+    return leftView;
+  };
+
   render() {
     return (
-      <WettyConsumer>
-        {value => {
-          const {
-            actions,
-            state: { adminApiList },
-          } = value;
-          return (
-            <Container className="container-size">
-              <Row className="h-100 w-100">
-                <Col
-                  xs="12"
-                  sm="4"
-                  md="4"
-                  lg="3"
-                  className="border bg-secondary h-100 bg-light rounded"
-                >
-                  <div className="h-10 d-flex justify-content-center align-items-center border-bottom">
-                    <h4>현재 사용중 API</h4>
-                  </div>
-                  <div className="h-80 pt-3 pb-3 over-scroll">
-                    <ApiMyUseFrame
-                      apiList={adminApiList}
-                      onCreate={actions.handleCreateApi}
-                      onRemove={actions.handleRemoveApi}
-                    />
-                  </div>
-                  <div className="h-10 d-flex justify-content-center align-items-center border-top">
-                    <ApiAddModal />
-                  </div>
-                </Col>
-                <Col xs="12" sm="8" md="8" lg="9" className="over-scroll">
-                  <ApiRightContainer />
-                </Col>
-              </Row>
-            </Container>
-          );
-        }}
-      </WettyConsumer>
+      <Container>
+        {this.state.isSidebarHidden && (
+          <Nav className="mb-3 d-flex justify-content-end" tabs>
+            <NavItem>
+              <NavLink
+                onClick={this.changeMyApiTab}
+                className={
+                  this.state.isMyApi
+                    ? 'cursor-pointer active'
+                    : 'cursor-pointer'
+                }
+              >
+                My API
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                onClick={this.changeApiListTab}
+                className={
+                  this.state.isApiList
+                    ? 'cursor-pointer active'
+                    : 'cursor-pointer'
+                }
+              >
+                API List
+              </NavLink>
+            </NavItem>
+          </Nav>
+        )}
+        <Row>
+          <Col md="4" lg="3">
+            {this.makeLeftViewWhenResponsive(
+              this.state.myApiList,
+              this.props.value.actions,
+            )}
+            {!this.state.isSidebarHidden && (
+              <div className="p-4 d-flex align-items-center justify-content-center">
+                <ApiAddModal />
+              </div>
+            )}
+          </Col>
+          <Col md="8" lg="9">
+            {this.makeRightViewWhenResponsive()}
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
 
-export default Api;
+export default apiContext(Api);

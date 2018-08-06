@@ -2,12 +2,29 @@ import React from 'react';
 import DashboardModalAddedGraph from './DashboardModalAddedGraph';
 import DashboardModalAddGraphInput from './DashboardModalAddGraphInput';
 
-const DashboardModalGraphLists = () => {
+const DashboardModalGraphLists = ({
+  dataList,
+  handleInputChange,
+  clearPlaceholder,
+  value,
+}) => {
   return (
     <div className="bg-light w-100 py-2">
       <div className="px-3">Graph Lists</div>
-      <DashboardModalAddedGraph graphName="추가된 그래프 1" />
-      <DashboardModalAddGraphInput />
+      {dataList.map((data, i) => {
+        return (
+          <DashboardModalAddedGraph
+            graphName={data.graphName}
+            index={i}
+            key={i}
+          />
+        );
+      })}
+      <DashboardModalAddGraphInput
+        handleInputChange={handleInputChange}
+        clearPlaceholder={clearPlaceholder}
+        value={value}
+      />
     </div>
   );
 };

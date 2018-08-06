@@ -3,10 +3,9 @@ import pieChart from '../../public/icons/pie.svg';
 import barChart from '../../public/icons/line.svg';
 import lineChart from '../../public/icons/bar.svg';
 
-export default function DashboardGraphPreview({ dashboardGraphPreview }) {
+const DashboardGraphPreview = ({ dashboardGraphPreview }) => {
   let temp = null;
-
-  switch (dashboardGraphPreview) {
+  switch (dashboardGraphPreview.code) {
     case 'BAR_GRAPH': {
       temp = barChart;
       break;
@@ -29,4 +28,6 @@ export default function DashboardGraphPreview({ dashboardGraphPreview }) {
       <img src={temp} height="25" alt="graph" />
     </div>
   );
-}
+};
+
+export default DashboardGraphPreview;

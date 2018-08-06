@@ -1,26 +1,32 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { WettyProvider } from './Store';
+import React, { Component, Fragment } from 'react';
+import { Route } from 'react-router-dom';
+import { DashboardProvider } from './store/DashboardStore';
+import { ApiProvider } from './store/ApiStore';
+import { ModalProvider } from './store/ModalStore';
 import GlobalNavbar from './components/global/GlobalNavbar';
 import { Container } from 'reactstrap';
 
-import { Dashboard, Test, Api, Error } from './pages';
+import { Dashboard, Api, Error } from './pages';
 
 class App extends Component {
   render() {
     return (
-      <WettyProvider>
+      <Fragment>
         <GlobalNavbar />
         <Container className="mt-4 mb-4">
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/test" component={Test} />
-            <Route path="/api" component={Api} />
-            <Route component={Error} />
-          </Switch>
+          <DashboardProvider>
+            <ModalProvider>
+              <Route exact path="/" component={Dashboard} />
+              <Route path="/dashboard" component={Dashboard} />
+            </ModalProvider>
+          </DashboardProvider>
+          <ApiProvider>
+            <ModalProvider>
+              <Route path="/api" component={Api} />
+            </ModalProvider>
+          </ApiProvider>
         </Container>
-      </WettyProvider>
+      </Fragment>
     );
   }
 }

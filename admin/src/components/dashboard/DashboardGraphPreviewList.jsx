@@ -1,19 +1,23 @@
 import React from 'react';
 import DashboardGraphPreview from './DashboardGraphPreview';
 
-export default function DashboardGraphPreviewList({
-  dashboardGraphPreviewList,
-}) {
-  return (
-    <div className="graph-preview-list d-flex flex-wrap">
-      {dashboardGraphPreviewList.map(dashboardGraphPreview => {
-        return (
-          <DashboardGraphPreview
-            dashboardGraphPreview={dashboardGraphPreview.graphDetailType}
-            key={dashboardGraphPreview.graphId}
-          />
-        );
-      })}
-    </div>
-  );
-}
+const DashboardGraphPreviewList = ({ dashboardGraphPreviewList }) => {
+  if (dashboardGraphPreviewList === undefined) {
+    return <div className="graph-preview-list d-flex flex-wrap" />;
+  } else {
+    return (
+      <div className="graph-preview-list d-flex flex-wrap">
+        {dashboardGraphPreviewList.map(dashboardGraphPreview => {
+          return (
+            <DashboardGraphPreview
+              dashboardGraphPreview={dashboardGraphPreview.graphSubType}
+              key={dashboardGraphPreview.graphId}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+};
+
+export default DashboardGraphPreviewList;

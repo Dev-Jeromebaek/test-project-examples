@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Button,
   Alert,
-  InputGroup,
-  InputGroupText,
+  FormGroup,
   Input,
   ButtonGroup,
   Card,
   CardBody,
-  InputGroupAddon,
 } from 'reactstrap';
-import { WettyConsumer } from '../../Store';
+import { apiContext } from '../../store/ApiStore';
 import { NavLink } from 'react-router-dom';
+import GlobalConfirmModal from '../global/GlobalConfirmModal';
 
-export default class ApiDetail extends Component {
+class ApiDetail extends Component {
   state = {
     isUpdate: false,
     updatedApi: {},
@@ -85,61 +84,67 @@ export default class ApiDetail extends Component {
     }
 
     return (
-      <Card>
+      <Card className="shadow">
         <CardBody>
-          <div className="d-flex align-items-center">
-            <h3 className="mb-0">API Information</h3>
+          <div>
             {this.props.isMyApiDetail && (
-              <div className="d-flex ml-auto">
-                {this.state.isUpdate ? (
-                  <WettyConsumer>
-                    {value => {
-                      return (
-                        <div>
-                          <NavLink
-                            to="/api"
-                            className="btn btn-secondary btn-sm mr-2"
-                          >
-                            목록
-                          </NavLink>
-                          <ButtonGroup size="sm">
-                            <Button color="danger" onClick={this.updateApi}>
-                              취소
-                            </Button>
-                            <Button
-                              color="primary"
-                              onClick={() => {
-                                value.actions.updateApi(this.state.updatedApi);
-                                this.updateApi();
-                              }}
-                            >
-                              확인
-                            </Button>
-                          </ButtonGroup>
-                        </div>
-                      );
-                    }}
-                  </WettyConsumer>
-                ) : (
-                  <div className="d-flex ml-auto">
-                    <NavLink
-                      to="/api"
-                      className="btn btn-secondary btn-sm mr-2"
-                    >
-                      목록
-                    </NavLink>
-                    <ButtonGroup size="sm">
-                      <Button color="primary" onClick={this.updateApi}>
-                        수정
-                      </Button>
-                      <Button color="danger">삭제</Button>
-                    </ButtonGroup>
-                  </div>
-                )}
-              </div>
+              <Fragment>
+                <div className="d-flex justify-content-end">
+                  {this.state.isUpdate ? (
+                    <div>
+                      {!this.props.isResponsive && (
+                        <NavLink
+                          to="/api"
+                          className="btn btn-secondary btn-sm mr-2"
+                        >
+                          목록
+                        </NavLink>
+                      )}
+                      <ButtonGroup size="sm">
+                        <Button color="danger" onClick={this.updateApi}>
+                          취소
+                        </Button>
+                        <Button
+                          color="primary"
+                          onClick={() => {
+                            this.props.value.actions.updateAdditionalDescription(
+                              this.state.updatedApi,
+                            );
+                            this.updateApi();
+                          }}
+                        >
+                          확인
+                        </Button>
+                      </ButtonGroup>
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-end">
+                      {!this.props.isResponsive && (
+                        <NavLink
+                          to="/api"
+                          className="btn btn-secondary btn-sm mr-2"
+                        >
+                          목록
+                        </NavLink>
+                      )}
+                      <ButtonGroup size="sm">
+                        <Button color="primary" onClick={this.updateApi}>
+                          수정
+                        </Button>
+                        <GlobalConfirmModal
+                          isNavLink={true}
+                          deleteMyApi={() => {
+                            this.props.value.actions.deleteMyApi(apiDetail);
+                          }}
+                        />
+                      </ButtonGroup>
+                    </div>
+                  )}
+                </div>
+                <hr />
+              </Fragment>
             )}
           </div>
-          <hr />
           {Object.keys(apiDetail).map(key => {
             if (key === 'isUsedApi') {
               return false;
@@ -152,19 +157,14 @@ export default class ApiDetail extends Component {
                     추가 설명만 변경할 수 있습니다.
                   </Alert>
                 )}
-                <InputGroup className="mb-3">
-                  <InputGroupAddon
-                    style={{ width: '150px' }}
-                    addonType="prepend"
-                  >
-                    <InputGroupText className="w-100 bg-white font-weight-bold">
-                      {this.checkKeyName(key)}
-                    </InputGroupText>
-                  </InputGroupAddon>
+                <FormGroup className="mb-3">
+                  <label className="font-weight-bold">
+                    {this.checkKeyName(key)}
+                  </label>
                   {key === 'additionalDescription' ? (
                     <textarea
                       className="form-control bg-white"
-                      rows="6"
+                      rows="3"
                       defaultValue={apiDetail[key]}
                       disabled={this.state.isUpdate ? false : true}
                       onChange={this.handleChange}
@@ -177,7 +177,7 @@ export default class ApiDetail extends Component {
                       disabled
                     />
                   )}
-                </InputGroup>
+                </FormGroup>
               </div>
             );
           })}
@@ -186,3 +186,5 @@ export default class ApiDetail extends Component {
     );
   }
 }
+
+export default apiContext(ApiDetail);

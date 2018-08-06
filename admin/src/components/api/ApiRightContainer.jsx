@@ -1,15 +1,15 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { Route } from 'react-router-dom';
 
 import ApiDetailFrame from './ApiDetailFrame';
 import ApiTotalFrame from './ApiTotalFrame';
 
 const ApiRightContainer = () => {
   return (
-    <Switch>
+    <Fragment>
       <Route exact path="/api" component={ApiTotalFrame} />
       <Route path="/api/:id" component={ApiDetailFrame} />
-    </Switch>
+    </Fragment>
   );
 };
 
