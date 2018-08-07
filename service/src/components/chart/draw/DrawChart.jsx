@@ -46,8 +46,8 @@ class DrawChart extends Component {
         },
         () => {
           this.updateGraphData();
-          // this.updateTimer = setInterval(this.proceedCycleTimer, 60000);
-          this.updateTimer = setInterval(this.proceedCycleTimer, 1000);
+          this.updateTimer = setInterval(this.proceedCycleTimer, 60000);
+          // this.updateTimer = setInterval(this.proceedCycleTimer, 1000);
         },
       );
     } catch (error) {

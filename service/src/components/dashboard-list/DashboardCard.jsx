@@ -38,10 +38,7 @@ const DashboardCard = ({ card }) => {
         className="text-decoration-hover-none text-dark"
         to={`/dashboard/${card.dashboardId}`}
       >
-        <Card
-          className="hover-bg-light card cursor-pointer h-100 shadow"
-          to={'/dashboard'}
-        >
+        <Card className="hover-bg-light card cursor-pointer h-100 shadow">
           <CardHeader className="font-weight-bold align-items-center d-flex">
             <div className="w-80 text-justify">{card.dashboardName}</div>
             {isNew && (
