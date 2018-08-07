@@ -10,14 +10,13 @@ import {
 } from '../variables/LineOptionSet';
 
 class Line extends Component {
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.props.cycleTime) {
       return true;
     }
     return false;
   }
   render() {
-    // console.log(this.props);
     const { data } = this.props;
     const lineData = {
       labels: data.labels,

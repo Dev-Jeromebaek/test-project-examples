@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import DashboardModalEditDashboard from './DashboardModalEditDashboard';
 import DashboardModalEditGraph from './DashboardModalEditGraph';
-import { modalContext } from '../../store/ModalStore';
+import { dashboardContext } from '../../store/DashboardStore';
 import updateIcon from '../../public/icons/update.svg';
 
-class DashboardModal extends React.Component {
+class DashboardEditModal extends React.Component {
   state = {
     modal: false,
     title: 'Dashboard수정',
@@ -23,12 +23,10 @@ class DashboardModal extends React.Component {
       modal: !this.state.modal,
     });
   };
-  /**
-   * Edit Modal 부분 Dashboard Store로 변경해야됨.
-   */
 
   nextStep = () => {
     if (this.state.primaryBtn === 'Graph수정') {
+      console.log('대시보드 수정함');
       this.props.value.actions.editDashboard();
       this.setState({
         isEditDashboard: false,
@@ -37,7 +35,7 @@ class DashboardModal extends React.Component {
         title: 'Graph수정',
       });
     } else {
-      this.props.value.actions.editGraph();
+      this.props.value.actions.completeAddingDashboard();
       this.toggle();
     }
   };
@@ -89,7 +87,7 @@ class DashboardModal extends React.Component {
                 dashboardData={this.props.dashboardData}
               />,
               <DashboardModalEditGraph
-                dashboardData={this.props.dashboardData.graphCollectionList}
+                dashboardId={this.props.dashboardData.dashboardId}
               />,
             )}
           </ModalBody>
@@ -114,4 +112,4 @@ class DashboardModal extends React.Component {
   }
 }
 
-export default modalContext(DashboardModal);
+export default dashboardContext(DashboardEditModal);

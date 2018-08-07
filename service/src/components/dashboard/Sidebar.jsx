@@ -1,14 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { ListGroup, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
-import { WettyConsumer } from '../../Store';
+import { withContext } from '../../Store';
 import DashboardItem from './DashboardItem';
+import GlobalSpinner from '../global/GlobalSpinner';
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   state = {
-    activeDashboard: '',
+    activeDashboard: this.props.dashboardId,
     activeDashboardName: '',
     isDropdownOpened: false,
+    dashboardList: [],
+    isError: false,
   };
 
   dashboardClick = (id, name) => () => {
@@ -16,11 +19,30 @@ export default class Sidebar extends Component {
       activeDashboard: id,
       activeDashboardName: name,
     });
+    this.props.changeDashBoard(id);
   };
 
-  componentDidMount() {
-    window.addEventListener('resize', this.resize.bind(this));
-    this.resize();
+  async componentDidMount() {
+    try {
+      window.addEventListener('resize', this.resize.bind(this));
+      this.resize();
+
+      this.setState({
+        isLoading: true,
+      });
+
+      const dashboardList = await this.props.value.actions.getDashboardList();
+
+      this.setState({
+        isError: false,
+        dashboardList: dashboardList.data.data,
+        isLoading: false,
+      });
+    } catch (error) {
+      this.setState({
+        isError: true,
+      });
+    }
   }
 
   resize() {
@@ -34,62 +56,64 @@ export default class Sidebar extends Component {
   };
 
   render() {
-    return (
-      <Fragment>
-        <WettyConsumer>
-          {value => {
-            return this.state.hideSidebar ? (
-              <Dropdown
-                className="w-100 my-3"
-                isOpen={this.state.isDropdownOpened}
+    const { hideSidebar, isError } = this.state;
+    return isError ? (
+      <div />
+    ) : hideSidebar ? (
+      <Dropdown
+        className="w-100 my-3"
+        isOpen={this.state.isDropdownOpened}
+        toggle={this.dropdownToggle}
+      >
+        <DropdownToggle className="btn-outline-secondary w-100" caret>
+          {this.state.activeDashboardName
+            ? this.state.activeDashboardName
+            : '원하시는 대시보드를 선택하세요.'}
+        </DropdownToggle>
+        <DropdownMenu className="w-100 white-space-normal">
+          {this.state.dashboardList.map(dashboard => {
+            return (
+              <DashboardItem
                 toggle={this.dropdownToggle}
-              >
-                <DropdownToggle className="btn-outline-secondary w-100" caret>
-                  {this.state.activeDashboardName
-                    ? this.state.activeDashboardName
-                    : '원하시는 대시보드를 선택하세요.'}
-                </DropdownToggle>
-                <DropdownMenu className="w-100 white-space-normal">
-                  {value.state.dashboardList.map(dashboard => {
-                    return (
-                      <DashboardItem
-                        key={dashboard.dashboardId}
-                        name={dashboard.dashboardName}
-                        dashboardClick={this.dashboardClick(
-                          dashboard.dashboardId,
-                          dashboard.dashboardName,
-                        )}
-                        isActive={
-                          dashboard.dashboardId === this.state.activeDashboard
-                        }
-                        isDropdown={true}
-                      />
-                    );
-                  })}
-                </DropdownMenu>
-              </Dropdown>
-            ) : (
-              <ListGroup className="mt-3 shadow-sm">
-                {value.state.dashboardList.map(dashboard => {
-                  return (
-                    <DashboardItem
-                      key={dashboard.dashboardId}
-                      name={dashboard.dashboardName}
-                      dashboardClick={this.dashboardClick(
-                        dashboard.dashboardId,
-                        dashboard.dashboardName,
-                      )}
-                      isActive={
-                        dashboard.dashboardId === this.state.activeDashboard
-                      }
-                    />
-                  );
-                })}
-              </ListGroup>
+                key={dashboard.dashboardId}
+                dashboard={dashboard}
+                dashboardClick={this.dashboardClick(
+                  dashboard.dashboardId,
+                  dashboard.dashboardName,
+                )}
+                isActive={dashboard.dashboardId === this.state.activeDashboard}
+                isDropdown={true}
+              />
             );
-          }}
-        </WettyConsumer>
+          })}
+        </DropdownMenu>
+      </Dropdown>
+    ) : (
+      <Fragment>
+        {this.state.isLoading ? (
+          <GlobalSpinner />
+        ) : (
+          <ListGroup className="mt-3 shadow-sm">
+            {this.state.dashboardList.map(dashboard => {
+              return (
+                <DashboardItem
+                  key={dashboard.dashboardId}
+                  dashboard={dashboard}
+                  dashboardClick={this.dashboardClick(
+                    dashboard.dashboardId,
+                    dashboard.dashboardName,
+                  )}
+                  isActive={
+                    dashboard.dashboardId === this.state.activeDashboard
+                  }
+                />
+              );
+            })}
+          </ListGroup>
+        )}
       </Fragment>
     );
   }
 }
+
+export default withContext(Sidebar);

@@ -4,12 +4,12 @@ import ChartistGraph from 'react-chartist';
 import {
   // optionSimplePie,
   optionDonutPie,
-  drawListenerPie
+  drawListenerPie,
   // createListenerPie
 } from '../variables/PieOptionSet';
 
 class Pie extends Component {
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.props.cycleTime) {
       return true;
     }
@@ -17,12 +17,11 @@ class Pie extends Component {
   }
 
   render() {
-    // console.log(this.props);
     return (
       <ChartistGraph
         data={this.props.data}
         type="Pie"
-        options={optionDonutPie}
+        options={optionDonutPie(this.props.data)}
         listener={drawListenerPie}
       />
     );

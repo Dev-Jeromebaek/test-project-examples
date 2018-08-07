@@ -17,6 +17,7 @@ const DashboardModalGraphLists = ({
             graphName={data.graphName}
             index={i}
             key={i}
+            graphId={data.graphId}
           />
         );
       })}

@@ -1,34 +1,70 @@
 import React from 'react';
-import { DropdownItem, Badge, ListGroupItem } from 'reactstrap';
+import { Badge } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
-const DashboardItem = ({ name, isActive, dashboardClick, isDropdown }) => {
+const DashboardItem = ({
+  dashboard,
+  isActive,
+  dashboardClick,
+  isDropdown,
+  toggle,
+}) => {
+  const isNewBadge = date => {
+    const dashboardDate = new Date(date).getTime();
+    const currentDate = new Date().getTime();
+
+    if (currentDate - dashboardDate < 86400000) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  let isNew = false;
+  if (dashboard.graphCollectionList !== undefined) {
+    dashboard.graphCollectionList.forEach(graph => {
+      if (isNewBadge(graph.updateDate)) {
+        return (isNew = true);
+      }
+    });
+  }
+
   if (isDropdown) {
     return (
-      <DropdownItem
-        onClick={dashboardClick}
-        className="white-space-normal d-flex align-items-center cursor-pointer"
+      <NavLink
+        to={`/dashboard/${dashboard.dashboardId}`}
+        onClick={() => {
+          dashboardClick();
+          toggle();
+        }}
+        className="white-space-normal d-flex align-items-center cursor-pointer dropdown-item"
       >
-        <div className="w-80">{name}</div>
-        <Badge className="ml-auto" color="danger">
-          N
-        </Badge>
-      </DropdownItem>
+        <div className="w-80">{dashboard.dashboardName}</div>
+        {isNew && (
+          <Badge color="danger" className="ml-auto d-flex align-items-center">
+            N
+          </Badge>
+        )}
+      </NavLink>
     );
   } else {
     return (
-      <ListGroupItem
+      <NavLink
+        to={`/dashboard/${dashboard.dashboardId}`}
         className={
           isActive
-            ? 'cursor-pointer text-white bg-dark d-flex justify-content-between align-items-center'
-            : 'hover-bg-dark cursor-pointer d-flex justify-content-between align-items-center'
+            ? 'cursor-pointer border-dark text-white bg-dark d-flex justify-content-between align-items-center list-group-item'
+            : 'cursor-pointer text-dark d-flex justify-content-between align-items-center list-group-item'
         }
         onClick={dashboardClick}
       >
-        <div className="w-80 text-justify">{name}</div>
-        <Badge color="danger" className="d-flex align-items-center">
-          N
-        </Badge>
-      </ListGroupItem>
+        <div className="w-80">{dashboard.dashboardName}</div>
+        {isNew && (
+          <Badge color="danger" className="ml-auto d-flex align-items-center">
+            N
+          </Badge>
+        )}
+      </NavLink>
     );
   }
 };

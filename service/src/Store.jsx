@@ -1,20 +1,25 @@
 import React, { Component, createContext } from 'react';
 import axios from 'axios';
+
 const Store = createContext();
 const { Provider, Consumer: WettyConsumer } = Store;
 
 class WettyProvider extends Component {
-  state = {
-    dashboardList: [],
-  };
-
-  getter = {
-    dashboardList: async () => {
-      return await axios.get('/api/dashboard');
-    },
-  };
-
   actions = {
+    getDashboardList: async () => {
+      return await axios.get('/proxy/dashboard');
+    },
+
+    getDashboardOne: async id => {
+      return await axios.get(`/proxy/dashboard/${id}`);
+    },
+
+    getGraphOne: async (dashboardNo, graphId) => {
+      return await axios.get(
+        `/proxy/dashboard/${dashboardNo}/graph/${graphId}`,
+      );
+    },
+
     getFromLocalStorage(key) {
       let localStorage = {};
       if (global.localStorage) {
@@ -39,23 +44,12 @@ class WettyProvider extends Component {
     },
   };
 
-  async componentDidMount() {
-    const dashboardList = await axios.get(
-      'http://10.5.220.112:8080/dashboard_list',
-    );
-
-    this.setState({
-      dashboardList: dashboardList.data,
-    });
-  }
-
   render() {
-    const { state, actions, getter } = this;
+    const { state, actions } = this;
 
     const value = {
       state,
       actions,
-      getter,
     };
 
     return <Provider value={value}>{this.props.children}</Provider>;

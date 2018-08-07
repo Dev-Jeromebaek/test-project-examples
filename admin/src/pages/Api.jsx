@@ -8,16 +8,18 @@ import ApiAddModal from '../components/api/ApiAddModal';
 import ApiDetailFrame from '../components/api/ApiDetailFrame';
 import ApiTotalFrame from '../components/api/ApiTotalFrame';
 import { Route } from 'react-router-dom';
+import Err from '../pages/Err';
 
 class Api extends Component {
   state = {
     isSidebarHidden: false,
     isMyApi: true,
     isApiList: false,
+    err: 0,
   };
 
-  async componentDidMount() {
-    await window.addEventListener('resize', this.resize.bind(this));
+  componentDidMount() {
+    window.addEventListener('resize', this.resize.bind(this));
     this.resize();
   }
 
@@ -51,6 +53,7 @@ class Api extends Component {
               {...props}
               isResponsive={true}
               useApiId={this.state.myApiId}
+              checkErr={this.checkErr}
             />
           )}
         />
@@ -58,7 +61,12 @@ class Api extends Component {
     } else if (this.state.isSidebarHidden && this.state.isApiList) {
       rightView = <div />;
     } else {
-      rightView = <ApiRightContainer useApiId={this.state.myApiId} />;
+      rightView = (
+        <ApiRightContainer
+          useApiId={this.state.myApiId}
+          checkErr={this.checkErr}
+        />
+      );
     }
 
     return rightView;
@@ -111,6 +119,12 @@ class Api extends Component {
     return leftView;
   };
 
+  checkErr = httpCode => {
+    this.setState({
+      err: httpCode,
+    });
+  };
+
   render() {
     return (
       <Container>
@@ -142,22 +156,26 @@ class Api extends Component {
             </NavItem>
           </Nav>
         )}
-        <Row>
-          <Col md="4" lg="3">
-            {this.makeLeftViewWhenResponsive(
-              this.state.myApiList,
-              this.props.value.actions,
-            )}
-            {!this.state.isSidebarHidden && (
-              <div className="p-4 d-flex align-items-center justify-content-center">
-                <ApiAddModal />
-              </div>
-            )}
-          </Col>
-          <Col md="8" lg="9">
-            {this.makeRightViewWhenResponsive()}
-          </Col>
-        </Row>
+        {this.state.err !== 0 ? (
+          <Err httpCode={this.state.err} />
+        ) : (
+          <Row>
+            <Col md="4" lg="3">
+              {this.makeLeftViewWhenResponsive(
+                this.state.myApiList,
+                this.props.value.actions,
+              )}
+              {!this.state.isSidebarHidden && (
+                <div className="p-4 d-flex align-items-center justify-content-center">
+                  <ApiAddModal />
+                </div>
+              )}
+            </Col>
+            <Col md="8" lg="9">
+              {this.makeRightViewWhenResponsive()}
+            </Col>
+          </Row>
+        )}
       </Container>
     );
   }

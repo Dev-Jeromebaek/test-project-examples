@@ -5,7 +5,11 @@ import GlobalSpinner from '../global/GlobalSpinner';
 
 class ApiDetailFrame extends Component {
   async componentDidMount() {
-    await this.props.value.actions.getApiDetail(this.props.match.params.id);
+    try {
+      await this.props.value.actions.getApiDetail(this.props.match.params.id);
+    } catch (err) {
+      this.props.checkErr(err.response.status);
+    }
   }
 
   async componentWillReceiveProps(nextProps) {

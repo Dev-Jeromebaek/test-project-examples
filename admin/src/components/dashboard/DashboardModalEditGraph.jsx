@@ -25,6 +25,7 @@ class DashboardModalEditGraph extends React.Component {
   };
 
   handleInputChange = async ({ target }) => {
+    console.log(this.props.value.state.graphInfo);
     const { name, type, checked, value } = target;
     const inputData = type === 'checkbox' ? checked : value;
 
@@ -42,10 +43,11 @@ class DashboardModalEditGraph extends React.Component {
   handleDateChange = async ({ target }) => {
     const { dataset, value } = target;
     const { categories } = this.state;
+    const { actions } = this.props.value;
 
     let tempCategories = categories;
 
-    await tempCategories.map(data => {
+    await tempCategories.forEach(data => {
       if (data.categoryKey === dataset.code) {
         if (dataset.code === 'SPLIT_TIME') data.categoryValue = value;
         else data.categoryValue = `${value} 00:00:00`;
@@ -56,17 +58,17 @@ class DashboardModalEditGraph extends React.Component {
       categories: tempCategories,
     });
 
-    await this.props.value.actions.setStateGraphInputInfoBaseType(
-      this.state.categories,
-    );
+    await actions.setStateGraphInfoBaseType(categories);
   };
 
   handleCheckbox = async ({ target }) => {
     const { dataset } = target;
     const { categories } = this.state;
+    const { actions } = this.props.value;
+
     let tempCategories = categories;
 
-    await tempCategories.map(data => {
+    await tempCategories.forEach(data => {
       if (data.categoryKey === dataset.code) {
         if (data.categoryValue === 'false') {
           data.categoryValue = 'true';
@@ -78,9 +80,7 @@ class DashboardModalEditGraph extends React.Component {
       categories: tempCategories,
     });
 
-    await this.props.value.actions.setStateGraphInputInfoBaseType(
-      this.state.categories,
-    );
+    await actions.setStateGraphInfoBaseType(categories);
   };
 
   handleBaseTypeSelector = async ({ target }) => {
@@ -92,28 +92,22 @@ class DashboardModalEditGraph extends React.Component {
 
     await this.changeStoreData(name, { code: dataset.code, categories: [] });
 
-    const { usingApiId } = this.props.value.state;
-    const { baseType: code } = this.props.value.state.graphInputInfo;
+    const { usingApiId, dataTypeList, categories } = this.props.value.state;
+    const { baseType: code } = this.props.value.state.graphInfo;
+    const { actions } = this.props.value;
 
-    await this.props.value.actions.getDataTypeListByBaseTypeAndApiId(
-      usingApiId,
-      code.code,
-    );
-
-    await this.props.value.actions.getCategories(code.code);
-
+    await actions.getDataTypeListByBaseTypeAndApiId(usingApiId, code.code);
+    await actions.getCategories(code.code);
     await this.setState({
-      dataTypeList: this.props.value.state.dataTypeList,
-      categories: await this.makeCategoryDataSet(
-        this.props.value.state.categories,
-      ),
+      dataTypeList: dataTypeList,
+      categories: await this.makeCategoryDataSet(categories),
     });
   };
 
   makeCategoryDataSet = receivedData => {
     let makeData = [];
 
-    receivedData.map(data => {
+    receivedData.forEach(data => {
       makeData.push({ categoryKey: data.code, categoryValue: 'false' });
     });
 
@@ -121,26 +115,24 @@ class DashboardModalEditGraph extends React.Component {
   };
 
   handleTypeSelector = async ({ target }) => {
-    // console.log(this.props.value.state.graphInputInfo);
-
     const { innerText, name, dataset } = target;
+    const { actions } = this.props.value;
+    const { graphInfo, graphTypeList } = this.props.value.state;
+    const { baseType, dataType } = graphInfo;
 
     await this.setState({
       [name]: innerText,
     });
-
     await this.changeStoreData(name, dataset.code);
 
     if (name === 'dataType') {
-      const { baseType } = this.props.value.state.graphInputInfo;
-      const { dataType } = this.props.value.state.graphInputInfo;
-      await this.props.value.actions.getGraphTypeListByBaseTypeAndDataType(
+      await actions.getGraphTypeListByBaseTypeAndDataType(
         baseType.code,
         dataType,
       );
 
       await this.setState({
-        graphTypeList: this.props.value.state.graphTypeList,
+        graphTypeList,
       });
     }
   };
@@ -151,17 +143,23 @@ class DashboardModalEditGraph extends React.Component {
       return;
     }
 
-    await this.props.value.actions.setStateGraphInputInfo(key, value);
+    await this.props.value.actions.setStateGraphInfo(key, value);
   };
 
-  async componentDidMount() {
-    const apiId = await this.props.value.state.usingApiId;
+  componentDidMount() {
+    const { dashboardId, value } = this.props;
+    const { actions, state } = value;
+    const { usingApiId, baseTypeList } = state;
+    const apiId = usingApiId;
 
-    await this.props.value.actions.getBaseTypeListByApiId(apiId);
-
-    await this.setState({
-      baseTypeList: await this.props.value.state.baseTypeList,
+    actions.getBaseTypeListByApiId(apiId);
+    this.setState({
+      baseTypeList: baseTypeList,
     });
+
+    if (dashboardId !== undefined) {
+      actions.getGraphListsByDashboardId(dashboardId);
+    }
   }
 
   renderDateInput(dataList) {
@@ -199,39 +197,51 @@ class DashboardModalEditGraph extends React.Component {
   }
 
   render() {
-    return (
+    const { value, baseType, dataType, graphType } = this.state;
+    const { dashboardId } = this.props;
+    const {
+      graphLists,
+      baseTypeList,
+      categories,
+      dataTypeList,
+      graphTypeList,
+    } = this.props.value.state;
+    return dashboardId !== undefined ? (
+      /**
+       * 수정할때
+       */
       <div>
         <DashboardModalGraphLists
-          dataList={this.props.value.state.graphLists}
+          dataList={graphLists}
           handleInputChange={this.handleInputChange}
           clearPlaceholder={this.initState}
-          value={this.state.value}
+          value={value}
         />
         <GlobalSelectBar
           title="Select Data - base type"
           listTitle="Base type"
-          dataList={this.props.value.state.baseTypeList}
+          dataList={baseTypeList}
           handleSelectChange={this.handleBaseTypeSelector}
-          selectedData={this.state.baseType}
+          selectedData={baseType}
           name="baseType"
         />
-        {this.state.baseType !== 'Base Type을 선택하세요.' ? (
+        {baseType !== 'Base Type을 선택하세요.' ? (
           <div>
-            {this.state.baseType !== '날짜' ? (
+            {baseType !== '날짜' ? (
               <DashboardModalSelectCategory
                 handleCheckbox={this.handleCheckbox}
-                dataList={this.props.value.state.categories}
+                dataList={categories}
                 handleInput={this.handleDateInput}
               />
             ) : (
-              this.renderDateInput(this.props.value.state.categories)
+              this.renderDateInput(categories)
             )}
             <GlobalSelectBar
               title="Select Data - data type"
               listTitle="Data type"
-              dataList={this.props.value.state.dataTypeList}
+              dataList={dataTypeList}
               handleSelectChange={this.handleTypeSelector}
-              selectedData={this.state.dataType}
+              selectedData={dataType}
               name="dataType"
             />
           </div>
@@ -241,9 +251,60 @@ class DashboardModalEditGraph extends React.Component {
         <GlobalSelectBar
           title="Graph Type"
           listTitle="Available Graph types"
-          dataList={this.props.value.state.graphTypeList}
+          dataList={graphTypeList}
           handleSelectChange={this.handleTypeSelector}
-          selectedData={this.state.graphType}
+          selectedData={graphType}
+          name="graphType"
+        />
+      </div>
+    ) : (
+      /**
+       * 신규생성할때
+       */
+      <div>
+        <DashboardModalGraphLists
+          dataList={graphLists}
+          handleInputChange={this.handleInputChange}
+          clearPlaceholder={this.initState}
+          value={value}
+        />
+        <GlobalSelectBar
+          title="Select Data - base type"
+          listTitle="Base type"
+          dataList={baseTypeList}
+          handleSelectChange={this.handleBaseTypeSelector}
+          selectedData={baseType}
+          name="baseType"
+        />
+        {this.state.baseType !== 'Base Type을 선택하세요.' ? (
+          <div>
+            {this.state.baseType !== '날짜' ? (
+              <DashboardModalSelectCategory
+                handleCheckbox={this.handleCheckbox}
+                dataList={categories}
+                handleInput={this.handleDateInput}
+              />
+            ) : (
+              this.renderDateInput(categories)
+            )}
+            <GlobalSelectBar
+              title="Select Data - data type"
+              listTitle="Data type"
+              dataList={dataTypeList}
+              handleSelectChange={this.handleTypeSelector}
+              selectedData={dataType}
+              name="dataType"
+            />
+          </div>
+        ) : (
+          ''
+        )}
+        <GlobalSelectBar
+          title="Graph Type"
+          listTitle="Available Graph types"
+          dataList={graphTypeList}
+          handleSelectChange={this.handleTypeSelector}
+          selectedData={graphType}
           name="graphType"
         />
       </div>

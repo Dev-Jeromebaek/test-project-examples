@@ -1,17 +1,32 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import DashboardCard from '../dashboard/DashboardCard';
 import { Row, Col } from 'reactstrap';
 import { dashboardContext } from '../../store/DashboardStore';
 import DashboardModal from '../dashboard/DashboardModal';
 import GlobalSpinner from '../global/GlobalSpinner';
+import Err from '../../pages/Err';
 
 class DashboardCardList extends Component {
+  state = {
+    err: 0,
+  };
+
   async componentDidMount() {
-    await this.props.value.actions.getDashboardList();
+    try {
+      await this.props.value.actions.getDashboardList();
+    } catch (err) {
+      this.setState({
+        err: err.response.status,
+      });
+    }
   }
 
   render() {
-    return this.props.value.state.isLoading ? (
+    return this.state.err !== 0 ? (
+      <Fragment>
+        <Err httpCode={this.state.err} />
+      </Fragment>
+    ) : this.props.value.state.isLoading ? (
       <GlobalSpinner />
     ) : (
       <Row>

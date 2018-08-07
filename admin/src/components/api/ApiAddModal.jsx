@@ -48,7 +48,8 @@ class ApiAddModal extends React.Component {
   };
 
   checkInputValue = () => {
-    const { apiName, additionalDescription, apiId } = this.state.inputValue;
+    const { inputValue } = this.state;
+    const { apiName, additionalDescription, apiId } = inputValue;
 
     if (
       apiName === undefined ||
@@ -57,13 +58,15 @@ class ApiAddModal extends React.Component {
     ) {
       alert('모든 정보를 입력하세요.');
     } else {
-      this.props.value.actions.saveAvailableApi(this.state.inputValue);
+      this.props.value.actions.saveAvailableApi(inputValue);
       this.toggle();
     }
   };
 
   render() {
-    const { modal, selectedApi, inputValue } = this.state;
+    const { modal, selectedApi } = this.state;
+    const { className } = this.props;
+    const { unusedApiList } = this.props.value.state;
 
     return (
       <div>
@@ -82,14 +85,14 @@ class ApiAddModal extends React.Component {
           keyboard={false}
           isOpen={modal}
           toggle={this.toggle}
-          className={this.props.className}
+          className={className}
         >
           <ModalHeader toggle={this.toggle}>API 추가</ModalHeader>
           <ModalBody>
             <GlobalSelectBar
               title="Available API Lists"
               listTitle="API Lists"
-              dataList={this.props.value.state.unusedApiList}
+              dataList={unusedApiList}
               handleSelectChange={this.handleSelectChange}
               selectedData={selectedApi}
             />

@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 
 import { Card } from '../card/Card';
-import { ChartDataSet } from '../variables/ChartDataSet';
+import { chartDataSet } from '../variables/ChartDataSet';
 import Line from '../types/Line';
 import Bar from '../types/Bar';
 import Pie from '../types/Pie';
 import { withContext } from '../../../Store';
+import { ErrorPage, ErrorWaitRenew } from '../../../pages';
 
+import Spinner from '../../global/GlobalSpinner';
 class DrawChart extends Component {
   state = {
-    graphId: this.props.graphInfo[0].graphId,
-    setCycle: Math.floor(this.props.graphInfo[0].graphUpdateCycle / 60),
+    graphId: this.props.graphId,
+    graphInfo: {},
+    error: '',
+    setCycle: 3600,
     cycleTime: 1,
+    minutes: 0,
     data: {
       labels: [],
       series: [],
@@ -20,14 +25,69 @@ class DrawChart extends Component {
       names: [],
       types: [],
     },
-    minutes: 0,
     cycleTitle: '갱신 주기',
+    isLoadData: false,
+    isGraphNone: false,
+    isError: false,
+    errorCode: '',
+    errorText: '',
   };
 
-  componentDidMount() {
-    this.updateGraphData();
-    // this.updateTimer = setInterval(this.proceedCycleTimer, 60000);
-    this.updateTimer = setInterval(this.proceedCycleTimer, 1000);
+  async componentDidMount() {
+    try {
+      const graphInfo = await this.props.value.actions.getGraphOne(
+        this.props.dashboardId,
+        this.state.graphId,
+      );
+      this.setState(
+        {
+          graphInfo: graphInfo.data.data,
+          isLoadData: true,
+        },
+        () => {
+          this.updateGraphData();
+          // this.updateTimer = setInterval(this.proceedCycleTimer, 60000);
+          this.updateTimer = setInterval(this.proceedCycleTimer, 1000);
+        },
+      );
+    } catch (error) {
+      this.setState({
+        isError: true,
+        errorCode: error.response.status,
+        errorText: error.response.statusText,
+      });
+      clearInterval(this.updateTimer);
+    }
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    try {
+      if (this.props.layouts !== nextProps.layouts) {
+        this.setState({
+          isLoadData: false,
+        });
+        const graphInfo = await this.props.value.actions.getGraphOne(
+          this.props.dashboardId,
+          this.state.graphId,
+        );
+        this.setState(
+          {
+            graphInfo: graphInfo.data.data,
+            isLoadData: true,
+          },
+          () => {
+            this.updateGraphData();
+          },
+        );
+      }
+    } catch (error) {
+      this.setState({
+        isError: true,
+        errorCode: error.response.status,
+        errorText: error.response.statusText,
+      });
+      clearInterval(this.updateTimer);
+    }
   }
 
   componentWillUnmount() {
@@ -41,11 +101,10 @@ class DrawChart extends Component {
         minutes: this.state.minutes + 1,
       },
       () => {
-        if (this.state.cycleTime < 1) {
-          this.updateGraphData();
-          return true;
-        }
-        if (this.state.setCycle < this.state.minutes) {
+        if (
+          this.state.cycleTime < 1 ||
+          this.state.setCycle < this.state.minutes
+        ) {
           this.updateGraphData();
           return true;
         }
@@ -70,6 +129,7 @@ class DrawChart extends Component {
   };
 
   onRefreshClick = () => {
+    this.updateGraphData();
     this.setState({
       cycleTime: 1,
       minutes: 0,
@@ -77,18 +137,23 @@ class DrawChart extends Component {
   };
 
   updateGraphData = () => {
-    const { graphUpdateCycle } = this.props.graphInfo[0];
-    this.setState(
-      ChartDataSet(
-        this.props.graphInfo[0],
-        this.props.value.actions.getFromLocalStorage(
-          `setCycleTime-${this.state.graphId}`,
-        ) || Math.floor(graphUpdateCycle / 60),
-        this.props.value.actions.getFromLocalStorage(
-          `setCycleTitle-${this.state.graphId}`,
-        ) || '갱신 주기',
-      ),
+    const { graphInfo } = this.state;
+    const chartData = chartDataSet(
+      graphInfo,
+      this.props.value.actions.getFromLocalStorage(
+        `setCycleTime-${this.state.graphId}`,
+      ) || 3600,
+      this.props.value.actions.getFromLocalStorage(
+        `setCycleTitle-${this.state.graphId}`,
+      ) || '갱신 주기',
     );
+    if (chartData !== 'non Data') {
+      this.setState(chartData);
+    } else {
+      this.setState({
+        isGraphNone: true,
+      });
+    }
   };
 
   createLegend = json => {
@@ -105,34 +170,51 @@ class DrawChart extends Component {
   };
 
   chartTypeCheck = () => {
-    const { graphSubType } = this.props.graphInfo[0];
-    if (graphSubType === 'LINEAR_GRAPH')
+    const { graphSubType } = this.state.graphInfo.graphType;
+    if (graphSubType.code === 'LINEAR_GRAPH')
       return (
         <Line data={this.state.data} cycleTime={this.state.cycleTime === 1} />
       );
-    if (graphSubType === 'BAR_GRAPH')
+    if (graphSubType.code === 'BAR_GRAPH')
       return (
         <Bar data={this.state.data} cycleTime={this.state.cycleTime === 1} />
       );
-    if (graphSubType === 'PIE_GRAPH')
+    if (graphSubType.code === 'PIE_GRAPH')
       return (
         <Pie data={this.state.data} cycleTime={this.state.cycleTime === 1} />
       );
   };
+
   render() {
-    const { graphName, graphDescription } = this.props.graphInfo[0];
-    return (
-      <Card
-        statsIcon="fa fa-history"
-        title={graphName}
-        category={graphDescription}
-        content={<div className="ct-chart">{this.chartTypeCheck()}</div>}
-        legend={this.createLegend(this.state.legend)}
-        minutes={this.state.minutes}
-        setCycle={this.onCycleChange}
-        cycleTitle={this.state.cycleTitle}
-        onRefresh={this.onRefreshClick}
-      />
+    const { graphName, graphDescription } = this.state.graphInfo;
+    const {
+      isLoadData,
+      isError,
+      errorCode,
+      errorText,
+      isGraphNone,
+    } = this.state;
+    return isError ? (
+      <ErrorPage errorCode={errorCode} errorText={errorText} />
+    ) : isLoadData ? (
+      isGraphNone ? (
+        <ErrorWaitRenew />
+      ) : (
+        <Card
+          statsIcon="fa fa-history"
+          title={graphName !== undefined ? graphName : '제목'}
+          category={graphDescription !== undefined ? graphDescription : '설명'}
+          content={<div className="ct-chart">{this.chartTypeCheck()}</div>}
+          legend={this.createLegend(this.state.legend)}
+          minutes={this.state.minutes}
+          setCycle={this.onCycleChange}
+          cycleTitle={this.state.cycleTitle}
+          onRefresh={this.onRefreshClick}
+          graphId={this.state.graphId}
+        />
+      )
+    ) : (
+      <Spinner />
     );
   }
 }

@@ -6,7 +6,7 @@ import lineChart from '../../public/icons/bar.svg';
 const DashboardGraphPreview = ({ dashboardGraphPreview }) => {
   let temp = null;
 
-  switch (dashboardGraphPreview) {
+  switch (dashboardGraphPreview.code) {
     case 'BAR_GRAPH': {
       temp = barChart;
       break;

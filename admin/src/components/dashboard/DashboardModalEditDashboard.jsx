@@ -11,11 +11,28 @@ class DashboardModalEditDashboard extends React.Component {
     useApiList: [],
   };
 
-  async componentDidMount() {
-    await this.props.value.actions.getMockApiList('use');
-    await this.setState({
-      useApiList: this.props.value.state.apiList,
+  getDashboardData = dashboardData => {
+    const { dashboardName, dashboardDescription } = dashboardData;
+
+    this.setState({
+      dashboardName: dashboardName,
+      dashboardDescription: dashboardDescription,
     });
+  };
+
+  async componentDidMount() {
+    const { value, dashboardData } = this.props;
+    const { actions, state } = value;
+
+    await actions.getMockApiList('use');
+    await this.setState({
+      useApiList: state.apiList,
+    });
+
+    if (dashboardData !== undefined) {
+      this.getDashboardData(dashboardData);
+      actions.setStateDashboardInfoByOriginData(dashboardData);
+    }
   }
 
   handleInputChange = async ({ target }) => {
@@ -27,6 +44,10 @@ class DashboardModalEditDashboard extends React.Component {
     } else {
       await this.changeStoreData(name, inputData);
     }
+
+    this.setState({
+      [name]: value,
+    });
   };
 
   handleSelectChange = async ({ target }) => {
@@ -40,11 +61,18 @@ class DashboardModalEditDashboard extends React.Component {
   };
 
   changeStoreData = async (key, value) => {
-    await this.props.value.actions.setStateDashboardInputInfo(key, value);
+    const { actions } = this.props.value;
+    await actions.setStateDashboardInfo(key, value);
   };
 
   render() {
     const { dashboardData } = this.props;
+    const {
+      dashboardName,
+      dashboardDescription,
+      useApiList,
+      selectedApi,
+    } = this.state;
 
     return dashboardData === undefined ? (
       <div>
@@ -53,32 +81,34 @@ class DashboardModalEditDashboard extends React.Component {
           inputPlaceholder={'사용할 Dashboard 이름을 입력하세요.'}
           name="dashboardName"
           handleInputChange={this.handleInputChange}
+          value={dashboardName}
         />
         <GlobalModalInput
           inputTitle="Dashboard Description"
           inputPlaceholder={'대시보드의 간단한 설명을 작성해주세요.'}
           name="dashboardDescription"
           handleInputChange={this.handleInputChange}
+          value={dashboardDescription}
         />
         <GlobalSelectBar
           title="Available API Lists"
           listTitle="API Lists"
-          dataList={this.state.useApiList}
+          dataList={useApiList}
           handleSelectChange={this.handleSelectChange}
-          selectedData={this.state.selectedApi}
+          selectedData={selectedApi}
         />
       </div>
     ) : (
       <div>
         <GlobalModalInput
           inputTitle="Dashboard Name"
-          value={dashboardData.dashboardName}
+          value={dashboardName}
           name="dashboardName"
           handleInputChange={this.handleInputChange}
         />
         <GlobalModalInput
           inputTitle="Dashboard Description"
-          value={dashboardData.dashboardDescription}
+          value={dashboardDescription}
           name="dashboardDescription"
           handleInputChange={this.handleInputChange}
         />

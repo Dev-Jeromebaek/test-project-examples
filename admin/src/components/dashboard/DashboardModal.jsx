@@ -23,6 +23,24 @@ class DashboardModal extends React.Component {
   };
 
   toggle = () => {
+    const { isEditDashboard, modal } = this.state;
+
+    if (isEditDashboard && modal) {
+      if (
+        window.confirm('대시보드가 생성되지 않았습니다. 계속 하시겠습니까?')
+      ) {
+        this.initState();
+      }
+    } else if (!isEditDashboard && modal) {
+      if (window.confirm('그래프가 생성되지 않았습니다. 계속 하시겠습니까?')) {
+        this.initState();
+      }
+    } else {
+      this.initState();
+    }
+  };
+
+  initState = () => {
     this.setState({
       title: 'Dashboard추가',
       isEditDashboard: true,
@@ -33,8 +51,11 @@ class DashboardModal extends React.Component {
   };
 
   nextStep = async () => {
-    if (this.state.primaryBtn === '다음') {
-      const statusFlag = await this.props.value.actions.createDashboard();
+    const { primaryBtn } = this.state;
+    const { actions } = this.props.value;
+
+    if (primaryBtn === '다음') {
+      const statusFlag = await actions.createDashboard();
 
       if (statusFlag) {
         this.setState({
@@ -47,7 +68,7 @@ class DashboardModal extends React.Component {
         alert('모든 정보를 입력하세요.');
       }
     } else {
-      this.props.value.actions.completeAddingDashboard();
+      actions.completeAddingDashboard();
       this.toggle();
     }
   };
@@ -94,7 +115,7 @@ class DashboardModal extends React.Component {
           toggle={this.toggle}
           className={this.props.className}
         >
-          <ModalHeader toggle={this.toggle}>{title}</ModalHeader>
+          <ModalHeader>{title}</ModalHeader>
           <ModalBody>
             {editPossibleToggling(
               isEditDashboard,

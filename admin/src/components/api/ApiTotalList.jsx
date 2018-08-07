@@ -12,14 +12,14 @@ class ApiTotalList extends Component {
 
   async componentDidMount() {
     await this.props.value.actions.getApiDetail(this.props.api.apiId);
+    this.setState({
+      apiDetail: this.props.value.state.apiDetail,
+    });
   }
 
   handleBtnActive = async () => {
-    await this.props.value.actions.getApiDetail(this.props.api.apiId);
-
-    await this.setState({
+    this.setState({
       isActive: !this.state.isActive,
-      apiDetail: this.props.value.state.apiDetail,
     });
   };
 
@@ -56,7 +56,9 @@ class ApiTotalList extends Component {
           toggler={'#toggler' + this.props.api.apiId}
           className="shadow"
         >
-          <ApiDetail apiDetail={this.state.apiDetail} />
+          {this.state.apiDetail && (
+            <ApiDetail apiDetail={this.state.apiDetail} />
+          )}
         </UncontrolledCollapse>
       </div>
     );

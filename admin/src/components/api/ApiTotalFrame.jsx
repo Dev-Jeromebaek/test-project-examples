@@ -4,8 +4,8 @@ import { apiContext } from '../../store/ApiStore';
 import GlobalSpinner from '../global/GlobalSpinner';
 
 class ApiTotalFrame extends Component {
-  async componentDidMount() {
-    await this.props.value.actions.getApiList();
+  componentDidMount() {
+    this.props.value.actions.getApiList();
   }
 
   render() {

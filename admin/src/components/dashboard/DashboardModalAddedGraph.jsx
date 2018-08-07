@@ -7,14 +7,22 @@ const DashboardModalAddedGraph = props => {
     <DashboardConsumer>
       {value => {
         return (
-          <div className="w-100 px-3 py-1" index={props.index}>
+          <div
+            className="w-100 px-3 py-1"
+            index={props.index}
+            id={props.graphId}
+          >
             <img
               src={deleteIcon}
               width="8"
               height="8"
               alt="Delete icon."
               className="d-inline cursor-pointer"
-              onClick={() => value.actions.deleteGraph(props.index)}
+              onClick={() =>
+                props.graphId === undefined
+                  ? value.actions.deleteGraph(props.index)
+                  : value.actions.deleteGraphByGraphId(props.graphId)
+              }
             />
             <div className="d-inline px-2 font-size">{props.graphName}</div>
           </div>

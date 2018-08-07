@@ -9,36 +9,46 @@ class DashboardProvider extends Component {
     API_DOMAIN: '/dashboard/management',
     dashboardList: [],
     apiList: [],
-    dashboardInputInfo: {},
+    dashboardInfo: {},
     isLoading: false,
     usingApiId: '',
     baseTypeList: [],
-    graphInputInfo: {},
+    graphInfo: {},
     dataTypeList: [],
     graphTypeList: [],
     categories: [],
     graphLists: [],
+    addedGraphLists: [],
+    dashboardId: '',
   };
 
   actions = {
-    setStateDashboardInputInfo: async (key, value) => {
+    setStateDashboardInfoByOriginData: originData => {
       this.setState({
-        dashboardInputInfo: { ...this.state.dashboardInputInfo, [key]: value },
+        dashboardInfo: originData,
+        usingApiId: originData.apiId,
       });
     },
 
-    setStateGraphInputInfo: async (key, value) => {
+    setStateDashboardInfo: async (key, value) => {
       this.setState({
-        graphInputInfo: { ...this.state.graphInputInfo, [key]: value },
+        dashboardInfo: { ...this.state.dashboardInfo, [key]: value },
       });
     },
 
-    setStateGraphInputInfoBaseType: async value => {
+    setStateGraphInfo: async (key, value) => {
       this.setState({
-        graphInputInfo: {
-          ...this.state.graphInputInfo,
+        graphInfo: { ...this.state.graphInfo, [key]: value },
+      });
+    },
+
+    setStateGraphInfoBaseType: async value => {
+      const { graphInfo } = this.state;
+      this.setState({
+        graphInfo: {
+          ...graphInfo,
           baseType: {
-            ...this.state.graphInputInfo.baseType,
+            ...graphInfo.baseType,
             categories: value,
           },
         },
@@ -51,6 +61,7 @@ class DashboardProvider extends Component {
       });
 
       const dashboardList = await axios.get('proxy/dashboard');
+
       await this.setState({
         dashboardList: dashboardList.data.data,
         isLoading: false,
@@ -92,14 +103,14 @@ class DashboardProvider extends Component {
 
     getGraphTypeListByBaseTypeAndDataType: async (baseType, dataType) => {
       try {
-        const graphTypeList = await axios.get(
+        const graphTypeList = (await axios.get(
           `/dashboard/management/graph/type?baseType=${baseType}&dataType=${dataType}`,
-        );
+        )).data.data;
 
         let subGraphTypeList = [];
 
-        graphTypeList.data.data.map(data => {
-          data.categories.map(graph => {
+        graphTypeList.forEach(data => {
+          data.categories.forEach(graph => {
             subGraphTypeList.push(graph);
           });
         });
@@ -112,10 +123,25 @@ class DashboardProvider extends Component {
       }
     },
 
+    getGraphListsByDashboardId: async dashboardId => {
+      try {
+        const graphCollectionList = (await axios.get(
+          `/proxy/dashboard/${dashboardId}`,
+        )).data.data.graphCollectionList;
+
+        this.setState({
+          dashboardId,
+          graphLists: graphCollectionList,
+        });
+      } catch (e) {
+        alert(e);
+      }
+    },
+
     getCategories: baseType => {
       let categories;
 
-      this.state.baseTypeList.map(data => {
+      this.state.baseTypeList.forEach(data => {
         if (data.code === baseType) {
           categories = data.categories;
         }
@@ -127,8 +153,12 @@ class DashboardProvider extends Component {
     },
 
     deleteDashboard: async id => {
-        await axios.delete(`${this.state.API_DOMAIN}/${id}`);
+      try {
+        alert(await axios.delete(`${this.state.API_DOMAIN}/${id}`));
         this.actions.getDashboardList();
+      } catch (e) {
+        alert(e);
+      }
     },
 
     deleteGraph: index => {
@@ -137,16 +167,22 @@ class DashboardProvider extends Component {
       this.setState({
         graphLists: [...this.state.graphLists],
       });
+    },
 
-      console.log(index);
+    deleteGraphByGraphId: async graphId => {
+      if (window.confirm('그래프를 삭제하시겠습니까?')) {
+        try {
+          alert(await axios.delete(`/dashboard/management/graph/${graphId}`));
+          this.actions.getGraphListsByDashboardId(this.state.dashboardId);
+        } catch (e) {
+          alert(e);
+        }
+      }
     },
 
     createDashboard: async () => {
-      const {
-        dashboardName,
-        dashboardDescription,
-        apiId,
-      } = this.state.dashboardInputInfo;
+      const { dashboardInfo, API_DOMAIN, graphInfo } = this.state;
+      const { dashboardName, dashboardDescription, apiId } = dashboardInfo;
 
       if (
         dashboardName === undefined ||
@@ -156,17 +192,16 @@ class DashboardProvider extends Component {
         return false;
       } else {
         try {
-          const data = await axios.post(`${this.state.API_DOMAIN}`, {
-            ...this.state.dashboardInputInfo,
-          });
+          const dashboardId = (await axios.post(`${API_DOMAIN}`, dashboardInfo))
+            .data.data.dashboardId;
 
           this.setState({
             usingApiId: apiId,
-            dashboardId: data.data.data.dashboardId,
-            graphInputInfo: {
-              ...this.state.graphInputInfo,
-              apiId: parseInt(apiId),
-              dashboardId: parseInt(data.data.data.dashboardId),
+            dashboardId,
+            graphInfo: {
+              ...graphInfo,
+              apiId: parseInt(apiId, 10),
+              dashboardId: parseInt(dashboardId, 10),
             },
           });
 
@@ -179,33 +214,42 @@ class DashboardProvider extends Component {
     },
 
     completeAddingDashboard: async () => {
-      if (this.state.graphLists.length === 0) {
+      const { graphLists, API_DOMAIN, dashboardId } = this.state;
+      if (graphLists.length === 0) {
         if (
           window.confirm(
             '추가된 그래프가 없습니다. 그래프를 추가하지 않고 종료하면 대시보드도 삭제됩니다. 계속 하시겠습니까?',
           )
         ) {
-          await axios.delete(
-            `${this.state.API_DOMAIN}/${this.state.dashboardId}`,
-          );
+          await axios.delete(`${API_DOMAIN}/${dashboardId}`);
           this.getDashboardList();
         }
       } else {
+        const tempGraphLists = graphLists;
+        const removeIdx = [];
+        tempGraphLists.forEach((data, i) => {
+          if (data.dataType === undefined) {
+            removeIdx.push(i);
+          }
+        });
+
+        removeIdx.forEach(idx => {
+          tempGraphLists.splice(idx, 1);
+        });
+
         try {
-          alert(
-            await axios.post(
-              '/dashboard/management/graph',
-              this.state.graphLists,
-            ),
-          );
+          if (removeIdx === []) {
+            alert(await axios.put('/dashboard/management/graph', graphLists));
+          } else {
+            alert(await axios.post('/dashboard/management/graph', graphLists));
+          }
 
           await this.setState({
-            dashboardInputInfo: {},
-            graphInputInfo: {},
+            dashboardInfo: {},
+            graphInfo: {},
             graphLists: [],
           });
 
-          // await alert('생성완료');
           this.actions.getDashboardList();
         } catch (e) {
           alert(e);
@@ -214,12 +258,8 @@ class DashboardProvider extends Component {
     },
 
     createGraph: () => {
-      const {
-        graphName,
-        graphType,
-        baseType,
-        dataType,
-      } = this.state.graphInputInfo;
+      const { graphLists, graphInfo, usingApiId, dashboardId } = this.state;
+      const { graphName, graphType, baseType, dataType } = this.state.graphInfo;
 
       if (
         graphName === undefined ||
@@ -232,10 +272,14 @@ class DashboardProvider extends Component {
       } else {
         if (this.checkCategoryValue(baseType.categories)) {
           this.setState({
-            graphLists: [...this.state.graphLists, this.state.graphInputInfo],
+            graphLists: [...graphLists, graphInfo],
             categories: [],
             dataTypeList: [],
             graphTypeList: [],
+            graphInfo: {
+              apiId: usingApiId,
+              dashboardId,
+            },
           });
           return true;
         } else {
@@ -244,12 +288,47 @@ class DashboardProvider extends Component {
         }
       }
     },
+
+    editDashboard: async () => {
+      const { dashboardInfo, API_DOMAIN, graphInfo } = this.state;
+      const {
+        dashboardName,
+        dashboardDescription,
+        dashboardId,
+      } = dashboardInfo;
+
+      if (dashboardName === '' || dashboardDescription === '') {
+        return false;
+      } else {
+        const usingApiId = dashboardInfo.apiId;
+
+        await delete dashboardInfo.graphCollectionList;
+        await delete dashboardInfo.apiId;
+
+        try {
+          const data = await axios.put(`${API_DOMAIN}`, dashboardInfo);
+
+          await this.setState({
+            dashboardId,
+            graphInfo: {
+              ...graphInfo,
+              apiId: parseInt(usingApiId, 10),
+              dashboardId: parseInt(dashboardId, 10),
+            },
+          });
+
+          alert(data);
+          return true;
+        } catch (e) {
+          alert(e);
+        }
+      }
+    },
   };
 
   checkCategoryValue(categories) {
     let checkedNum = 0;
 
-    console.log(categories);
     if (categories[0].categoryKey === 'START_DATE') {
       categories.forEach(category => {
         if (category.categoryValue !== 'false') checkedNum++;

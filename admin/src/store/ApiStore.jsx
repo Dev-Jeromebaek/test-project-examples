@@ -19,25 +19,25 @@ class ApiProvider extends Component {
 
   actions = {
     getApiList: async () => {
-      await this.setState({
+      this.setState({
         isApiListLoading: true,
       });
 
       const apiList = await axios.get(`${this.state.API_DOMAIN}?display=all`);
 
-      await this.setState({
+      this.setState({
         apiList: await apiList.data.data,
         isApiListLoading: false,
       });
     },
     getMyApiList: async () => {
-      await this.setState({
+      this.setState({
         isMyApiListLoading: true,
       });
 
       const myApiList = await axios.get(`${this.state.API_DOMAIN}?display=use`);
 
-      await this.setState({
+      this.setState({
         myApiList: await myApiList.data.data,
         isMyApiListLoading: false,
       });
@@ -47,18 +47,18 @@ class ApiProvider extends Component {
         `${this.state.API_DOMAIN}?display=no`,
       );
 
-      await this.setState({
+      this.setState({
         unusedApiList: await unusedApiList.data.data,
       });
     },
     getApiDetail: async id => {
-      await this.setState({
+      this.setState({
         isApiDetailLoading: true,
       });
 
       const apiDetail = await axios.get(`${this.state.API_DOMAIN}/${id}`);
 
-      await this.setState({
+      this.setState({
         apiDetail: apiDetail.data.data,
         isApiDetailLoading: false,
       });

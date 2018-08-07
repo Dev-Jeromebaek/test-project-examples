@@ -1,18 +1,22 @@
 const maxH = 1;
-let gridSet = {
-  tempArea: [],
-  nextFillGrid: {
-    x: 0,
-    y: 0,
-  },
-  returnGrid: {
-    w: 0,
-    h: 1,
-    x: 0,
-    y: 0,
-    maxH,
-  },
+const initGrid = () => {
+  gridSet = {
+    tempArea: [],
+    nextFillGrid: {
+      x: 0,
+      y: 0,
+    },
+    returnGrid: {
+      w: 0,
+      h: 1,
+      x: 0,
+      y: 0,
+      maxH,
+    },
+  };
 };
+
+let gridSet = initGrid;
 
 const newLine = widthSize => {
   gridSet.returnGrid.x = 0;
@@ -22,10 +26,10 @@ const newLine = widthSize => {
 };
 
 const setGridLayout = info => {
-  const { graphDetailType } = info;
+  const { code: graphType } = info.graphSubType;
 
   let { x, y } = gridSet.nextFillGrid;
-  if (graphDetailType === 'LINEAR_GRAPH') {
+  if (graphType === 'LINEAR_GRAPH') {
     // 2x1 크기일 경우
     gridSet.returnGrid.w = 2;
     if (x === 3) {
@@ -66,23 +70,6 @@ const setGridLayout = info => {
   }
   const returnValue = { ...gridSet.returnGrid };
   return returnValue;
-};
-
-const initGrid = () => {
-  gridSet = {
-    tempArea: [],
-    nextFillGrid: {
-      x: 0,
-      y: 0,
-    },
-    returnGrid: {
-      w: 0,
-      h: 1,
-      x: 0,
-      y: 0,
-      maxH,
-    },
-  };
 };
 
 module.exports = {
