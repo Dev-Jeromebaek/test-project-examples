@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { ListGroup, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
 import { withContext } from '../../Store';
@@ -56,47 +56,39 @@ class Sidebar extends Component {
   };
 
   render() {
+    const id = this.props.history.location.pathname.substr(
+      this.props.history.location.pathname.lastIndexOf('/') + 1,
+    );
+
+    const dashboard = this.state.dashboardList.filter(dashboard => {
+      return dashboard.dashboardId === parseInt(id, 10);
+    });
+
     const { hideSidebar, isError } = this.state;
+
     return isError ? (
-      <div />
+      <div style={{ display: 'none' }} />
     ) : hideSidebar ? (
-      <Dropdown
-        className="w-100 my-3"
-        isOpen={this.state.isDropdownOpened}
-        toggle={this.dropdownToggle}
+      <div
+        className={
+          this.props.isSidebarHidden
+            ? 'overflow-y bg-light sidebar col-sm-5 col-md-4 col-lg-3 col-xl-2'
+            : 'overflow-y bg-light sidebar mt-56px col-sm-5 col-md-4 col-lg-3 col-xl-2'
+        }
       >
-        <DropdownToggle className="btn-outline-secondary w-100" caret>
-          {this.state.activeDashboardName
-            ? this.state.activeDashboardName
-            : '원하시는 대시보드를 선택하세요.'}
-        </DropdownToggle>
-        <DropdownMenu className="w-100 white-space-normal">
-          {this.state.dashboardList.map(dashboard => {
-            return (
-              <DashboardItem
-                toggle={this.dropdownToggle}
-                key={dashboard.dashboardId}
-                dashboard={dashboard}
-                dashboardClick={this.dashboardClick(
-                  dashboard.dashboardId,
-                  dashboard.dashboardName,
-                )}
-                isActive={dashboard.dashboardId === this.state.activeDashboard}
-                isDropdown={true}
-              />
-            );
-          })}
-        </DropdownMenu>
-      </Dropdown>
-    ) : (
-      <Fragment>
-        {this.state.isLoading ? (
-          <GlobalSpinner />
-        ) : (
-          <ListGroup className="mt-3 shadow-sm">
+        <Dropdown
+          className="w-100 my-3"
+          isOpen={this.state.isDropdownOpened}
+          toggle={this.dropdownToggle}
+        >
+          <DropdownToggle className="btn-outline-secondary w-100" caret>
+            {dashboard[0] && dashboard[0].dashboardName}
+          </DropdownToggle>
+          <DropdownMenu className="w-100 white-space-normal">
             {this.state.dashboardList.map(dashboard => {
               return (
                 <DashboardItem
+                  toggle={this.dropdownToggle}
                   key={dashboard.dashboardId}
                   dashboard={dashboard}
                   dashboardClick={this.dashboardClick(
@@ -106,12 +98,47 @@ class Sidebar extends Component {
                   isActive={
                     dashboard.dashboardId === this.state.activeDashboard
                   }
+                  isDropdown={true}
                 />
               );
             })}
-          </ListGroup>
-        )}
-      </Fragment>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+    ) : this.state.isLoading ? (
+      <div
+        className={
+          this.props.isSidebarHidden
+            ? 'overflow-y bg-light sidebar col-sm-5 col-md-4 col-lg-3 col-xl-2'
+            : 'overflow-y bg-light sidebar mt-56px col-sm-5 col-md-4 col-lg-3 col-xl-2'
+        }
+      >
+        <GlobalSpinner />
+      </div>
+    ) : (
+      <div
+        className={
+          this.props.isSidebarHidden
+            ? 'overflow-y bg-light sidebar col-sm-5 col-md-4 col-lg-3 col-xl-2'
+            : 'overflow-y bg-light sidebar mt-56px col-sm-5 col-md-4 col-lg-3 col-xl-2'
+        }
+      >
+        <ListGroup className="mt-3 shadow-sm">
+          {this.state.dashboardList.map(dashboard => {
+            return (
+              <DashboardItem
+                key={dashboard.dashboardId}
+                dashboard={dashboard}
+                dashboardClick={this.dashboardClick(
+                  dashboard.dashboardId,
+                  dashboard.dashboardName,
+                )}
+                isActive={dashboard.dashboardId === this.state.activeDashboard}
+              />
+            );
+          })}
+        </ListGroup>
+      </div>
     );
   }
 }

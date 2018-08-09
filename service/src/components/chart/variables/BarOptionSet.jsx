@@ -30,8 +30,12 @@ const responsiveBar = [
       seriesBarDistance: 5,
       axisX: {
         labelInterpolationFnc: function(value) {
-          const sliceValue = value.split(':')[0] + '시';
-          return sliceValue;
+          if (value.indexOf(':') > -1) {
+            const sliceValue = value.split(':')[0] + '시';
+            return sliceValue;
+          } else {
+            return value;
+          }
         },
       },
     },
@@ -42,8 +46,12 @@ const responsiveBar = [
       seriesBarDistance: 5,
       axisX: {
         labelInterpolationFnc: function(value) {
-          const sliceValue = value.split(':')[0] + '시';
-          return sliceValue;
+          if (value.indexOf(':') > -1) {
+            const sliceValue = value.split(':')[0] + '시';
+            return sliceValue;
+          } else {
+            return value;
+          }
         },
       },
     },

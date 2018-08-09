@@ -5,7 +5,7 @@ class ErrorPage extends Component {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: '70vh' }}
+        style={{ height: '100%', width: '100%' }}
       >
         <div role="main" style={{ margin: '0', padding: '0' }}>
           <div
@@ -46,8 +46,8 @@ class ErrorPage extends Component {
                   letterSpacing: '-1px',
                 }}
               >
-                <a href="">Admin</a> 으로 이동하여 대시보드를 새로 생성해
-                주세요.<br />
+                <a href="http://wettyadmin-idev.tmon.co.kr/dashboard">Admin</a>{' '}
+                으로 이동하여 대시보드를 새로 생성해 주세요.<br />
               </div>
             </div>
           </div>

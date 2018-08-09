@@ -33,7 +33,15 @@ class Dropdown extends Component {
     return (
       <Fragment>
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-          <DropdownToggle caret size="sm" outline color="info">
+          <DropdownToggle
+            caret
+            size="sm"
+            outline
+            color="info"
+            onMouseDown={e => {
+              e.stopPropagation();
+            }}
+          >
             {this.props.cycleTitle}
           </DropdownToggle>
           <DropdownMenu>

@@ -26,7 +26,6 @@ class DashboardList extends React.Component {
         isLoading: false,
       });
     } catch (error) {
-      console.log(error);
       this.setState({
         isError: true,
         errorCode: error.response.status,

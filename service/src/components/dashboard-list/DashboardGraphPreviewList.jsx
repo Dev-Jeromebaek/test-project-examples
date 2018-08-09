@@ -2,9 +2,10 @@ import React from 'react';
 import DashboardGraphPreview from './DashboardGraphPreview';
 
 const DashboardGraphPreviewList = ({ dashboardGraphPreviewList }) => {
-  return dashboardGraphPreviewList.length !== 0 ? (
-    <div>그래프가 존재하지 않습니다.</div>
-  ) : (
+  // return dashboardGraphPreviewList.length !== 0 ? (
+  //   <div>그래프가 존재하지 않습니다.</div>
+  // ) : (
+  return (
     <div className="d-flex flex-wrap">
       {dashboardGraphPreviewList.map(dashboardGraphPreview => {
         return (
@@ -16,6 +17,7 @@ const DashboardGraphPreviewList = ({ dashboardGraphPreviewList }) => {
       })}
     </div>
   );
+  // );
 };
 
 export default DashboardGraphPreviewList;

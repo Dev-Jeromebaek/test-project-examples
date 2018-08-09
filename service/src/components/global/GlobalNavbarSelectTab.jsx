@@ -5,7 +5,10 @@ const GlobalNavbarSelectTab = () => {
   return (
     <Nav className="ml-auto" navbar>
       <NavItem>
-        <a className="nav-link text-white" href="">
+        <a
+          className="nav-link text-white"
+          href="http://wettyadmin-idev.tmon.co.kr/dashboard"
+        >
           Admin
         </a>
       </NavItem>

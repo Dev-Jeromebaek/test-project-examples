@@ -25,6 +25,7 @@ class DashboardGraphSection extends React.PureComponent {
   };
 
   async componentDidMount() {
+    initGrid();
     try {
       const dashboardOne = await this.props.value.actions.getDashboardOne(
         this.props.dashboardId,
@@ -45,6 +46,7 @@ class DashboardGraphSection extends React.PureComponent {
   }
 
   async componentWillReceiveProps(nextProps) {
+    initGrid();
     try {
       if (this.props.dashboardId !== nextProps.dashboardId) {
         const dashboardOne = await this.props.value.actions.getDashboardOne(
@@ -67,6 +69,7 @@ class DashboardGraphSection extends React.PureComponent {
   }
 
   originalLayouts = dashboardId => {
+    initGrid();
     return (
       this.props.value.actions.getFromLocalStorage(
         `userLayout-${this.props.dashboardId}`,
@@ -101,10 +104,12 @@ class DashboardGraphSection extends React.PureComponent {
   };
 
   resetLayout = () => {
+    initGrid();
     this.setState({ layouts: {} });
   };
 
   onLayoutChange = (layout, layouts) => {
+    initGrid();
     this.props.value.actions.saveToLocalStorage(
       `userLayout-${this.props.dashboardId}`,
       layouts,

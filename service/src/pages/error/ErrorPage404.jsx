@@ -5,7 +5,7 @@ class ErrorPage extends Component {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: '70vh' }}
+        style={{ height: '70vh', width: '100%' }}
       >
         <div role="main" style={{ margin: '0', padding: '0' }}>
           <div

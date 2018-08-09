@@ -125,6 +125,7 @@ class DrawChart extends Component {
       setCycle: cycleTime,
       cycleTitle: newCycleTitle,
       cycleTime: 1,
+      minutes: 0,
     });
   };
 
@@ -163,6 +164,27 @@ class DrawChart extends Component {
       let type = 'fa fa-circle text-' + json['types'][i];
       legend.push(<i className={type} key={i} />);
       legend.push(' ');
+      // if (json['names'][i].indexOf('AGE') > -1) {
+      //   legend.push(json['names'][i].split('_')[1] + '대');
+      // } else if (json['names'][i].indexOf('REGION') > -1) {
+      //   if (json['names'][i].split('_')[1] === '1') {
+      //     legend.push('서울');
+      //   } else if (json['names'][i].split('_')[1] === '2') {
+      //     legend.push('인천');
+      //   } else if (json['names'][i].split('_')[1] === '3') {
+      //     legend.push('대구');
+      //   } else if (json['names'][i].split('_')[1] === '4') {
+      //     legend.push('대전');
+      //   } else if (json['names'][i].split('_')[1] === '5') {
+      //     legend.push('부산');
+      //   }
+      // } else {
+      //   if (json['names'][i] === 'MALE') {
+      //     legend.push('남성');
+      //   } else {
+      //     legend.push('여성');
+      //   }
+      // }
       legend.push(json['names'][i]);
       legend.push(' ');
     }
@@ -186,7 +208,7 @@ class DrawChart extends Component {
   };
 
   render() {
-    const { graphName, graphDescription } = this.state.graphInfo;
+    const { graphName, dataType, baseType } = this.state.graphInfo;
     const {
       isLoadData,
       isError,
@@ -203,7 +225,11 @@ class DrawChart extends Component {
         <Card
           statsIcon="fa fa-history"
           title={graphName !== undefined ? graphName : '제목'}
-          category={graphDescription !== undefined ? graphDescription : '설명'}
+          category={
+            dataType.title !== undefined && baseType.title !== undefined
+              ? baseType.title + '별 ' + dataType.title
+              : '설명'
+          }
           content={<div className="ct-chart">{this.chartTypeCheck()}</div>}
           legend={this.createLegend(this.state.legend)}
           minutes={this.state.minutes}

@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import React, { Component } from 'react';
+import { Container, Row } from 'reactstrap';
 import Sidebar from '../components/dashboard/Sidebar';
 import DashboardGraphSection from '../pages/DashboardGraphSection';
 import { ErrorPage } from '../pages';
@@ -60,31 +60,19 @@ class Dashboard extends Component {
         errorText={this.state.errorMessage}
       />
     ) : (
-      <Fragment>
-        <Container fluid>
-          <Row>
-            <Col
-              sm="5"
-              md="4"
-              lg="3"
-              xl="2"
-              className={
-                this.state.isSidebarHidden
-                  ? 'overflow-y bg-light sidebar'
-                  : 'overflow-y bg-light sidebar mt-56px'
-              }
-            >
-              <Sidebar
-                dashboardId={this.state.dashboardId}
-                changeDashBoard={this.changeDashBoard}
-              />
-            </Col>
-            <Col sm="7" md="8" lg="9" xl="10" className="ml-auto">
-              <DashboardGraphSection dashboardId={this.state.dashboardId} />
-            </Col>
-          </Row>
-        </Container>
-      </Fragment>
+      <Container fluid>
+        <Row>
+          <Sidebar
+            history={this.props.history}
+            dashboardId={this.state.dashboardId}
+            changeDashBoard={this.changeDashBoard}
+            isSidebarHidden={this.state.isSidebarHidden}
+          />
+          <div className="ml-auto col-sm-7 col-md-8 col-lg-9 col-xl-10">
+            <DashboardGraphSection dashboardId={this.state.dashboardId} />
+          </div>
+        </Row>
+      </Container>
     );
   }
 }

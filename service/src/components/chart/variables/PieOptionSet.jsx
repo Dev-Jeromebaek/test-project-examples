@@ -16,10 +16,10 @@ const optionDonutPie = data => {
     donut: true,
     donutWidth: 60,
     donutSolid: false,
-    startAngle: 270,
+    startAngle: 90,
     showLabel: true,
     labelInterpolationFnc: function(value) {
-      return Math.round((value / sum) * 100) + '%';
+      return '(' + value + ')' + Math.round((value / sum) * 100) + '%';
     },
   };
 };

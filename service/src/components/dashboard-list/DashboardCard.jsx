@@ -55,13 +55,13 @@ const DashboardCard = ({ card }) => {
             </CardText>
           </CardBody>
           <CardFooter>
-            {card.graphCollectionList !== undefined ? (
-              <DashboardGraphPreviewList
-                dashboardGraphPreviewList={card.graphCollectionList}
-              />
-            ) : (
+            {/* {card.graphCollectionList !== undefined ? ( */}
+            <DashboardGraphPreviewList
+              dashboardGraphPreviewList={card.graphCollectionList}
+            />
+            {/* ) : (
               <div>그래프가 존재하지 않습니다.</div>
-            )}
+            )} */}
           </CardFooter>
         </Card>
       </NavLink>
