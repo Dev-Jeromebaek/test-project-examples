@@ -10,8 +10,8 @@ class WettyProvider extends Component {
       return await axios.get('/proxy/dashboard');
     },
 
-    getDashboardOne: async id => {
-      return await axios.get(`/proxy/dashboard/${id}`);
+    getDashboardOne: async (id, pageNum) => {
+      return await axios.get(`/proxy/dashboard/${id}?offset=${pageNum}`);
     },
 
     getGraphOne: async (dashboardNo, graphId) => {

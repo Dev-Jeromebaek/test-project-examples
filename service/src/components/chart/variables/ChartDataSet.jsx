@@ -16,12 +16,12 @@ const chartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
     let labelArr = [].concat(graphDataList);
 
     let newArr = [];
-    if (graphDataList.length < 5) {
+    if (graphDataList.length < 10) {
       for (let i = 0; i < graphDataList.length; i++) {
         newArr.push(labelArr.pop());
       }
     } else {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 10; i++) {
         newArr.push(labelArr.pop());
       }
     }
@@ -30,29 +30,7 @@ const chartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
       graphType.graphSubType.code !== 'PIE_GRAPH'
         ? newArr.map((info, index) => {
             tempArr.push(info.dataY);
-            // if (info.dataX.indexOf('~') > -1) {
-            //   return info.dataX.split(' ~ ')[1].split(' ')[1];
-            // } else if (info.dataX.indexOf('AGE') > -1) {
-            //   return info.dataX.split('_')[1] + '대';
-            // } else if (info.dataX.indexOf('REGION') > -1) {
-            //   if (info.dataX.split('_')[1] === '1') {
-            //     return '서울';
-            //   } else if (info.dataX.split('_')[1] === '2') {
-            //     return '인천';
-            //   } else if (info.dataX.split('_')[1] === '3') {
-            //     return '대구';
-            //   } else if (info.dataX.split('_')[1] === '4') {
-            //     return '대전';
-            //   } else if (info.dataX.split('_')[1] === '5') {
-            //     return '부산';
-            //   }
-            // } else if (info.dataX.indexOf('MALE') > -1) {
-            //   return '남성';
-            // } else if (info.dataX.indexOf('FEMALE') > -1) {
-            //   return '여성';
-            // } else {
             return info.dataX;
-            // }
           })
         : pieLabelArr.map(info => {
             tempArr.push(info.count);
