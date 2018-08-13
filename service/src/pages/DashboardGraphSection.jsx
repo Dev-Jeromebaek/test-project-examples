@@ -78,8 +78,6 @@ class DashboardGraphSection extends React.PureComponent {
   };
 
   createChartList = id => {
-    initGrid();
-
     // 1개의 dashboard에 포함된 graphCollectionList 정보(배열)
     if (this.state.dashboardOne.length !== 0 && this.state.isLoadData) {
       const { graphCollectionList } = this.state.dashboardOne.data;
@@ -109,12 +107,11 @@ class DashboardGraphSection extends React.PureComponent {
   };
 
   onLayoutChange = (layout, layouts) => {
-    initGrid();
     this.props.value.actions.saveToLocalStorage(
       `userLayout-${this.props.dashboardId}`,
       layouts,
     );
-    this.setState({ layouts: layouts });
+    // this.setState({ layouts: layouts });
   };
 
   render() {

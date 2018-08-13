@@ -124,7 +124,7 @@ class DrawChart extends Component {
     this.setState({
       setCycle: cycleTime,
       cycleTitle: newCycleTitle,
-      cycleTime: 1,
+      cycleTime: 0,
       minutes: 0,
     });
   };
@@ -164,27 +164,6 @@ class DrawChart extends Component {
       let type = 'fa fa-circle text-' + json['types'][i];
       legend.push(<i className={type} key={i} />);
       legend.push(' ');
-      // if (json['names'][i].indexOf('AGE') > -1) {
-      //   legend.push(json['names'][i].split('_')[1] + '대');
-      // } else if (json['names'][i].indexOf('REGION') > -1) {
-      //   if (json['names'][i].split('_')[1] === '1') {
-      //     legend.push('서울');
-      //   } else if (json['names'][i].split('_')[1] === '2') {
-      //     legend.push('인천');
-      //   } else if (json['names'][i].split('_')[1] === '3') {
-      //     legend.push('대구');
-      //   } else if (json['names'][i].split('_')[1] === '4') {
-      //     legend.push('대전');
-      //   } else if (json['names'][i].split('_')[1] === '5') {
-      //     legend.push('부산');
-      //   }
-      // } else {
-      //   if (json['names'][i] === 'MALE') {
-      //     legend.push('남성');
-      //   } else {
-      //     legend.push('여성');
-      //   }
-      // }
       legend.push(json['names'][i]);
       legend.push(' ');
     }
