@@ -11,7 +11,7 @@ class WettyProvider extends Component {
     },
 
     getDashboardOne: async (id, pageNum) => {
-      return await axios.get(`/proxy/dashboard/${id}?offset=${pageNum}`);
+      return await axios.get(`/proxy/dashboard/${id}?page=${pageNum}`);
     },
 
     getGraphOne: async (dashboardNo, graphId) => {
@@ -42,6 +42,22 @@ class WettyProvider extends Component {
         );
       }
     },
+
+    getAllLocalStorage() {
+      for (var i = 0, len = global.localStorage.length; i < len; ++i) {}
+    },
+
+    // removeLocalStorage(keyList) {
+    //   for (var i = 0, len = global.localStorage.length; i < len; ++i) {
+    //     for (var j = 0, keyLen = keyList.length; j < keyLen; ++j) {
+    //       if (
+    //         global.localStorage.getItem(i) === global.localStorage.getItem(j) {
+    //           global.localStorage.removeItem()
+    //         }
+    //       );
+    //     }
+    //   }
+    // },
   };
 
   render() {

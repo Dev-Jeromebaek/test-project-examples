@@ -11,7 +11,9 @@ export class Card extends Component {
     const { setCycle } = this.props;
     return (
       <div className={'card' + (this.props.plain ? ' card-plain' : '')}>
-        <div className={'header' + (this.props.hCenter ? ' text-center' : '')}>
+        <div
+          className={'header' + (this.props.hCenter ? ' text-center' : '')}
+        >
           <h5
             className="title state d-flex justify-content-between align-items-center"
             style={{ fontSize: '0.9rem' }}

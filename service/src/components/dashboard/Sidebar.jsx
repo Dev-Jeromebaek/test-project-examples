@@ -7,19 +7,9 @@ import GlobalSpinner from '../global/GlobalSpinner';
 
 class Sidebar extends Component {
   state = {
-    activeDashboard: this.props.dashboardId,
-    activeDashboardName: '',
     isDropdownOpened: false,
     dashboardList: [],
     isError: false,
-  };
-
-  dashboardClick = (id, name) => () => {
-    this.setState({
-      activeDashboard: id,
-      activeDashboardName: name,
-    });
-    this.props.changeDashBoard(id);
   };
 
   async componentDidMount() {
@@ -91,13 +81,6 @@ class Sidebar extends Component {
                   toggle={this.dropdownToggle}
                   key={dashboard.dashboardId}
                   dashboard={dashboard}
-                  dashboardClick={this.dashboardClick(
-                    dashboard.dashboardId,
-                    dashboard.dashboardName,
-                  )}
-                  isActive={
-                    dashboard.dashboardId === this.state.activeDashboard
-                  }
                   isDropdown={true}
                 />
               );
@@ -129,11 +112,6 @@ class Sidebar extends Component {
               <DashboardItem
                 key={dashboard.dashboardId}
                 dashboard={dashboard}
-                dashboardClick={this.dashboardClick(
-                  dashboard.dashboardId,
-                  dashboard.dashboardName,
-                )}
-                isActive={dashboard.dashboardId === this.state.activeDashboard}
               />
             );
           })}

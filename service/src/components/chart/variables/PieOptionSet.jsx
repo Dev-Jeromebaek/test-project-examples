@@ -10,7 +10,7 @@ const optionSimplePie = {
 const optionDonutPie = data => {
   let sum = 0;
   data.series.forEach(function(value) {
-    sum += value;
+    sum += value.value;
   });
   return {
     donut: true,
@@ -19,7 +19,7 @@ const optionDonutPie = data => {
     startAngle: 90,
     showLabel: true,
     labelInterpolationFnc: function(value) {
-      return '(' + value + ')' + Math.round((value / sum) * 100) + '%';
+      return Math.round((value / sum) * 100) + '%';
     },
   };
 };

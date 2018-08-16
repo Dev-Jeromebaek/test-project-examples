@@ -14,7 +14,7 @@ class DrawChart extends Component {
     graphId: this.props.graphId,
     graphInfo: {},
     error: '',
-    setCycle: 3600,
+    setCycle: 60,
     cycleTime: 1,
     minutes: 0,
     data: {
@@ -53,8 +53,12 @@ class DrawChart extends Component {
     } catch (error) {
       this.setState({
         isError: true,
-        errorCode: error.response.status,
-        errorText: error.response.statusText,
+        errorCode: error.response.data.httpCode
+          ? error.response.data.httpCode
+          : error.response.status,
+        errorText: error.response.data.exceptionMessage
+          ? error.response.data.exceptionMessage
+          : error.response.statusText,
       });
       clearInterval(this.updateTimer);
     }
@@ -124,17 +128,19 @@ class DrawChart extends Component {
     this.setState({
       setCycle: cycleTime,
       cycleTitle: newCycleTitle,
-      cycleTime: 0,
-      minutes: 0,
     });
   };
 
   onRefreshClick = () => {
-    this.updateGraphData();
-    this.setState({
-      cycleTime: 1,
-      minutes: 0,
-    });
+    this.setState(
+      {
+        cycleTime: 1,
+        minutes: 0,
+      },
+      () => {
+        this.updateGraphData();
+      },
+    );
   };
 
   updateGraphData = () => {
@@ -198,26 +204,28 @@ class DrawChart extends Component {
     return isError ? (
       <ErrorPage errorCode={errorCode} errorText={errorText} />
     ) : isLoadData ? (
-      isGraphNone ? (
-        <ErrorWaitRenew />
-      ) : (
-        <Card
-          statsIcon="fa fa-history"
-          title={graphName !== undefined ? graphName : '제목'}
-          category={
-            dataType.title !== undefined && baseType.title !== undefined
-              ? baseType.title + '별 ' + dataType.title
-              : '설명'
-          }
-          content={<div className="ct-chart">{this.chartTypeCheck()}</div>}
-          legend={this.createLegend(this.state.legend)}
-          minutes={this.state.minutes}
-          setCycle={this.onCycleChange}
-          cycleTitle={this.state.cycleTitle}
-          onRefresh={this.onRefreshClick}
-          graphId={this.state.graphId}
-        />
-      )
+      <Card
+        statsIcon="fa fa-history"
+        title={graphName !== undefined ? graphName : '제목'}
+        category={
+          dataType.title !== undefined && baseType.title !== undefined
+            ? baseType.title + '별 ' + dataType.title
+            : '설명'
+        }
+        content={
+          isGraphNone ? (
+            <ErrorWaitRenew />
+          ) : (
+            <div className="ct-chart">{this.chartTypeCheck()}</div>
+          )
+        }
+        legend={this.createLegend(this.state.legend)}
+        minutes={this.state.minutes}
+        setCycle={this.onCycleChange}
+        cycleTitle={this.state.cycleTitle}
+        onRefresh={this.onRefreshClick}
+        graphId={this.state.graphId}
+      />
     ) : (
       <Spinner />
     );

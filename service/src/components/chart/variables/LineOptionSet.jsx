@@ -1,7 +1,5 @@
 // Data for Line Chart
 const optionsLine = {
-  // low: 0,
-  // high: 800,
   showArea: false,
   height: '245px',
   axisX: {
@@ -38,6 +36,7 @@ const responsiveLine = [
       seriesBarDistance: 5,
       axisX: {
         labelInterpolationFnc: function(value) {
+          console.log(value);
           return value;
         },
       },
@@ -50,7 +49,11 @@ const responsiveLine = [
       axisX: {
         labelInterpolationFnc: function(value) {
           if (value.indexOf(':') > -1) {
-            const sliceValue = value.split(':')[0] + '시';
+            const sliceValue =
+              value
+                .split('~')[1]
+                .split(' ')[2]
+                .split(':')[0] + '시';
             return sliceValue;
           } else {
             return value;
@@ -66,7 +69,11 @@ const responsiveLine = [
       axisX: {
         labelInterpolationFnc: function(value) {
           if (value.indexOf(':') > -1) {
-            const sliceValue = value.split(':')[0] + '시';
+            const sliceValue =
+              value
+                .split('~')[1]
+                .split(' ')[2]
+                .split(':')[0] + '시';
             return sliceValue;
           } else {
             return value;

@@ -45,3 +45,51 @@
     "request": {}
   }
 }
+
+{
+  "config": {
+    "transformRequest": {},
+    "transformResponse": {},
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "headers": { "Accept": "application/json, text/plain, */*" },
+    "method": "get",
+    "url": "/proxy/dashboard/2115/graph/1469"
+  },
+  "request": {},
+  "response": {
+    "data": {
+      "httpStatus": "SERVICE_UNAVAILABLE",
+      "exceptionMessage": "오브젝트 생성 실패 (정의되지 않은 Graph Type 입니다. (그래프를 새로 생성하세요))",
+      "exception": "com.tmoncorp.admin.exception.ObjectCreateFailureException",
+      "exceptionCode": "100502",
+      "httpCode": 503
+    },
+    "status": 503,
+    "statusText": "Service Unavailable",
+    "headers": {
+      "date": "Mon, 13 Aug 2018 08:12:09 GMT",
+      "content-encoding": "gzip",
+      "server": "nginx",
+      "x-powered-by": "Express",
+      "vary": "Accept-Encoding",
+      "content-type": "application/json;charset=UTF-8",
+      "transfer-encoding": "chunked",
+      "connection": "close"
+    },
+    "config": {
+      "transformRequest": {},
+      "transformResponse": {},
+      "timeout": 0,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "headers": { "Accept": "application/json, text/plain, */*" },
+      "method": "get",
+      "url": "/proxy/dashboard/2115/graph/1469"
+    },
+    "request": {}
+  }
+}

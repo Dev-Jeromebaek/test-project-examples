@@ -21,9 +21,13 @@ class Dropdown extends Component {
     e.stopPropagation();
     let cycleTime = e.target.value.split(' ')[0];
     let cycleTitle = e.target.value;
-    if (cycleTime === '1' || cycleTime === '갱신주기') {
+    if (cycleTime === '1') {
       cycleTime = '60';
       cycleTitle = '1 hours';
+    }
+    if (cycleTime === '갱신주기') {
+      cycleTime = '60';
+      cycleTitle = '갱신주기';
     }
     const { setCycle } = this.props;
     setCycle(parseInt(cycleTime, 10), cycleTitle);

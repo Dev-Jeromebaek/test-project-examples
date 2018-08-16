@@ -13,7 +13,7 @@ const DashboardItem = ({
     const dashboardDate = new Date(date).getTime();
     const currentDate = new Date().getTime();
 
-    if (currentDate - dashboardDate < 86400000) {
+    if (currentDate - dashboardDate < 21600000) {
       return true;
     } else {
       return false;
@@ -37,7 +37,7 @@ const DashboardItem = ({
           dashboardClick();
           toggle();
         }}
-        className="white-space-normal d-flex align-items-center cursor-pointer dropdown-item"
+        className="white-space-normal d-flex align-items-center cursor-pointer dropdown-item dropdown-list-group-item"
       >
         <div className="w-80">{dashboard.dashboardName}</div>
         {isNew && (
@@ -52,9 +52,7 @@ const DashboardItem = ({
       <NavLink
         to={`/dashboard/${dashboard.dashboardId}`}
         className={
-          isActive
-            ? 'cursor-pointer border-dark text-white bg-dark d-flex justify-content-between align-items-center list-group-item'
-            : 'cursor-pointer text-dark d-flex justify-content-between align-items-center list-group-item'
+          'cursor-pointer d-flex justify-content-between align-items-center list-group-item'
         }
         onClick={dashboardClick}
       >

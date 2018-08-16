@@ -18,22 +18,22 @@ const chartDataSet = (graphDataInfo, setCycle, cycleTitle) => {
     let newArr = [];
     if (graphDataList.length < 10) {
       for (let i = 0; i < graphDataList.length; i++) {
-        newArr.push(labelArr.pop());
+        newArr.push(labelArr.shift());
       }
     } else {
       for (let i = 0; i < 10; i++) {
-        newArr.push(labelArr.pop());
+        newArr.push(labelArr.shift());
       }
     }
 
     const labels =
       graphType.graphSubType.code !== 'PIE_GRAPH'
         ? newArr.map((info, index) => {
-            tempArr.push(info.dataY);
+            tempArr.push({ meta: info.dataX, value: info.dataY });
             return info.dataX;
           })
         : pieLabelArr.map(info => {
-            tempArr.push(info.count);
+            tempArr.push({ meta: info.pieName, value: info.count });
             return '';
           });
 

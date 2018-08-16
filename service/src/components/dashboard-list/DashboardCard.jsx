@@ -16,7 +16,7 @@ const DashboardCard = ({ card }) => {
     const dashboardDate = new Date(date).getTime();
     const currentDate = new Date().getTime();
 
-    if (currentDate - dashboardDate < 86400000) {
+    if (currentDate - dashboardDate < 21600000) {
       return true;
     } else {
       return false;
@@ -54,15 +54,13 @@ const DashboardCard = ({ card }) => {
               {card.dashboardDescription}
             </CardText>
           </CardBody>
-          <CardFooter>
-            {/* {card.graphCollectionList !== undefined ? ( */}
-            <DashboardGraphPreviewList
-              dashboardGraphPreviewList={card.graphCollectionList}
-            />
-            {/* ) : (
-              <div>그래프가 존재하지 않습니다.</div>
-            )} */}
-          </CardFooter>
+          {card.graphCollectionList && (
+            <CardFooter>
+              <DashboardGraphPreviewList
+                dashboardGraphPreviewList={card.graphCollectionList}
+              />
+            </CardFooter>
+          )}
         </Card>
       </NavLink>
     </Col>

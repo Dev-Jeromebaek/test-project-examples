@@ -18,9 +18,9 @@ class ErrorPage extends Component {
           >
             <div
               style={{
-                padding: '140px 0 50px',
+                padding: '100px 0 0px',
                 background:
-                  'url(//t1.daumcdn.net/tistory_admin/static/top/bg_error.gif) no-repeat 50% 50px',
+                  'url(//t1.daumcdn.net/tistory_admin/static/top/bg_error.gif) no-repeat 50% 30px',
                 textAlign: 'center',
               }}
             >
@@ -46,7 +46,8 @@ class ErrorPage extends Component {
                   letterSpacing: '-1px',
                 }}
               >
-                잠시 후 다시 시도해 주세요.<br />
+                잠시 후 다시 시도해 주세요.
+                <br />
                 최대 10분이 소요될 수 있습니다.
               </div>
             </div>

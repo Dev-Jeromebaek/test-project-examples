@@ -3,6 +3,7 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import { Button } from 'reactstrap';
 
 import DrawChart from '../components/chart/draw/DrawChart';
+// import Pagination from '../components/pagination/Pagination';
 import { ErrorPage } from '../pages';
 
 import { withContext } from '../Store';
@@ -15,6 +16,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class DashboardGraphSection extends React.PureComponent {
   state = {
+    layout: [],
     layouts: {},
     dashboardOne: [],
     isReSized: false,
@@ -22,6 +24,7 @@ class DashboardGraphSection extends React.PureComponent {
     isError: false,
     errorCode: '',
     errorText: '',
+    pageNum: 0,
   };
 
   async componentDidMount() {
@@ -29,19 +32,30 @@ class DashboardGraphSection extends React.PureComponent {
     try {
       const dashboardOne = await this.props.value.actions.getDashboardOne(
         this.props.dashboardId,
+        this.props.search.split('page=')[1],
       );
       this.setState({
         isError: false,
         dashboardOne: dashboardOne.data,
+        pageNum: parseInt(this.props.search.split('page=')[1], 10),
         isLoadData: true,
         layouts: this.originalLayouts(this.props.dashboardId),
       });
     } catch (error) {
-      this.setState({
-        isError: true,
-        errorCode: error.response.status,
-        errorText: error.response.statusText,
-      });
+      // console.log(error.response);
+      if (error.response.data.exceptionCode === '100404') {
+        this.setState({
+          isError: true,
+          errorCode: error.response.data.exceptionCode,
+          errorText: '차트가 정의되지 않았습니다.',
+        });
+      } else {
+        this.setState({
+          isError: true,
+          errorCode: error.response.status,
+          errorText: error.response.statusText,
+        });
+      }
     }
   }
 
@@ -51,10 +65,12 @@ class DashboardGraphSection extends React.PureComponent {
       if (this.props.dashboardId !== nextProps.dashboardId) {
         const dashboardOne = await this.props.value.actions.getDashboardOne(
           nextProps.dashboardId,
+          nextProps.search.split('page=')[1],
         );
         this.setState({
           isError: false,
           dashboardOne: dashboardOne.data,
+          pageNum: parseInt(nextProps.search.split('page=')[1], 10),
           isLoadData: true,
           layouts: this.originalLayouts(nextProps.dashboardId),
         });
@@ -72,7 +88,7 @@ class DashboardGraphSection extends React.PureComponent {
     initGrid();
     return (
       this.props.value.actions.getFromLocalStorage(
-        `userLayout-${this.props.dashboardId}`,
+        `userLayout-${this.props.dashboardId}-${this.state.pageNum}`,
       ) || {}
     );
   };
@@ -108,10 +124,18 @@ class DashboardGraphSection extends React.PureComponent {
 
   onLayoutChange = (layout, layouts) => {
     this.props.value.actions.saveToLocalStorage(
-      `userLayout-${this.props.dashboardId}`,
+      `userLayout-${this.props.dashboardId}-${this.state.pageNum}`,
       layouts,
     );
-    // this.setState({ layouts: layouts });
+    if (window.innerWidth > 1064) {
+      this.setState({
+        layouts: layouts,
+      });
+    }
+  };
+
+  getPageNum = () => {
+    return parseInt(this.props.search.split('page=')[1], 10);
   };
 
   render() {
@@ -121,14 +145,20 @@ class DashboardGraphSection extends React.PureComponent {
     ) : (
       isLoadData && (
         <Fragment>
-          <Button
-            size="sm"
-            outline
-            className="my-3 float-right"
-            onClick={() => this.resetLayout()}
-          >
-            Reset Layout
-          </Button>
+          <div className="d-flex justify-content-between">
+            {/* <Pagination
+              totalSize={this.state.dashboardOne.data.totalSize}
+              pageNum={this.getPageNum()}
+            /> */}
+            <Button
+              size="sm"
+              outline
+              className="my-2"
+              onClick={() => this.resetLayout()}
+            >
+              Reset Layout
+            </Button>
+          </div>
           <div className="clearfix" />
           <div className="bg-light ">
             <ResponsiveReactGridLayout
@@ -143,6 +173,10 @@ class DashboardGraphSection extends React.PureComponent {
               {this.createChartList(this.props.dashboardId)}
             </ResponsiveReactGridLayout>
           </div>
+          {/* <Pagination
+            totalSize={this.state.dashboardOne.data.totalSize}
+            pageNum={this.state.pageNum}
+          /> */}
         </Fragment>
       )
     );

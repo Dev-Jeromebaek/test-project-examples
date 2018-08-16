@@ -31,7 +31,11 @@ const responsiveBar = [
       axisX: {
         labelInterpolationFnc: function(value) {
           if (value.indexOf(':') > -1) {
-            const sliceValue = value.split(':')[0] + '시';
+            const sliceValue =
+              value
+                .split('~')[1]
+                .split(' ')[2]
+                .split(':')[0] + '시';
             return sliceValue;
           } else {
             return value;
@@ -47,7 +51,11 @@ const responsiveBar = [
       axisX: {
         labelInterpolationFnc: function(value) {
           if (value.indexOf(':') > -1) {
-            const sliceValue = value.split(':')[0] + '시';
+            const sliceValue =
+              value
+                .split('~')[1]
+                .split(' ')[2]
+                .split(':')[0] + '시';
             return sliceValue;
           } else {
             return value;

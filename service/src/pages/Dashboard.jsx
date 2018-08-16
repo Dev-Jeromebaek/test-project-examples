@@ -69,7 +69,10 @@ class Dashboard extends Component {
             isSidebarHidden={this.state.isSidebarHidden}
           />
           <div className="ml-auto col-sm-7 col-md-8 col-lg-9 col-xl-10">
-            <DashboardGraphSection dashboardId={this.state.dashboardId} />
+            <DashboardGraphSection
+              dashboardId={this.state.dashboardId}
+              search={this.props.location.search}
+            />
           </div>
         </Row>
       </Container>

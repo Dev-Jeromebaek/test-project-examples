@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 class ErrorPage extends Component {
   render() {
     const { errorCode, errorText } = this.props;
+    // console.log(errorText);
+    // console.log(errorText.length);
+    // console.log(errorText.substring(0, 20));
+    // console.log(errorText.substring(20));
     return (
       <div
         className="d-flex justify-content-center align-items-center"
@@ -47,10 +51,12 @@ class ErrorPage extends Component {
                   letterSpacing: '-1px',
                 }}
               >
-                잠시 후 다시 시도해 주세요.<br />
                 Error Code : {errorCode}
                 <br />
-                Error Message : {errorText}
+                Error Message :{' '}
+                {errorText.length > 20 ? errorText.substring(0, 20) : errorText}
+                <br />
+                {errorText.length > 20 && errorText.substring(20)}
               </div>
             </div>
           </div>
