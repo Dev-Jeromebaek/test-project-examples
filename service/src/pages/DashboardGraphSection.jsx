@@ -3,7 +3,6 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import { Button } from 'reactstrap';
 
 import DrawChart from '../components/chart/draw/DrawChart';
-// import Pagination from '../components/pagination/Pagination';
 import { ErrorPage } from '../pages';
 
 import { withContext } from '../Store';
@@ -24,7 +23,7 @@ class DashboardGraphSection extends React.PureComponent {
     isError: false,
     errorCode: '',
     errorText: '',
-    pageNum: 0,
+    pageNum: 1,
   };
 
   async componentDidMount() {
@@ -32,12 +31,12 @@ class DashboardGraphSection extends React.PureComponent {
     try {
       const dashboardOne = await this.props.value.actions.getDashboardOne(
         this.props.dashboardId,
-        this.props.search.split('page=')[1],
+        // this.props.search.split('page=')[1],
       );
       this.setState({
         isError: false,
         dashboardOne: dashboardOne.data,
-        pageNum: parseInt(this.props.search.split('page=')[1], 10),
+        // pageNum: parseInt(this.props.search.split('page=')[1], 10),
         isLoadData: true,
         layouts: this.originalLayouts(this.props.dashboardId),
       });
@@ -65,12 +64,12 @@ class DashboardGraphSection extends React.PureComponent {
       if (this.props.dashboardId !== nextProps.dashboardId) {
         const dashboardOne = await this.props.value.actions.getDashboardOne(
           nextProps.dashboardId,
-          nextProps.search.split('page=')[1],
+          // nextProps.search.split('page=')[1],
         );
         this.setState({
           isError: false,
           dashboardOne: dashboardOne.data,
-          pageNum: parseInt(nextProps.search.split('page=')[1], 10),
+          // pageNum: parseInt(nextProps.search.split('page=')[1], 10),
           isLoadData: true,
           layouts: this.originalLayouts(nextProps.dashboardId),
         });
@@ -88,7 +87,7 @@ class DashboardGraphSection extends React.PureComponent {
     initGrid();
     return (
       this.props.value.actions.getFromLocalStorage(
-        `userLayout-${this.props.dashboardId}-${this.state.pageNum}`,
+        `userLayout-${this.props.dashboardId}_`,
       ) || {}
     );
   };
@@ -124,7 +123,7 @@ class DashboardGraphSection extends React.PureComponent {
 
   onLayoutChange = (layout, layouts) => {
     this.props.value.actions.saveToLocalStorage(
-      `userLayout-${this.props.dashboardId}-${this.state.pageNum}`,
+      `userLayout-${this.props.dashboardId}_`,
       layouts,
     );
     if (window.innerWidth > 1064) {

@@ -25,8 +25,10 @@ class DashboardList extends React.Component {
         dashboardList: dashboardList.data.data,
         isLoading: false,
       });
-      console.log(this.props.value.actions.getAllLocalStorage());
+      this.props.value.actions.removeLocalStorage(this.state.dashboardList);
     } catch (error) {
+      console.log(error);
+      console.log(error.response);
       this.setState({
         isError: true,
         errorCode: error.response.status,

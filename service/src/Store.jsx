@@ -11,7 +11,8 @@ class WettyProvider extends Component {
     },
 
     getDashboardOne: async (id, pageNum) => {
-      return await axios.get(`/proxy/dashboard/${id}?page=${pageNum}`);
+      return await axios.get(`/proxy/dashboard/${id}`);
+      // return await axios.get(`/proxy/dashboard/${id}?page=${pageNum}`);
     },
 
     getGraphOne: async (dashboardNo, graphId) => {
@@ -43,21 +44,28 @@ class WettyProvider extends Component {
       }
     },
 
-    getAllLocalStorage() {
-      for (var i = 0, len = global.localStorage.length; i < len; ++i) {}
+    removeLocalStorage(dashboardList) {
+      if (dashboardList.length === 0) {
+        for (var i = 0, len = global.localStorage.length; i < len; i++) {
+          global.localStorage.removeItem(global.localStorage.key(i));
+        }
+      } else {
+        for (var k = 0; k < global.localStorage.length; k++) {
+          for (var j = 0; j < dashboardList.length; j++) {
+            if (
+              String(dashboardList[j].dashboardId) !==
+              global.localStorage
+                .key(k)
+                .split('_')[0]
+                .split('-')[1]
+            ) {
+              global.localStorage.removeItem(global.localStorage.key(k));
+              break;
+            }
+          }
+        }
+      }
     },
-
-    // removeLocalStorage(keyList) {
-    //   for (var i = 0, len = global.localStorage.length; i < len; ++i) {
-    //     for (var j = 0, keyLen = keyList.length; j < keyLen; ++j) {
-    //       if (
-    //         global.localStorage.getItem(i) === global.localStorage.getItem(j) {
-    //           global.localStorage.removeItem()
-    //         }
-    //       );
-    //     }
-    //   }
-    // },
   };
 
   render() {

@@ -118,11 +118,11 @@ class DrawChart extends Component {
 
   onCycleChange = (cycleTime, newCycleTitle) => {
     this.props.value.actions.saveToLocalStorage(
-      `setCycleTime-${this.state.graphId}`,
+      `setCycleTime-${this.props.dashboardId}_${this.state.graphId}`,
       cycleTime,
     );
     this.props.value.actions.saveToLocalStorage(
-      `setCycleTitle-${this.state.graphId}`,
+      `setCycleTitle-${this.props.dashboardId}_${this.state.graphId}`,
       newCycleTitle,
     );
     this.setState({
@@ -148,10 +148,10 @@ class DrawChart extends Component {
     const chartData = chartDataSet(
       graphInfo,
       this.props.value.actions.getFromLocalStorage(
-        `setCycleTime-${this.state.graphId}`,
+        `setCycleTime-${this.props.dashboardId}_${this.state.graphId}`,
       ) || 3600,
       this.props.value.actions.getFromLocalStorage(
-        `setCycleTitle-${this.state.graphId}`,
+        `setCycleTitle-${this.props.dashboardId}_${this.state.graphId}`,
       ) || '갱신 주기',
     );
     if (chartData !== 'non Data') {
