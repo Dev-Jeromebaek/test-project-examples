@@ -1,7 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Modal, Button } from 'antd';
 
 class App extends Component {
+  countDown = () => {
+    let secondsToGo = 5;
+    const modal = Modal.success({
+      title: 'This is a notification message',
+      content: `This modal will be destroyed after ${secondsToGo} second.`,
+    });
+    const timer = setInterval(() => {
+      secondsToGo -= 1;
+      modal.update({
+        content: `This modal will be destroyed after ${secondsToGo} second.`,
+      });
+    }, 1000);
+    setTimeout(() => {
+      clearInterval(timer);
+      modal.destroy();
+    }, secondsToGo * 1000);
+  };
   render() {
     return (
       <div className="App">
@@ -35,34 +53,43 @@ class App extends Component {
             </tr>
           </tbody>
         </table>
-        <ul className="list" onChange={e => {console.log(e.target.value)}}>
+        <ul
+          className="list"
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}>
           <li className="list__item">
-            <label className="label--radio">
+            <span className="label--radio">
               <input type="radio" className="radio" name="foo" value="1" />
               Item 1
-            </label>
+            </span>
           </li>
           <li className="list__item">
-            <label className="label--radio">
+            <span className="label--radio">
               <input type="radio" className="radio" name="foo" value="2" />
               Item 2
-            </label>
+            </span>
           </li>
           <li className="list__item">
-            <label className="label--radio">
+            <span className="label--radio">
               <input type="radio" className="radio" name="foo" value="3" />
               Item 3
-            </label>
+            </span>
           </li>
           <li className="list__item">
-            <label className="label--radio">
+            <span className="label--radio">
               <input type="radio" className="radio" name="foo" value="4" />
               Item 4
-            </label>
+            </span>
           </li>
         </ul>
+        <div className="arrow">
+          {/* <div className="bar" /> */}
+          {/* <div className="triangle" /> */}
+        </div>
+        <Button onClick={this.countDown}>Open modal to close in 5s</Button>
       </div>
-    )
+    );
   }
 }
 

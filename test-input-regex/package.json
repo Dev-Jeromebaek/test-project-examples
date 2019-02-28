@@ -1,11 +1,10 @@
 {
-  "name": "test-ppc-styling",
+  "name": "test-input-regex",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.13.6",
-    "react": "^16.8.2",
-    "react-dom": "^16.8.2",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
     "react-scripts": "2.1.5"
   },
   "scripts": {
