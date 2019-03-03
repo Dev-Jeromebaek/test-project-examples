@@ -19,11 +19,12 @@ class TodoItem extends Component {
           onToggle.bind(this, id)
         }
       >
+        {checked && <div className="checkbox">&#10003;</div>}
         <div className="todo-text">
           {/*(``) Template literals*/}
-          <div>{text}</div>
+          {text}
         </div>
-        <div className="checkbox">{checked && <div>&#10003;</div>}</div>
+        <div className="edit">&#9998;</div>
         <div
           className="remove"
           onClick={(e) => {
@@ -32,7 +33,7 @@ class TodoItem extends Component {
             onRemove(id);
           }}
         >
-          <div>&#10006;</div>
+          &#10006;
         </div>
       </div>
     );

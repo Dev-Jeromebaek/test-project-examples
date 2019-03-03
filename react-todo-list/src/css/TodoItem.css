@@ -14,23 +14,25 @@
   background: #ffa9a9;
 }
 
+.todo-text {
+  margin-left: 1em;
+}
+
+.remove, .checkbox, .edit {
+  margin: 0 0.5em;
+  color: #fff;
+  font-weight: 600;
+}
+.checkbox {
+  position: absolute;
+  left: 50px;
+}
+
 .todo-item:hover .todo-text,
 .todo-item:hover .checkbox,
 .todo-item:hover .remove {
   color: #fff;
   transition: all 0.2s;
-}
-
-.checkbox {
-  margin-left: 1rem;
-  color: #fff;
-  font-weight: 600;
-}
-
-.remove {
-  margin-left: 1rem;
-  color: #fff;
-  font-weight: 600;
 }
 
 .checked {
@@ -41,6 +43,7 @@
 .todo-text {
   flex: 1; /* 체크, 엑스를 제외한 공간 다 채우기 */
   word-break: break-all;
+
 }
 
 .checked .todo-text {
