@@ -2,16 +2,16 @@
 .form-wrapper {
   margin-top: 2rem;
 }
-.form {
+form {
   display: flex;
   flex-wrap: wrap;
 }
-.form label {
+form label {
   min-width: 100%;
   margin: 0 0.5rem 0.5rem;
   font-size: 1.1rem;
 }
-.form input {
+form input {
   flex-grow: 1;
   border: none;
   background: #f7f1f1;
@@ -19,7 +19,7 @@
   font-size: initial;
   border-radius: 4px;
 }
-.form button {
+form button {
   padding: 0 1.3rem;
   border: none;
   background: #ff6666;
@@ -32,16 +32,16 @@
   border-radius: 4px;
   transition: background 0.2s ease-out;
 }
-.form button:hover {
+form button:hover {
   background: #ff8888;
 }
-.form input:focus,
-.form button:focus {
+form input:focus,
+form button:focus {
   outline: none;
 }
 
-.form input,
-.form button {
+form input,
+form button {
   font-family: "Quicksand", sans-serif;
   height: 3rem;
 }
