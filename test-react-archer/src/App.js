@@ -18,6 +18,16 @@ const App = () => {
                 targetAnchor: 'top',
                 sourceAnchor: 'bottom',
               },
+              {
+                targetId: 'element3',
+                targetAnchor: 'top',
+                sourceAnchor: 'bottom',
+              },
+              {
+                targetId: 'element4',
+                targetAnchor: 'left',
+                sourceAnchor: 'bottom',
+              },
             ]}
           >
             <div style={boxStyle}>Root</div>
