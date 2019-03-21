@@ -1,0 +1,81 @@
+/* 
+  PPCWIZ Variable Style
+  v1.0.0 | 20181220 - JeromeBaek
+*/
+
+// En Fonts (thin -> bold)
+$font-roboto: 'Roboto', sans-serif;
+$font-openSans: 'Open Sans', sans-serif;
+$font-ropaSans: 'Ropa Sans', sans-serif;
+$font-teko: 'Teko', sans-serif;
+
+// colors
+$wiz-blue-0: #d7e1f7;
+$wiz-blue-1: #d1dcf8;
+$wiz-blue-2: #a8c1ec;
+$wiz-blue-3: #93bafd;
+$wiz-blue-4: #7ea9f5;
+$wiz-blue-5: #679cf6;
+$wiz-blue-6: #5b94ff;
+$wiz-blue-7: #3a84ff;
+$wiz-blue-8: #3377ff;
+$wiz-blue-9: #4072ee;
+
+$wiz-gray-0: #dee4eb;
+$wiz-gray-1: #d0d7df;
+$wiz-gray-2: #b8c4d3;
+$wiz-gray-3: #aab5c2;
+$wiz-gray-4: #98a2ad;
+$wiz-gray-5: #8c949c;
+$wiz-gray-6: #798086;
+$wiz-gray-7: #696e72;
+$wiz-gray-8: #5b5f63;
+$wiz-gray-9: #505357;
+
+$wiz-shadow-gray: rgba(172, 159, 159, 0.5);
+
+$white: #ffffff;
+$pale-grey: #f5f6fa;
+$greenblue: #29cb97;
+$scarlet: #cb2929;
+$black-40: #00000066;
+$cloudy-blue-two: #bbc2c9;
+
+$gradi-blue-hover: linear-gradient($wiz-blue-2, $wiz-blue-6);
+$gradi-blue-active: linear-gradient($wiz-blue-4, $wiz-blue-8);
+
+$wc-0-light: #FFBED0;
+$wc-0-basic: #E97193;
+$wc-0-dark: #BF4C76;
+
+$wc-1-light: #ECCAF1;
+$wc-1-basic: #C277D0;
+$wc-2-dark: #A158B3;
+
+$wc-2-light: #CCD0FF;
+$wc-2-basic: #8284E3;
+$wc-2-dark: #696CB4;
+
+$wc-3-light: #95F4E2;
+$wc-3-basic: #2ECBBE;
+$wc-3-dark: #2EA193;
+
+$wc-4-light: #FFCA73;
+$wc-4-basic: #EA9924;
+$wc-4-dark: #D67B06;
+
+$wc-5-light: #97ECB9;
+$wc-5-basic: #56B786;
+$wc-5-dark: #48916C;
+
+$wc-6-light: #BDE6FF;
+$wc-6-basic: #72BEFF;
+$wc-6-dark: #2196ED;
+
+$wc-7-light: #FFCBD0;
+$wc-7-basic: #E87474;
+$wc-7-dark: #C4433C;
+
+$wc-8-light: #FFD3B3;
+$wc-8-basic: #F3914B;
+$wc-8-dark: #DB6F22;

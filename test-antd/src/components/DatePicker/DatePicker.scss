@@ -1,0 +1,7 @@
+@import '../../scss/util.scss';
+
+.ant-input-lg {
+  & .ant-calendar-range-picker-input, & .ant-calendar-range-picker-separator {
+    font-size: 16px;
+  }
+}

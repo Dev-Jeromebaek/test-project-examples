@@ -1,0 +1,122 @@
+/* 
+  PPCWIZ Base Style
+  v1.0.0 | 20181220 - JeromeBaek
+  v1.1.0 | 20190125 - JeromeBaek
+*/
+@import './util.scss';
+@import url('https://fonts.googleapis.com/css?family=Righteous|Roboto|Saira:300,400,700|Teko');
+
+html {
+  scroll-behavior: smooth !important;
+}
+body {
+  font-family: 'Saira', sans-serif, 'Roboto', sans-serif, 'Open Sans', sans-serif, 'Ropa Sans', sans-serif;
+  // font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+
+.warning {
+  display: inline-block;
+  font-size: 2rem;
+  font-family: $font-teko;
+  color: $red-8;
+  @include box-center;
+}
+.btn-ol- {
+  border: 2px solid transparent;
+  box-shadow: 1px 1px 5px 0 $wiz-shadow-gray;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  background: #ffffff;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid $wiz-blue-4;
+    box-shadow: 2px 2px 10px 0 $wiz-blue-5;
+  }
+}
+.btn--transparent {
+  background: transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  &:hover,
+  &.active:hover {
+    background: $gradi-blue-hover;
+    transform: scale(1.06);
+    box-shadow: 2px 2px 10px 0 rgba(103, 156, 246, 0.5);
+    margin: 2px 0 2px 0px;
+    color: #fff;
+  }
+  &.active {
+    background: $gradi-blue-active;
+    transform: scale(1.06);
+    box-shadow: 2px 2px 10px 0 rgba(103, 156, 246, 0.5);
+    color: #fff;
+  }
+}
+/* ---------- media ---------- */
+
+// Extra Extra large devices 1440px
+@include xxl {
+  // basic size
+}
+// Extra large devices 1280px
+@include xl {
+}
+// Large devices 992px
+@include lg {
+}
+// Medium devices 768px
+@include md {
+}
+// Small devices 600px
+@include sm {
+}
+// Small devices 480px
+@include xs {
+}
+// Extra Extra Samll devices 320px
+@include xxs {
+}
+
+// Custom devices
+// @include rwd(/* screen size */) {
+// }
+
+.ant-badge-count,
+.ant-badge-dot {
+  box-shadow: 0 0 0 0 #fff;
+}
+
+/* width */
+.rem11 {
+  width: 11rem;
+}
+.rem8 {
+  width: 8.4rem;
+}
+.rem7 {
+  width: 6.8rem;
+}
+
+.ant-message {
+  left: 50px;
+}
+.ant-badge {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.ant-badge-count {
+  position: absolute !important;
+  top: -50px !important;
+  right: -10px !important;
+}
+.ant-badge-dot {
+  position: absolute !important;
+  top: -10px !important;
+  right: -10px !important;
+}
