@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import { DatePicker } from './components/DatePicker';
 import { Select } from './components/Select';
+import { Empty } from 'antd';
 
 const { Option } = Select;
 
@@ -93,6 +94,7 @@ class App extends Component {
             <Option value={4}>4444</Option>
             <Option value={5}>5555</Option>
           </Select>
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </div>
       </>
     );

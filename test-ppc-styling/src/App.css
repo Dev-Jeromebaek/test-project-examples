@@ -125,3 +125,33 @@ tbody tr:hover {
   border-left: 40px solid red;
   border-bottom: 20px solid transparent;
 }
+
+.triangle {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 700px;
+  height: 700px;
+  background: #262626;
+  position: relative;
+}
+
+.triangle:before {
+  width: 500px;
+  height: 500px;
+  border-bottom: 100px solid blue;
+  border-right: 100px solid transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.triangle:after {
+  width: 500px;
+  height: 500px;
+  border-top: 100px solid red;
+  border-left: 100px solid transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+}

@@ -87,7 +87,9 @@ class App extends Component {
           {/* <div className="bar" /> */}
           {/* <div className="triangle" /> */}
         </div>
+
         <Button onClick={this.countDown}>Open modal to close in 5s</Button>
+        <div className="triangle">{''}</div>
       </div>
     );
   }
