@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class App extends Component {
-  render() {
-    return <div>Hooks</div>;
-  }
+const App = () => {
+  // 여기서 Hook을 사용할 수 있다!
+  // -- 1. useState
+  return <div>Hooks</div>;
 }
 
 export default App;
