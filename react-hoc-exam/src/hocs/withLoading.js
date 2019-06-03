@@ -9,14 +9,31 @@ import React from 'react';
 /**
  * option 있는 loading hoc
  */
-const withLoading = (options) => (WrappedComponent) => (props) => {
-  if (props.isLoading) {
-    if (options.type === 'circle') {
-      return <div>Circle Loading...</div>;
-    }
-    return <div>Line Loading...</div>;
-  }
-  return <WrappedComponent {...props} />;
-};
+// const withLoading = (options) => (WrappedComponent) => (props) => {
+//   if (props.isLoading) {
+//     if (options.type === 'circle') {
+//       return <div>Circle Loading...</div>;
+//     }
+//     return <div>Line Loading...</div>;
+//   }
+//   return <WrappedComponent {...props} />;
+// };
+
+/**
+ * The tag name is not Unknown
+ */
+function withLoading(options) {
+  return (WrappedComponent) => {
+    return function WithLoading(props) {
+      if (options.isLoading) {
+        if (options.type === 'circle') {
+          return <div>Circle Loading...</div>;
+        }
+        return <div>Line Loading...</div>;
+      }
+      return <WrappedComponent {...props} />;
+    };
+  };
+}
 
 export default withLoading;
