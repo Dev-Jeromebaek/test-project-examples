@@ -1,0 +1,13 @@
+{
+  "name": "basic-js-test-jest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "jest": "^24.9.0"
+  },
+  "scripts": {
+    "test": "jest --watchAll --verbose"
+  }
+}
