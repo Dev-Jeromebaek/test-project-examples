@@ -5,7 +5,6 @@ function Profile({ username, name }) {
     <div>
       <b>{username}</b>
       <span>({name})</span>
-      <span>new</span>
     </div>
   );
 }

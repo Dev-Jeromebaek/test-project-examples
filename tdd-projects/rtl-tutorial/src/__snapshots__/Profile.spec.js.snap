@@ -11,9 +11,6 @@ exports[`<Profile /> matches snapshot 1`] = `
       백승엽
       )
     </span>
-    <span>
-      new
-    </span>
   </div>
 </div>
 `;
