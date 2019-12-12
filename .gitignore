@@ -1,6 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # Logs
+*.lock*
+*-lock*
 logs
 *.log
 npm-debug.log*
