@@ -1,0 +1,28 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import Bye from './Bye';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
+
+<Meta title='components|test/Bye' component={Bye} decorators={[withKnobs]} />
+
+# Button
+
+<Preview>
+  <Story name='Default'>
+    <Bye name={text('name', 'stories.tsx')} />
+  </Story>
+</Preview>
+
+## Props
+
+<Props of={Bye} />
+
+<!-- Docs 애드온을 통하여 자동으로 만들어진 문서에서 제공하는 정보로는 -->
+<!-- 컴포넌트의 기능을 자세하게 표현하기 어려운 상황에 MDX를 사용하시면 된다. -->
+<!-- (대부분의 경우, 자동으로 생성되는 문서만으로도 충분 할 때가 많다.) -->
+
+<!-- 추가적으로, 컴포넌트가 아닌 문서를 작성해야 하는 상황에는 -->
+<!-- (예: Introduction, Colors, Typography 등..) MDX-only로 작성하면 된다. -->
+
+<!-- 컴포넌트에 대한 MDX를 작성할 때에는 MDX-only로 문서를 작성하는 것을 저는 권장하지 않는다. -->
+<!-- 그 이유는 추후에 TypeScript를 사용할때 IDE에서 .mdx 확장자에 대한 TypeScript 지원이 -->
+<!-- 제대로 이루어지지 않기 때문. -->
