@@ -50,6 +50,7 @@
     "react-docgen-typescript-loader": "^3.7.2"
   },
   "peerDependencies": {
-    "@emotion/core": "^10.0.28"
+    "@emotion/core": "^10.0.28",
+    "react-spring": "^8.0.27"
   }
 }
